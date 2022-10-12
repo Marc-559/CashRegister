@@ -18,11 +18,13 @@ namespace CashRegister.DAL
               );
 
             modelBuilder.Entity<Kategorie>().HasData(
+
                 // Sennerei Kategorieen 
                 new Kategorie { KategorieId = 1, KategorieName = "Käse", MandantId = 2 },
                 new Kategorie { KategorieId = 2, KategorieName = "Joghurt", MandantId = 2 },
                 new Kategorie { KategorieId = 3, KategorieName = "Butter", MandantId = 2 },
                 new Kategorie { KategorieId = 4, KategorieName = "Sonstiges", MandantId = 2 },
+
                 // Gastro Kategorie
                 new Kategorie { KategorieId = 5, KategorieName = "Alc.Getränke", MandantId = 1 },
                 new Kategorie { KategorieId = 6, KategorieName = "Non.Alc.Getränke", MandantId = 1 },
@@ -31,6 +33,7 @@ namespace CashRegister.DAL
 
             //Preisart = true (Kg Preis) Preisart = false (Fixpreis)
             modelBuilder.Entity<Produkt>().HasData(
+
                 // Sennerei Kategorie
                 // Käse
                 new Produkt { Id = 1, Name = "Mutschli", Preis = 22.00, Preisart = true, KategorieId = 1 },
