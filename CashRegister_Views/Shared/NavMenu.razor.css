@@ -2,9 +2,12 @@
     background-color: rgba(255, 255, 255, 0.1);
 }
 
+
+
+
 .top-row {
     height: 3.5rem;
-    background-color: rgba(0,0,0,0.4);
+    background-color: #252526;
 }
 
 .navbar-brand {
@@ -18,20 +21,25 @@
     top: -2px;
 }
 
+.navColor {
+   background-color: #1f1f1f;
+   
+}
+
 .nav-item {
     font-size: 0.9rem;
     padding-bottom: 0.5rem;
 }
 
-    .nav-item:first-of-type {
+   .nav-item:first-of-type {
         padding-top: 1rem;
     }
 
-    .nav-item:last-of-type {
+   .nav-item:last-of-type {
         padding-bottom: 1rem;
     }
 
-    .nav-item ::deep a {
+   .nav-item ::deep a {
         color: #d7d7d7;
         border-radius: 4px;
         height: 3rem;
