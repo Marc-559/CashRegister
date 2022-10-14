@@ -7,8 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="BootstrapBlazor" Version="6.11.7" />
+    <PackageReference Include="MatBlazor" Version="2.8.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.9" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.9" PrivateAssets="all" />
+    <PackageReference Include="MudBlazor" Version="6.0.17" />
+    <PackageReference Include="Radzen.Blazor" Version="4.1.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CashRegister_DAL\CashRegister_DAL.csproj" />
+    <ProjectReference Include="..\CashRegister_Models\CashRegister_Models.csproj" />
   </ItemGroup>
 
 </Project>
