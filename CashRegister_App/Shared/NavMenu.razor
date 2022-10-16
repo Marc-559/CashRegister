@@ -1,0 +1,80 @@
+﻿
+
+
+
+<MudFab OnClick="@toogleColor1" StartIcon="@Icons.Filled.AttachMoney" Href="bestellung" Label="Kasse" Style="@currentColor1" />
+<MudFab OnClick="@toogleColor2" StartIcon="@Icons.Filled.FormatListBulleted" Href="verlauf" Label="Verlauf" Style="@currentColor2" />
+<MudFab OnClick="@toogleColor3" StartIcon="@Icons.Filled.Settings" Href="" Label="Einstellungen" Style="@currentColor3" />
+
+
+
+
+
+
+@code {
+
+    private bool einkauf = true;
+    private bool uebersicht = true;
+    private bool optionen = true;
+
+    [Parameter]
+    public string currentColor1 { get; set; } = "color:white; margin-top:20px; margin-left: 23.5px; width: 200px; background-color: #333333;";
+    public string currentColor2 { get; set; } = "color:white; margin-top:20px; margin-left: 23.5px; width: 200px; background-color: #333333;";
+    public string currentColor3 { get; set; } = "color:white; margin-top:20px; margin-left: 23.5px; width: 200px; background-color: #333333;";
+
+
+
+    public void toogleColor1()
+    {
+        if (einkauf)
+        {
+            currentColor1 = "color:white; margin-top:20px; margin-left: 23.5px; width: 200px; background-color: #858585;";
+        }
+        else
+        {
+            currentColor1 = "color:white; margin-top:20px; margin-left: 23.5px; width: 200px; background-color: #333333;";
+        }
+        //einkauf = !einkauf;
+        uebersicht = true;
+        optionen = true;
+        currentColor2 = "color:white; margin-top:20px; margin-left: 23.5px; width: 200px; background-color: #333333;";
+        currentColor3 = "color:white; margin-top:20px; margin-left: 23.5px; width: 200px; background-color: #333333;";
+    }
+
+    public void toogleColor2()
+    {
+        if (uebersicht)
+        {
+            currentColor2 = "color:white; margin-top:20px; margin-left: 23.5px; width: 200px; background-color: #858585;";
+        }
+        else
+        {
+            currentColor2 = "color:white; margin-top:20px; margin-left: 23.5px; width: 200px; background-color: #333333;";
+        }
+        //uebersicht = !uebersicht;
+        einkauf = true;
+        optionen = true;
+        currentColor1 = "color:white; margin-top:20px; margin-left: 23.5px; width: 200px; background-color: #333333;";
+        currentColor3 = "color:white; margin-top:20px; margin-left: 23.5px; width: 200px; background-color: #333333;";
+    }
+    public void toogleColor3()
+    {
+        if (optionen)
+        {
+            currentColor3 = "color:white; margin-top:20px; margin-left: 23.5px; width: 200px; background-color: #858585;";
+        }
+        else
+        {
+            currentColor3 = "color:white; margin-top:20px; margin-left: 23.5px; width: 200px; background-color: #333333;";
+        }
+        //optionen = !optionen;
+        einkauf = true;
+        uebersicht = true;
+        currentColor1 = "color:white; margin-top:20px; margin-left: 23.5px; width: 200px; background-color: #333333;";
+        currentColor2 = "color:white; margin-top:20px; margin-left: 23.5px; width: 200px; background-color: #333333;";
+
+    }
+
+
+
+}
