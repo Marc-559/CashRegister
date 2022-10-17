@@ -1,0 +1,29 @@
+﻿@page "/verlauf"
+@using CashRegister.DAL
+@using CashRegister.Models
+@using CashRegister_App.Data
+
+@inject VerlaufService VerlaufService
+
+
+<MudDataGrid Items="@einkaeufe" Filterable="true">
+    <Columns>
+        <Column T="Einkauf" Field="@nameof(Einkauf.Belegnummer)" />
+        <Column T="Einkauf" Field="@nameof(Einkauf.Kaufdatum)" />
+        <Column T="Einkauf" Field="@nameof(Einkauf.Gesamtpreis)" Title="Gesamtpreis" />    
+    </Columns>
+</MudDataGrid>
+
+
+@code {
+
+    private List<Einkauf>? einkaeufe;
+
+    protected override async Task OnInitializedAsync()
+    {
+        einkaeufe = await VerlaufService.GetVerlaufDaten();
+    }
+
+}
+
+
