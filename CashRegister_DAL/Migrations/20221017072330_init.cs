@@ -4,7 +4,7 @@
 
 namespace CashRegister_DAL.Migrations
 {
-    public partial class intit : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,6 +14,7 @@ namespace CashRegister_DAL.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Belegnummer = table.Column<int>(type: "int", nullable: false),
                     Gesamtpreis = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -116,22 +117,45 @@ namespace CashRegister_DAL.Migrations
             migrationBuilder.InsertData(
                 table: "Kategorie",
                 columns: new[] { "KategorieId", "KategorieName", "MandantId" },
-                values: new object[] { 1, "Käse", 2 });
-
-            migrationBuilder.InsertData(
-                table: "Kategorie",
-                columns: new[] { "KategorieId", "KategorieName", "MandantId" },
-                values: new object[] { 2, "Getränk", 1 });
+                values: new object[,]
+                {
+                    { 1, "Käse", 2 },
+                    { 2, "Joghurt", 2 },
+                    { 3, "Butter", 2 },
+                    { 4, "Sonstiges", 2 },
+                    { 5, "Alc.Getränke", 1 },
+                    { 6, "Non.Alc.Getränke", 1 },
+                    { 7, "Speisen", 1 }
+                });
 
             migrationBuilder.InsertData(
                 table: "Produkt",
                 columns: new[] { "Id", "KategorieId", "Name", "Preis", "Preisart" },
-                values: new object[] { 1, 1, "Bergkäse", 20.5, true });
-
-            migrationBuilder.InsertData(
-                table: "Produkt",
-                columns: new[] { "Id", "KategorieId", "Name", "Preis", "Preisart" },
-                values: new object[] { 2, 2, "Kellerbier", 5.0, false });
+                values: new object[,]
+                {
+                    { 1, 1, "Mutschli", 22.0, true },
+                    { 2, 1, "Alpkäs", 20.5, true },
+                    { 3, 1, "Ziger/Ricotta", 22.0, true },
+                    { 4, 2, "Fruchtjoghurt", 2.6000000000000001, false },
+                    { 5, 2, "Naturjoghurt", 2.0, false },
+                    { 6, 3, "Modelbutter", 6.0, false },
+                    { 7, 4, "Molke", 2.0, false },
+                    { 8, 4, "Alpkäs", 2.0, false },
+                    { 9, 5, "Bier Gr.", 5.0, false },
+                    { 10, 5, "Bier Kl.", 4.5, false },
+                    { 11, 5, "Most 5cl", 5.0, false },
+                    { 12, 5, "Most 3cl", 3.5, false },
+                    { 13, 6, "Limo 33cl", 4.5, false },
+                    { 14, 6, "Mineral 33cl", 4.5, false },
+                    { 15, 6, "Kaffee", 4.0, false },
+                    { 16, 6, "Kafi Lutz", 6.0, false },
+                    { 17, 7, "Portion Käse", 8.0, false },
+                    { 18, 7, "Wurst-Käsesalat", 12.0, false },
+                    { 19, 7, "Salsiz", 8.0, false },
+                    { 20, 7, "Salsiz mit Käse", 12.0, false },
+                    { 21, 7, "Buurawurst", 7.0, false },
+                    { 22, 7, "Käseschnitte", 7.0, false }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_EinkaufsPosition_EinkaufId",

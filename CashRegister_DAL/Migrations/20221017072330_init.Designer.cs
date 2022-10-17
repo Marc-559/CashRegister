@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CashRegister_DAL.Migrations
 {
     [DbContext(typeof(CashRegisterContextDB))]
-    [Migration("20221011083717_intit")]
-    partial class intit
+    [Migration("20221017072330_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -30,6 +30,9 @@ namespace CashRegister_DAL.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("Belegnummer")
+                        .HasColumnType("int");
 
                     b.Property<string>("Gesamtpreis")
                         .IsRequired()
@@ -97,7 +100,37 @@ namespace CashRegister_DAL.Migrations
                         new
                         {
                             KategorieId = 2,
-                            KategorieName = "Getränk",
+                            KategorieName = "Joghurt",
+                            MandantId = 2
+                        },
+                        new
+                        {
+                            KategorieId = 3,
+                            KategorieName = "Butter",
+                            MandantId = 2
+                        },
+                        new
+                        {
+                            KategorieId = 4,
+                            KategorieName = "Sonstiges",
+                            MandantId = 2
+                        },
+                        new
+                        {
+                            KategorieId = 5,
+                            KategorieName = "Alc.Getränke",
+                            MandantId = 1
+                        },
+                        new
+                        {
+                            KategorieId = 6,
+                            KategorieName = "Non.Alc.Getränke",
+                            MandantId = 1
+                        },
+                        new
+                        {
+                            KategorieId = 7,
+                            KategorieName = "Speisen",
                             MandantId = 1
                         });
                 });
@@ -163,16 +196,176 @@ namespace CashRegister_DAL.Migrations
                         {
                             Id = 1,
                             KategorieId = 1,
-                            Name = "Bergkäse",
-                            Preis = 20.5,
+                            Name = "Mutschli",
+                            Preis = 22.0,
                             Preisart = true
                         },
                         new
                         {
                             Id = 2,
+                            KategorieId = 1,
+                            Name = "Alpkäs",
+                            Preis = 20.5,
+                            Preisart = true
+                        },
+                        new
+                        {
+                            Id = 3,
+                            KategorieId = 1,
+                            Name = "Ziger/Ricotta",
+                            Preis = 22.0,
+                            Preisart = true
+                        },
+                        new
+                        {
+                            Id = 4,
                             KategorieId = 2,
-                            Name = "Kellerbier",
+                            Name = "Fruchtjoghurt",
+                            Preis = 2.6000000000000001,
+                            Preisart = false
+                        },
+                        new
+                        {
+                            Id = 5,
+                            KategorieId = 2,
+                            Name = "Naturjoghurt",
+                            Preis = 2.0,
+                            Preisart = false
+                        },
+                        new
+                        {
+                            Id = 6,
+                            KategorieId = 3,
+                            Name = "Modelbutter",
+                            Preis = 6.0,
+                            Preisart = false
+                        },
+                        new
+                        {
+                            Id = 7,
+                            KategorieId = 4,
+                            Name = "Molke",
+                            Preis = 2.0,
+                            Preisart = false
+                        },
+                        new
+                        {
+                            Id = 8,
+                            KategorieId = 4,
+                            Name = "Alpkäs",
+                            Preis = 2.0,
+                            Preisart = false
+                        },
+                        new
+                        {
+                            Id = 9,
+                            KategorieId = 5,
+                            Name = "Bier Gr.",
                             Preis = 5.0,
+                            Preisart = false
+                        },
+                        new
+                        {
+                            Id = 10,
+                            KategorieId = 5,
+                            Name = "Bier Kl.",
+                            Preis = 4.5,
+                            Preisart = false
+                        },
+                        new
+                        {
+                            Id = 11,
+                            KategorieId = 5,
+                            Name = "Most 5cl",
+                            Preis = 5.0,
+                            Preisart = false
+                        },
+                        new
+                        {
+                            Id = 12,
+                            KategorieId = 5,
+                            Name = "Most 3cl",
+                            Preis = 3.5,
+                            Preisart = false
+                        },
+                        new
+                        {
+                            Id = 13,
+                            KategorieId = 6,
+                            Name = "Limo 33cl",
+                            Preis = 4.5,
+                            Preisart = false
+                        },
+                        new
+                        {
+                            Id = 14,
+                            KategorieId = 6,
+                            Name = "Mineral 33cl",
+                            Preis = 4.5,
+                            Preisart = false
+                        },
+                        new
+                        {
+                            Id = 15,
+                            KategorieId = 6,
+                            Name = "Kaffee",
+                            Preis = 4.0,
+                            Preisart = false
+                        },
+                        new
+                        {
+                            Id = 16,
+                            KategorieId = 6,
+                            Name = "Kafi Lutz",
+                            Preis = 6.0,
+                            Preisart = false
+                        },
+                        new
+                        {
+                            Id = 17,
+                            KategorieId = 7,
+                            Name = "Portion Käse",
+                            Preis = 8.0,
+                            Preisart = false
+                        },
+                        new
+                        {
+                            Id = 18,
+                            KategorieId = 7,
+                            Name = "Wurst-Käsesalat",
+                            Preis = 12.0,
+                            Preisart = false
+                        },
+                        new
+                        {
+                            Id = 19,
+                            KategorieId = 7,
+                            Name = "Salsiz",
+                            Preis = 8.0,
+                            Preisart = false
+                        },
+                        new
+                        {
+                            Id = 20,
+                            KategorieId = 7,
+                            Name = "Salsiz mit Käse",
+                            Preis = 12.0,
+                            Preisart = false
+                        },
+                        new
+                        {
+                            Id = 21,
+                            KategorieId = 7,
+                            Name = "Buurawurst",
+                            Preis = 7.0,
+                            Preisart = false
+                        },
+                        new
+                        {
+                            Id = 22,
+                            KategorieId = 7,
+                            Name = "Käseschnitte",
+                            Preis = 7.0,
                             Preisart = false
                         });
                 });
