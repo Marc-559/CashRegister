@@ -11,8 +11,8 @@
 
 <MudDataGrid Items="@_items" Filterable="true">
     <Columns>
-        <Column T="Einkauf" Field="@nameof(Einkauf.Belegnummer)" />
-        <Column T="Einkauf" Field="@nameof(Einkauf.Gesamtpreis)" Title="Gesamtpreis" />
+        <Column T="Produkt" Field="@nameof(Produkt.Name)" />
+        <Column T="Produkt" Field="@nameof(Produkt.Preis)" />
     </Columns>
 </MudDataGrid>
 
@@ -20,7 +20,9 @@
 @code {
     static CashRegisterContextDB context = new CashRegisterContextDB();
 
-    public List<Einkauf> _items = context.Einkauf.ToList();
+    static List<Produkt> Produkte = context.Produkt.ToList();
+
+    private IEnumerable<Produkt> _items = Produkte;
 
 }
 
