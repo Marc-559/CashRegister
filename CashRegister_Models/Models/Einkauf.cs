@@ -11,7 +11,7 @@ namespace CashRegister.Models
     {
         public int Id { get; set; }
         public int Belegnummer { get; set; }
-        public DateOnly Kaufdatum { get; set; }
+      
         public string Gesamtpreis { get; set; }
         public List<EinkaufsPosition> EinkaufsPosition { get; set; }
     }

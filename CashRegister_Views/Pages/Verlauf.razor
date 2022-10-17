@@ -3,11 +3,16 @@
 @using CashRegister.Models
 
 
+<MudTabs Elevation="2" Rounded="true" Centered="true" Class="my-6" Color="Color.Dark">
+    <MudTabPanel Icon="@Icons.Filled.FoodBank" Text="Gastro" />
+    <MudTabPanel Icon="@Icons.Filled.IncompleteCircle" Text="Sennerei" />
+</MudTabs>
+
+
 <MudDataGrid Items="@_items" Filterable="true">
     <Columns>
         <Column T="Einkauf" Field="@nameof(Einkauf.Belegnummer)" />
-        <Column T="Einkauf" Field="@nameof(Einkauf.Kaufdatum)" />
-        <Column T="Einkauf" Field="@nameof(Einkauf.Gesamtpreis)" Title="Gesamtpreis" />    
+        <Column T="Einkauf" Field="@nameof(Einkauf.Gesamtpreis)" Title="Gesamtpreis" />
     </Columns>
 </MudDataGrid>
 
