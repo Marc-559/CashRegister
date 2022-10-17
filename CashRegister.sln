@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Backend", "Backend", "{2BE4
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CashRegister_Models", "CashRegister_Models\CashRegister_Models.csproj", "{067A32DF-57A4-4A4E-9D81-37BDFE7AEC89}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CashRegister_App", "CashRegister_App\CashRegister_App.csproj", "{F30EEF29-3DD9-4F43-91D9-63D4FBB73229}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CashRegister_App", "CashRegister_App\CashRegister_App.csproj", "{F30EEF29-3DD9-4F43-91D9-63D4FBB73229}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

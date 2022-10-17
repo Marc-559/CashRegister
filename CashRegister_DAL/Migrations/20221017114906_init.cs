@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -15,6 +16,7 @@ namespace CashRegister_DAL.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Belegnummer = table.Column<int>(type: "int", nullable: false),
+                    Kaufdatum = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Gesamtpreis = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
