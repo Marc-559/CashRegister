@@ -29,6 +29,9 @@ namespace CashRegister_DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int>("Belegnummer")
+                        .HasColumnType("int");
+
                     b.Property<string>("Gesamtpreis")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");

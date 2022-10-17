@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CashRegister_DAL.Migrations
 {
     [DbContext(typeof(CashRegisterContextDB))]
-    [Migration("20221011084242_intitCreate")]
-    partial class intitCreate
+    [Migration("20221017072330_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -30,6 +30,9 @@ namespace CashRegister_DAL.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("Belegnummer")
+                        .HasColumnType("int");
 
                     b.Property<string>("Gesamtpreis")
                         .IsRequired()
