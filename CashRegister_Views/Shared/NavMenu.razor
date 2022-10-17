@@ -1,15 +1,11 @@
-﻿
+﻿@using MudBlazor
 
 
 
-<MudFab OnClick="@toogleColor1" StartIcon="@Icons.Filled.AttachMoney" Href="bestellung" Label="Kasse" Style="@currentColor1" />
+
+<MudFab OnClick="@(e => toogleColor1(1))" StartIcon="@Icons.Filled.AttachMoney" Href="bestellung" Label="Kasse" Style="@currentColor1" />
 <MudFab OnClick="@toogleColor2" StartIcon="@Icons.Filled.FormatListBulleted" Href="verlauf" Label="Verlauf" Style="@currentColor2" />
 <MudFab OnClick="@toogleColor3" StartIcon="@Icons.Filled.Settings" Href="" Label="Einstellungen" Style="@currentColor3"   />
-
-
-
-
-
 
 @code {
 
@@ -24,7 +20,7 @@
 
 
 
-    public void toogleColor1() {
+    public void toogleColor1(int id) {
         if (einkauf)
         {
             currentColor1 = "color:white; margin-top:20px; margin-left: 23.5px; width: 200px; background-color: #858585;";
