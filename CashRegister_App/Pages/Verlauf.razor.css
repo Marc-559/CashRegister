@@ -1,7 +1,11 @@
-﻿body {
+﻿.body {
+    width: 700px;
+    background-color: #1b1b1b;
 }
 
 .my-6 {
     width: 320px;
     color: #ffff;
 }
+
+
