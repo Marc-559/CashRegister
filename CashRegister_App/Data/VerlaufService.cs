@@ -11,7 +11,5 @@ namespace CashRegister_App.Data
         {
             return Task.FromResult(context.Einkauf.ToList());
         }
-
-
     }
 }
