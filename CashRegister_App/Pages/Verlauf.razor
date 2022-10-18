@@ -17,15 +17,15 @@
                 </ToolBarContent>
 
                 <Columns>
-                    <Column T="Einkauf" Field="@nameof(Einkauf.Belegnummer)" />
-                    <Column T="Einkauf" Field="@nameof(Einkauf.Kaufdatum)"/>
+                    <Column T="Einkauf" Field="@nameof(Einkauf.Belegnummer)"/>
+                    <Column T="Einkauf" Field="@nameof(Einkauf.Kaufdatum)" />
                     <Column T="Einkauf" Field="@nameof(Einkauf.Gesamtpreis)" Title="Gesamtpreis " />
                 </Columns>
             </MudDataGrid>
         </td>
         <td>
             <MudPaper Height="800px" Width="500px" Square="true" Class="rounded" Style="position:fixed; background-color: #333333; margin-bottom: 20px; margin-left: 17px;" >
-                @for (int i = 0; i < produktAnzahl; i++)
+                @for (int i = 1; i < (produktAnzahl + 1); i++)
                 {
                     int localindex = i;
                     <span class="labelclass"><pre>@i.  Thüringer Klöse  x[Anzahl]    [Preis * Anzahl]€ </pre></span>
@@ -48,7 +48,7 @@
     static CashRegisterContextDB context = new CashRegisterContextDB();
 
     private string _searchString;
-    int produktAnzahl = 5; // anzahl der Produkte
+    int produktAnzahl = 10; // anzahl der Produkte
 
     List<Einkauf> einkaeufe = context.Einkauf.ToList();
 
