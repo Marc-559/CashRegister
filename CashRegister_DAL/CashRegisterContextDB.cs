@@ -13,22 +13,22 @@ namespace CashRegister.DAL
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Mandant>().HasData(
-              new Mandant { MandantId = 1, MandantName = "Gastro" },
-              new Mandant { MandantId = 2, MandantName = "Sennerei" }
+              new Mandant { Id = 1, MandantName = "Gastro" },
+              new Mandant { Id= 2, MandantName = "Sennerei" }
               );
 
             modelBuilder.Entity<Kategorie>().HasData(
 
                 // Sennerei Kategorieen 
-                new Kategorie { KategorieId = 1, KategorieName = "Käse", MandantId = 2 },
-                new Kategorie { KategorieId = 2, KategorieName = "Joghurt", MandantId = 2 },
-                new Kategorie { KategorieId = 3, KategorieName = "Butter", MandantId = 2 },
-                new Kategorie { KategorieId = 4, KategorieName = "Sonstiges", MandantId = 2 },
+                new Kategorie { Id = 1, KategorieName = "Käse", MandantId = 2 },
+                new Kategorie { Id = 2, KategorieName = "Joghurt", MandantId = 2 },
+                new Kategorie { Id = 3, KategorieName = "Butter", MandantId = 2 },
+                new Kategorie { Id = 4, KategorieName = "Sonstiges", MandantId = 2 },
 
                 // Gastro Kategorie
-                new Kategorie { KategorieId = 5, KategorieName = "Alc.Getränke", MandantId = 1 },
-                new Kategorie { KategorieId = 6, KategorieName = "Non.Alc.Getränke", MandantId = 1 },
-                new Kategorie { KategorieId = 7, KategorieName = "Speisen", MandantId = 1 }
+                new Kategorie { Id = 5, KategorieName = "Alc.Getränke", MandantId = 1 },
+                new Kategorie { Id = 6, KategorieName = "Non.Alc.Getränke", MandantId = 1 },
+                new Kategorie { Id = 7, KategorieName = "Speisen", MandantId = 1 }
                 );
 
             //Preisart = true (Kg Preis) Preisart = false (Fixpreis)
@@ -70,9 +70,11 @@ namespace CashRegister.DAL
         }
 
         public DbSet<Produkt> Produkt { get; set; }
-        public DbSet<Einkauf> Einkauf { get; set; }
+        public DbSet<Beleg> Einkauf { get; set; }
         public DbSet<EinkaufsPosition> EinkaufsPosition { get; set; }
         public DbSet<Kategorie> Kategorie { get; set; }
         public DbSet<Mandant> Mandant { get; set; }
+
+
     }
 }
