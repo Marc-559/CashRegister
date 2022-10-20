@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CashRegister_DAL.Migrations
 {
-    public partial class init : Migration
+    public partial class changedModels : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,47 +13,46 @@ namespace CashRegister_DAL.Migrations
                 name: "Einkauf",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Belegnummer = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Belegnummer = table.Column<int>(type: "int", nullable: false),
                     Kaufdatum = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Gesamtpreis = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Einkauf", x => x.Id);
+                    table.PrimaryKey("PK_Einkauf", x => x.Belegnummer);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Mandant",
                 columns: table => new
                 {
-                    MandantId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     MandantName = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Mandant", x => x.MandantId);
+                    table.PrimaryKey("PK_Mandant", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Kategorie",
                 columns: table => new
                 {
-                    KategorieId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     KategorieName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     MandantId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Kategorie", x => x.KategorieId);
+                    table.PrimaryKey("PK_Kategorie", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Kategorie_Mandant_MandantId",
                         column: x => x.MandantId,
                         principalTable: "Mandant",
-                        principalColumn: "MandantId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -75,7 +74,7 @@ namespace CashRegister_DAL.Migrations
                         name: "FK_Produkt_Kategorie_KategorieId",
                         column: x => x.KategorieId,
                         principalTable: "Kategorie",
-                        principalColumn: "KategorieId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -86,21 +85,21 @@ namespace CashRegister_DAL.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Anzahl = table.Column<int>(type: "int", nullable: false),
-                    EinkaufId = table.Column<int>(type: "int", nullable: false),
-                    ProdukteId = table.Column<int>(type: "int", nullable: false)
+                    Belegnummer = table.Column<int>(type: "int", nullable: false),
+                    ProduktId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_EinkaufsPosition", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_EinkaufsPosition_Einkauf_EinkaufId",
-                        column: x => x.EinkaufId,
+                        name: "FK_EinkaufsPosition_Einkauf_Belegnummer",
+                        column: x => x.Belegnummer,
                         principalTable: "Einkauf",
-                        principalColumn: "Id",
+                        principalColumn: "Belegnummer",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_EinkaufsPosition_Produkt_ProdukteId",
-                        column: x => x.ProdukteId,
+                        name: "FK_EinkaufsPosition_Produkt_ProduktId",
+                        column: x => x.ProduktId,
                         principalTable: "Produkt",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -108,17 +107,17 @@ namespace CashRegister_DAL.Migrations
 
             migrationBuilder.InsertData(
                 table: "Mandant",
-                columns: new[] { "MandantId", "MandantName" },
+                columns: new[] { "Id", "MandantName" },
                 values: new object[] { 1, "Gastro" });
 
             migrationBuilder.InsertData(
                 table: "Mandant",
-                columns: new[] { "MandantId", "MandantName" },
+                columns: new[] { "Id", "MandantName" },
                 values: new object[] { 2, "Sennerei" });
 
             migrationBuilder.InsertData(
                 table: "Kategorie",
-                columns: new[] { "KategorieId", "KategorieName", "MandantId" },
+                columns: new[] { "Id", "KategorieName", "MandantId" },
                 values: new object[,]
                 {
                     { 1, "Käse", 2 },
@@ -160,14 +159,14 @@ namespace CashRegister_DAL.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_EinkaufsPosition_EinkaufId",
+                name: "IX_EinkaufsPosition_Belegnummer",
                 table: "EinkaufsPosition",
-                column: "EinkaufId");
+                column: "Belegnummer");
 
             migrationBuilder.CreateIndex(
-                name: "IX_EinkaufsPosition_ProdukteId",
+                name: "IX_EinkaufsPosition_ProduktId",
                 table: "EinkaufsPosition",
-                column: "ProdukteId");
+                column: "ProduktId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Kategorie_MandantId",

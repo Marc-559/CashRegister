@@ -8,7 +8,7 @@ namespace CashRegister.Models
 {
     public class Kategorie
     {
-        public int KategorieId { get; set; }
+        public int Id { get; set; }
         public string KategorieName { get; set; }
         public List<Produkt> Produkte { get; set; }
         public int MandantId { get; set; }
