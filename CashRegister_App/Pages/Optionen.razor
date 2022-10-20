@@ -1,0 +1,41 @@
+﻿@page "/optionen"
+<div class="body">
+
+    <MudTabs  Elevation="2" Rounded="true" Centered="true" Color="Color.Dark">
+        <MudTabPanel OnClick="@(e => ButtonOverlay(1))" Icon="@Icons.Filled.AddCircleOutline" Text="Produkt Hinzufügen" />
+        <MudTabPanel OnClick="@(e => ButtonOverlay(2))" Icon="@Icons.Filled.RemoveCircleOutline" Text="Produkt Löschen" />
+        <MudTabPanel OnClick="@(e => ButtonOverlay(3))" Icon="@Icons.Outlined.AutoDelete" Text="Beleg Löschen" />
+    </MudTabs>
+</div>
+
+<div class="containerBody">
+    <MudPaper >
+        @switch (containerContent)
+        {
+            case 1:
+                <span>1</span>          
+                break;
+
+            case 2:
+                <span>2</span>
+                break;
+
+            case 3:
+                <span>3</span>
+                break;
+
+            default:
+                <span>1</span>
+                break;
+        }
+    </MudPaper>
+</div>
+
+
+@code {
+    public int containerContent;
+    public void ButtonOverlay(int i)
+    {
+        containerContent = i;
+    }
+}
