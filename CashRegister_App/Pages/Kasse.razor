@@ -1,10 +1,46 @@
 ﻿@page "/kasse"
 
+<MudGrid>
+  
+    <MudItem xs="12">
+        <MudGrid Justify="justification">
+            @for (int i = 0; i < papers; i++)
+            {
+                int localindex = i;
 
+                <MudItem xs="2">
+                    <MudPaper  Style="background-color: " Class="d-flex flex-column align-center justify-center mud-width-full py-8">
+                       
+                    </MudPaper>
+                </MudItem>
+            }
+        </MudGrid>
+    </MudItem>
+</MudGrid>
 
 @code {
+    public clorswitcher()
+    {
+        int x = 0;
+
+        string mycolor;
+
+        return mycolor;
+        x++;
+    }
+
+    int papers = 20; // anzahl der grid items
+    Justify justification = Justify.FlexStart; //
 
 
+    void UpdateBreaks(int index, int changeamount)
+    {
+        int newbreaks = 2; //
+        if (newbreaks + changeamount > 20 || newbreaks + changeamount < 1) return; //Aúf 20 Grids limitiert
+        newbreaks += changeamount;
 
+
+        StateHasChanged();
+    }
 
 }
