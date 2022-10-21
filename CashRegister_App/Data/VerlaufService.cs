@@ -7,11 +7,9 @@ namespace CashRegister_App.Data
     {
         static CashRegisterContextDB context = new CashRegisterContextDB();
 
-        public Task<List<Einkauf>> GetVerlaufDaten()
+        public Task<List<Beleg>> GetVerlaufDaten()
         {
             return Task.FromResult(context.Einkauf.ToList());
         }
-
-
     }
 }

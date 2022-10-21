@@ -12,28 +12,25 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CashRegister_DAL.Migrations
 {
     [DbContext(typeof(CashRegisterContextDB))]
-    [Migration("20221017114906_init")]
-    partial class init
+    [Migration("20221020095613_update")]
+    partial class update
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.9")
+                .HasAnnotation("ProductVersion", "6.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("CashRegister.Models.Einkauf", b =>
+            modelBuilder.Entity("CashRegister.Models.Beleg", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("Belegnummer")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("Belegnummer")
-                        .HasColumnType("int");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Belegnummer"), 1L, 1);
 
                     b.Property<string>("Gesamtpreis")
                         .IsRequired()
@@ -42,7 +39,7 @@ namespace CashRegister_DAL.Migrations
                     b.Property<DateTime>("Kaufdatum")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("Id");
+                    b.HasKey("Belegnummer");
 
                     b.ToTable("Einkauf");
                 });
@@ -58,28 +55,28 @@ namespace CashRegister_DAL.Migrations
                     b.Property<int>("Anzahl")
                         .HasColumnType("int");
 
-                    b.Property<int>("EinkaufId")
+                    b.Property<int>("Belegnummer")
                         .HasColumnType("int");
 
-                    b.Property<int>("ProdukteId")
+                    b.Property<int>("ProduktId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EinkaufId");
+                    b.HasIndex("Belegnummer");
 
-                    b.HasIndex("ProdukteId");
+                    b.HasIndex("ProduktId");
 
                     b.ToTable("EinkaufsPosition");
                 });
 
             modelBuilder.Entity("CashRegister.Models.Kategorie", b =>
                 {
-                    b.Property<int>("KategorieId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("KategorieId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("KategorieName")
                         .IsRequired()
@@ -88,7 +85,7 @@ namespace CashRegister_DAL.Migrations
                     b.Property<int>("MandantId")
                         .HasColumnType("int");
 
-                    b.HasKey("KategorieId");
+                    b.HasKey("Id");
 
                     b.HasIndex("MandantId");
 
@@ -97,43 +94,43 @@ namespace CashRegister_DAL.Migrations
                     b.HasData(
                         new
                         {
-                            KategorieId = 1,
+                            Id = 1,
                             KategorieName = "Käse",
                             MandantId = 2
                         },
                         new
                         {
-                            KategorieId = 2,
+                            Id = 2,
                             KategorieName = "Joghurt",
                             MandantId = 2
                         },
                         new
                         {
-                            KategorieId = 3,
+                            Id = 3,
                             KategorieName = "Butter",
                             MandantId = 2
                         },
                         new
                         {
-                            KategorieId = 4,
+                            Id = 4,
                             KategorieName = "Sonstiges",
                             MandantId = 2
                         },
                         new
                         {
-                            KategorieId = 5,
+                            Id = 5,
                             KategorieName = "Alc.Getränke",
                             MandantId = 1
                         },
                         new
                         {
-                            KategorieId = 6,
+                            Id = 6,
                             KategorieName = "Non.Alc.Getränke",
                             MandantId = 1
                         },
                         new
                         {
-                            KategorieId = 7,
+                            Id = 7,
                             KategorieName = "Speisen",
                             MandantId = 1
                         });
@@ -141,29 +138,29 @@ namespace CashRegister_DAL.Migrations
 
             modelBuilder.Entity("CashRegister.Models.Mandant", b =>
                 {
-                    b.Property<int>("MandantId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MandantId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("MandantName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("MandantId");
+                    b.HasKey("Id");
 
                     b.ToTable("Mandant");
 
                     b.HasData(
                         new
                         {
-                            MandantId = 1,
+                            Id = 1,
                             MandantName = "Gastro"
                         },
                         new
                         {
-                            MandantId = 2,
+                            Id = 2,
                             MandantName = "Sennerei"
                         });
                 });
@@ -376,21 +373,21 @@ namespace CashRegister_DAL.Migrations
 
             modelBuilder.Entity("CashRegister.Models.EinkaufsPosition", b =>
                 {
-                    b.HasOne("CashRegister.Models.Einkauf", "Einkauf")
+                    b.HasOne("CashRegister.Models.Beleg", "Beleg")
                         .WithMany("EinkaufsPosition")
-                        .HasForeignKey("EinkaufId")
+                        .HasForeignKey("Belegnummer")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CashRegister.Models.Produkt", "Produkte")
+                    b.HasOne("CashRegister.Models.Produkt", "Produkt")
                         .WithMany("EinkaufsPositionen")
-                        .HasForeignKey("ProdukteId")
+                        .HasForeignKey("ProduktId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Einkauf");
+                    b.Navigation("Beleg");
 
-                    b.Navigation("Produkte");
+                    b.Navigation("Produkt");
                 });
 
             modelBuilder.Entity("CashRegister.Models.Kategorie", b =>
@@ -415,7 +412,7 @@ namespace CashRegister_DAL.Migrations
                     b.Navigation("Kategorie");
                 });
 
-            modelBuilder.Entity("CashRegister.Models.Einkauf", b =>
+            modelBuilder.Entity("CashRegister.Models.Beleg", b =>
                 {
                     b.Navigation("EinkaufsPosition");
                 });

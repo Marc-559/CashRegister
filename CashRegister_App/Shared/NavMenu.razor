@@ -4,15 +4,9 @@
 
 <MudFab OnClick="@toogleColor1" StartIcon="@Icons.Filled.AttachMoney" Href="kasse" Label="Kasse" Style="@currentColor1" />
 <MudFab OnClick="@toogleColor2" StartIcon="@Icons.Filled.FormatListBulleted" Href="verlauf" Label="Verlauf" Style="@currentColor2" />
-<MudFab OnClick="@toogleColor3" StartIcon="@Icons.Filled.Settings" Href="" Label="Einstellungen" Style="@currentColor3" />
-
-
-
-
-
+<MudFab OnClick="@toogleColor3" StartIcon="@Icons.Filled.Settings" Href="optionen" Label="Einstellungen" Style="@currentColor3" />
 
 @code {
-
     private bool einkauf = true;
     private bool uebersicht = true;
     private bool optionen = true;
@@ -21,8 +15,6 @@
     public string currentColor1 { get; set; } = "color:white; margin-top:20px; margin-left: 23.5px; width: 200px; background-color: #333333;";
     public string currentColor2 { get; set; } = "color:white; margin-top:20px; margin-left: 23.5px; width: 200px; background-color: #333333;";
     public string currentColor3 { get; set; } = "color:white; margin-top:750px; margin-left: 23.5px; width: 200px; background-color: #333333;";
-
-
 
     public void toogleColor1()
     {
@@ -57,6 +49,7 @@
         currentColor1 = "color:white; margin-top:20px; margin-left: 23.5px; width: 200px; background-color: #333333;";
         currentColor3 = "color:white; margin-top:750px; margin-left: 23.5px; width: 200px; background-color: #333333;";
     }
+
     public void toogleColor3()
     {
         if (optionen)
@@ -74,7 +67,4 @@
         currentColor2 = "color:white; margin-top:20px; margin-left: 23.5px; width: 200px; background-color: #333333;";
 
     }
-
-
-
 }

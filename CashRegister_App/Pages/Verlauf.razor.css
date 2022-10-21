@@ -1,7 +1,21 @@
-﻿body {
+﻿.body {
+    width: 700px;
+    background-color: #1b1b1b;
+}
+.labelclass {
+    color: white;
+    display: block;
+    text-align: center;
+    margin-top: 15px;
+    font-size: 16px;
 }
 
-.my-6 {
-    width: 320px;
-    color: #ffff;
+.gesamtPreisClass {
+    color: white;
+    display: block;
+    text-align: center;
+    margin-top: 50px;
+    font-size:30px;
 }
+
+
