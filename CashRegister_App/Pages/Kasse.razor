@@ -1,4 +1,7 @@
 ﻿@page "/kasse"
+@using System.Linq;
+@using CashRegister.Models
+@using CashRegister.DAL
 
 <MudGrid>
   
@@ -9,8 +12,8 @@
                 int localindex = i;
 
                 <MudItem xs="2">
-                    <MudPaper  Style="background-color: " Class="d-flex flex-column align-center justify-center mud-width-full py-8">
-                       
+                    <MudPaper  Style="@color" Class="d-flex flex-column align-center justify-center mud-width-full py-8">
+                        <MudText Typo="Typo.h6">@produkttext</MudText>
                     </MudPaper>
                 </MudItem>
             }
@@ -19,26 +22,54 @@
 </MudGrid>
 
 @code {
-    public clorswitcher()
-    {
-        int x = 0;
+    int x = 0;
+    int y = 0;
+    string mycolor;
+    string text;
+    static CashRegisterContextDB context = new CashRegisterContextDB();
+    List<String> colorlist = new List<String> { "#CFDDDB", "#E4CDEE", "#C2DBE9", "#C9CAEE", "#FAC2D9", "#E6DADE", "#4f0085", "#a08af9", "#59f996" };
 
-        string mycolor;
+    public string color {
 
-        return mycolor;
-        x++;
+        get {
+            mycolor = colorlist.ElementAt(x);
+
+            x++;
+            return "background-color:" + mycolor;
+        }
+        set { }
     }
 
-    int papers = 20; // anzahl der grid items
-    Justify justification = Justify.FlexStart; //
+    static List<Kategorie> kategorien = context.Kategorie.ToList();
+     
+
+    
+    public string produkttext
+    {
+
+        get
+        { 
+          
+            List<String> kategorieNamen = kategorien.Select(cat => cat.KategorieName).ToList();
+
+            text = kategorieNamen.ElementAt(y);
+
+            
+            y++;
+            return text;
+        }
+        set { }
+    }
+
+
+    int papers = kategorien.Count; // anzahl der grid items
+    Justify justification = Justify.FlexStart; 
 
 
     void UpdateBreaks(int index, int changeamount)
     {
-        int newbreaks = 2; //
-        if (newbreaks + changeamount > 20 || newbreaks + changeamount < 1) return; //Aúf 20 Grids limitiert
+        int newbreaks = 2; 
         newbreaks += changeamount;
-
 
         StateHasChanged();
     }
