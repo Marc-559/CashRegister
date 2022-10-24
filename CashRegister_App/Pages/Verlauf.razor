@@ -1,9 +1,13 @@
 ﻿@page "/verlauf"
 @using CashRegister.DAL
 @using CashRegister.Models
-@using CashRegister_App.Data
 
-@inject VerlaufService VerlaufService
+
+
+<MudTabs Elevation="2" Rounded="true" Centered="true" Class="buttonWidth" Color="Color.Dark">
+    <MudTabPanel Icon="@Icons.Filled.FoodBank" Text="Gastro" />
+    <MudTabPanel Icon="@Icons.Filled.IncompleteCircle" Text="Sennerei" />
+</MudTabs>
 
 
 <table>
@@ -44,13 +48,19 @@
     </tr>
 </table>
 
-
+<style>
+    .buttonWidth {
+        width: 320px;
+        color: #ffff;
+    }
+</style>
 
 @code {
     static CashRegisterContextDB context = new CashRegisterContextDB();
 
     private string _searchString;
     int produktAnzahl = 15; // anzahl der Produkte
+    List<Beleg> einkaeufe = context.Einkauf.ToList();
 
     string SetHeight()
     {
@@ -58,12 +68,7 @@
         return ((140 +(produktAnzahl * 37)) + "px"); 
     }
 
-    List<Beleg> einkaeufe = context.Einkauf.ToList();
-
-    protected override async Task OnInitializedAsync()
-    {
-        einkaeufe = await VerlaufService.GetVerlaufDaten();
-    }
+   
 
     //Kann man in eine Andere Klasse tun und nicht hier ist nur temporär (Einkaufsposition Klasse) 
     int ZwischenPreis(int Anzahl, int Preis)

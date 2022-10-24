@@ -1,0 +1,77 @@
+﻿@page "/kasse"
+@using System.Linq;
+@using CashRegister.Models
+@using CashRegister.DAL
+
+<MudGrid>
+  
+    <MudItem xs="12">
+        <MudGrid Justify="justification">
+            @for (int i = 0; i < papers; i++)
+            {
+                int localindex = i;
+
+                <MudItem xs="2">
+                    <MudPaper  Style="@color" Class="d-flex flex-column align-center justify-center mud-width-full py-8">
+                        <MudText Typo="Typo.h6">@produkttext</MudText>
+                    </MudPaper>
+                </MudItem>
+            }
+        </MudGrid>
+    </MudItem>
+</MudGrid>
+
+@code {
+    int x = 0;
+    int y = 0;
+    string mycolor;
+    string text;
+    static CashRegisterContextDB context = new CashRegisterContextDB();
+    List<String> colorlist = new List<String> { "#CFDDDB", "#E4CDEE", "#C2DBE9", "#C9CAEE", "#FAC2D9", "#E6DADE", "#4f0085", "#a08af9", "#59f996" };
+
+    public string color {
+
+        get {
+            mycolor = colorlist.ElementAt(x);
+
+            x++;
+            return "background-color:" + mycolor;
+        }
+        set { }
+    }
+
+    static List<Kategorie> kategorien = context.Kategorie.ToList();
+     
+
+    
+    public string produkttext
+    {
+
+        get
+        { 
+          
+            List<String> kategorieNamen = kategorien.Select(cat => cat.KategorieName).ToList();
+
+            text = kategorieNamen.ElementAt(y);
+
+            
+            y++;
+            return text;
+        }
+        set { }
+    }
+
+
+    int papers = kategorien.Count; // anzahl der grid items
+    Justify justification = Justify.FlexStart; 
+
+
+    void UpdateBreaks(int index, int changeamount)
+    {
+        int newbreaks = 2; 
+        newbreaks += changeamount;
+
+        StateHasChanged();
+    }
+
+}
