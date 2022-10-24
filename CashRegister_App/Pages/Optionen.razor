@@ -1,8 +1,7 @@
 ﻿@page "/optionen"
 @using CashRegister.DAL
 @using CashRegister.Models
-@using CashRegister_App.Data
-
+@using CashRegister_DAL.DataAccessLayer
 
 <div class="body">
 
@@ -13,20 +12,70 @@
     </MudTabs>
 </div>
 
-<div class="containerBody">
+<div class="containerBody" >
     <MudPaper Elevation="0" Style="background-color: #1f1f1f">
         @switch (containerContent)
         {
             case 1:
-                <span>1</span>          
+                //Kategorie funct
+                <div class="dropDownBody">
+                    <MudSelect OnOpen="refreshData" @bind-Value="gewaehlteKategorie" Label="Kategorie" Variant="Variant.Filled" AnchorOrigin="Origin.BottomCenter">
+                        @foreach (var kategorie in kategorieen)
+                        {
+                            <MudSelectItem Value="@kategorie">@kategorie.KategorieName</MudSelectItem>
+                        }
+                    </MudSelect>
+                </div>
+
+                        //Name
+                <div class="textBoxBody">
+                    <MudTextField @bind-Value="@_produktNamePlace" Label="Produkt Name" Variant="Variant.Filled" Adornment="Adornment.Start" Immediate="true" v></MudTextField>
+                </div>
+
+                //PreisArt
+                <div class="radioButtonBody">
+                    <MudRadioGroup @bind-SelectedOption="@SelectedOption">
+                        <MudRadio Option="true" Color="Color.Primary">CHF/Stk</MudRadio>
+                        <MudRadio Option="false" Color="Color.Primary">CHF/Kg</MudRadio>
+                    </MudRadioGroup>
+                </div>
+
+                //Preis
+                <div class="textBoxBody">
+                    <MudTextField @bind-Value="@_produktPreisPlace" Label="Produkt Preis" Variant="Variant.Filled" Adornment="Adornment.Start" Immediate="true"></MudTextField>
+                </div>
+
+                //Add Button
+
+                <MudFab OnClick="@CreateProdukt" Label="Produkt Hinzufügen" Style="margin-top: 50px" />
+
                 break;
 
             case 2:
-                <span>2</span>
+                <MudDataGrid T="Produkt" Items="@Produkte" MultiSelection="true" SelectedItemsChanged="@SelectedItemsChanged" Virtualize="true" FixedHeader="true" Height="600px" Style="width: 100%; margin-top: 10px;">
+                    <ToolBarContent>
+                        <MudText Typo="Typo.h6">Produkte</MudText>
+                        <MudSpacer />
+                       <MudTextField @bind-Value="_searchString" Placeholder="Search" Adornment="Adornment.Start" Immediate="true"
+                              AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                    </ToolBarContent>
+
+                    <Columns>
+                        <SelectColumn T="Produkt" />
+                        <Column T="Produkt" Field="@nameof(Produkt.Id)" />
+                        <Column T="Produkt" Field="@nameof(Produkt.Name)" />
+                        <Column T="Produkt" Field="@nameof(Produkt.Preis)" />
+                    </Columns>
+                </MudDataGrid>
+
+                <MudButton OnClick="(e => ShowMessagebox(false))" Style="margin-left: 92%; margin-top: 10px; background-color: white; color:black;
+                    height: 50px;width:  100px;" Variant="Variant.Filled" Color="Color.Primary">
+                    Produkt Löschen
+                </MudButton>
                 break;
 
             case 3:
-                <MudDataGrid Style="width: 100%;margin-top: 10px; max-height: 500px;" Items="@belege">
+                <MudDataGrid Items="@belege" Virtualize="true" FixedHeader="true" Height="600px" Style="width: 100%;margin-top: 10px;">
                     <ToolBarContent>
                         <MudText Typo="Typo.h6">Belege</MudText>
                         <MudSpacer />
@@ -40,21 +89,17 @@
                     </Columns>
                 </MudDataGrid>
 
-                <MudButton OnClick="ShowMessagebox" Style="margin-left: 92%; margin-top: 10px; background-color: white; color:black;
-                    height: 50px;width:  100px;;" Variant="Variant.Filled" Color="Color.Primary">Primary
+                <MudButton OnClick="(e => ShowMessagebox(true))" Style="margin-left: 92%; margin-top: 10px; background-color: white; color:black;
+                    height: 50px;width:  100px;;" Variant="Variant.Filled" Color="Color.Primary">Beleg Löschen
                 </MudButton>
 
-                break;
-
-            default:
-                <span>1</span>
                 break;
         }
     </MudPaper>
 </div>
 
 
-<MudMessageBox @ref="mbox" Title="Sicher" CancelText="Abbrechen">
+<MudMessageBox @ref="Belegbox" Title="Beleg Löschen?" CancelText="Abbrechen">
     <MessageContent>
         Sicher das du <b><i>alle</i></b> belege in dem ausgewählten Zeitraum löschen willst?  
     </MessageContent>
@@ -63,20 +108,68 @@
     </YesButton>
 </MudMessageBox>
 
+<MudMessageBox @ref="Produktbox" Title="Produkt Löschen?" CancelText="Abbrechen">
+    <MessageContent>
+        Sicher das du das augewählte Produkt Löschen willst?
+    </MessageContent>
+    <YesButton>
+        <MudButton OnClick="deleteProdukt" Variant="Variant.Filled" Color="Color.Error" StartIcon="@Icons.Material.Filled.DeleteForever">Löschen!</MudButton>
+    </YesButton>
+</MudMessageBox>
+
 
 @code {
     [Inject] private IDialogService DialogService { get; set; }
-
-    static CashRegisterContextDB context = new CashRegisterContextDB();
     private DateRange _dateRange = new DateRange(DateTime.Now.Date, DateTime.Now.AddDays(5).Date);
-    List<Beleg> belege = context.Einkauf.ToList();
+    static CashRegisterContextDB context = new CashRegisterContextDB();
 
-    MudMessageBox ?mbox { get; set; }
-    public int containerContent;
-   
+    BelegDAL belegData = new BelegDAL(context);
+    ProduktDAL produktData = new ProduktDAL(context);
+    KategorieDAL kategorieData = new KategorieDAL(context);
+
+    List<string> _events = new();
+    HashSet<Produkt> selectedProdukt = new HashSet<Produkt>();
+    List<Beleg> belege = context.Einkauf.ToList();
+    List<Produkt> Produkte = context.Produkt.ToList();
+    List<Kategorie> kategorieen = new List<Kategorie>();
+
+    MudMessageBox? Belegbox { get; set; }
+    MudMessageBox? Produktbox { get; set; }
+    bool SelectedOption { get; set; }
+    double _produktPreisPlace { get; set; }
+    string _produktNamePlace { get; set; }
+
+    Kategorie gewaehlteKategorie;
+    private string _searchString;
+    private int containerContent = 1;
+
+
+
+
+
+
+
+    //Produkt Erstellen
+    public void CreateProdukt()
+    {
+        produktData.Create(_produktNamePlace, _produktPreisPlace, SelectedOption, gewaehlteKategorie);
+        context.SaveChanges();
+    }
+
+    //Produkt Löschen
+    void deleteProdukt()
+    {
+        context.RemoveRange(selectedProdukt);
+        context.SaveChanges();
+        refreshData();
+    }
+
+
+    //Beleg Löschen
     void deleteBelege()
     {
         context.RemoveRange(belege.Where(x => x.Kaufdatum >= _dateRange.Start && x.Kaufdatum <= _dateRange.End));
+        context.SaveChanges();
         refreshData();
     }
 
@@ -84,19 +177,52 @@
     //Refresh Database Data
     private void refreshData()
     {
-        context.SaveChanges();
+        kategorieen = context.Kategorie.ToList();
         belege = context.Einkauf.ToList();
+        Produkte = context.Produkt.ToList();
     }
 
     //Show Messagebox
-    private async void ShowMessagebox()
+    private async void ShowMessagebox(bool istBeleg)
     {
-        bool? result = await mbox.Show();
-        StateHasChanged();
+        if(istBeleg)
+        {
+            bool? result = await Belegbox.Show();
+        }
+        else
+        {
+            bool? result = await Produktbox.Show();
+        }
+
     }
 
     public void ButtonOverlay(int i)
     {
         containerContent = i;
     }
+
+    //Searchbar Funktion für Produkte
+    private Func<Produkt, bool> _quickFilter => x =>
+       {
+           if (string.IsNullOrWhiteSpace(_searchString))
+               return true;
+
+           if (x.Name.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
+               return true;
+
+           if (x.Kategorie.KategorieName.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
+               return true;
+
+           if ($"{x.Id}".Contains(_searchString))
+               return true;
+           return false;
+       };
+
+    void SelectedItemsChanged(HashSet<Produkt> items)
+    {
+
+        selectedProdukt = items;
+    }
+
+
 }

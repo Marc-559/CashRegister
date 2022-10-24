@@ -68,8 +68,9 @@ namespace CashRegister.DAL
                 new Produkt { Id = 22, Name = "Käseschnitte", Preis = 7.00, Preisart = false, KategorieId = 7 }
                 );
         }
+            
 
-        public DbSet<Produkt> Produkt { get; set; }
+        public DbSet<Produkt> Produkt {get; set; }
         public DbSet<Beleg> Einkauf { get; set; }
         public DbSet<EinkaufsPosition> EinkaufsPosition { get; set; }
         public DbSet<Kategorie> Kategorie { get; set; }

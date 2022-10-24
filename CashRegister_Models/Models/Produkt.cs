@@ -1,7 +1,10 @@
-﻿namespace CashRegister.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace CashRegister.Models
 {
     public class Produkt
     {
+        [Key]
         public int Id { get; set; }
         public string Name { get; set; }
         public double Preis { get; set; }
