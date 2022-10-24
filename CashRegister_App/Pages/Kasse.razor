@@ -3,23 +3,83 @@
 @using CashRegister.Models
 @using CashRegister.DAL
 
-<MudGrid>
-  
-    <MudItem xs="12">
-        <MudGrid Justify="justification">
-            @for (int i = 0; i < papers; i++)
-            {
-                int localindex = i;
+<MudTabs Elevation="2" Rounded="true" Centered="true" Class="buttonWidth" Color="Color.Dark">
+    <MudTabPanel Icon="@Icons.Filled.FoodBank" Text="Gastro" />
+    <MudTabPanel Icon="@Icons.Filled.IncompleteCircle" Text="Sennerei" />
+</MudTabs>
 
-                <MudItem xs="2">
-                    <MudPaper  Style="@color" Class="d-flex flex-column align-center justify-center mud-width-full py-8">
-                        <MudText Typo="Typo.h6">@produkttext</MudText>
-                    </MudPaper>
+
+<table>
+    <tr valign="top">
+        <td>
+            <MudGrid Style="width: 1120px; margin-top: 20px">
+
+                <MudItem xs="14">
+                    <MudGrid Justify="justification">
+                        @for (int i = 0; i < papers; i++)
+                        {
+                            int localindex = i;
+
+                            <MudItem xs="3">
+                                <MudPaper Style="@color" Class="d-flex flex-column align-center justify-center mud-width-full py-8">
+                                    <MudText Typo="Typo.h6">@produkttext</MudText>
+                                </MudPaper>
+                            </MudItem>
+                        }
+                    </MudGrid>
                 </MudItem>
-            }
-        </MudGrid>
-    </MudItem>
-</MudGrid>
+            </MudGrid>
+        </td>
+        <td>
+            
+            <MudPaper Height="@SetHeight()" Width="500px" Square="true" Class="rounded" Style="position:fixed; background-color: #333333; margin-bottom: 20px; margin-left: 17px;">
+              
+                @for (int i = 1; i < (produktAnzahl + 1); i++)
+                {
+                   
+                    <span class="labelclass"><pre>@i.  Thüringer Klöse  x[Anzahl]    [Preis * Anzahl]€ </pre></span>  
+                    
+                }
+                <MudDivider Style="margin-top: 20px;"/>
+
+                <span class="gesamtPreisClass"><pre>Gesamtpreis: [GesamtPreis]€</pre></span>
+                
+            </MudPaper>
+
+        </td>
+    </tr>
+</table>
+
+
+<style>
+    .buttonWidth {
+        width: 320px;
+        color: #ffff;
+    }
+
+    .body {
+        width: 700px;
+        background-color: #1b1b1b;
+    }
+
+    .labelclass {
+        color: white;
+        display: block;
+        text-align: center;
+        margin-top: 15px;
+        font-size: 16px;
+    }
+
+    .gesamtPreisClass {
+        color: white;
+        display: block;
+        text-align: center;
+        margin-top: 50px;
+        font-size: 30px;
+    }
+</style>
+
+
 
 @code {
     int x = 0;
@@ -27,7 +87,7 @@
     string mycolor;
     string text;
     static CashRegisterContextDB context = new CashRegisterContextDB();
-    List<String> colorlist = new List<String> { "#CFDDDB", "#E4CDEE", "#C2DBE9", "#C9CAEE", "#FAC2D9", "#E6DADE", "#4f0085", "#a08af9", "#59f996" };
+    List<String> colorlist = new List<String> { "#CFDDDB", "#E4CDEE", "#C2DBE9", "#C9CAEE", "#FAC2D9", "#E6DADE", "#10c4ea", "#a08af9", "#59f996", "#497E76", "#6C7156" };
 
     public string color {
 
@@ -73,5 +133,17 @@
 
         StateHasChanged();
     }
+
+
+    int produktAnzahl = 15; // anzahl der Produkte
+
+    string SetHeight()
+    {
+
+        return ((140 + (produktAnzahl * 37)) + "px");
+    }
+
+
+
 
 }
