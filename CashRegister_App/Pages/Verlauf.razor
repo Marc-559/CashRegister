@@ -2,6 +2,15 @@
 @using CashRegister.DAL
 @using CashRegister.Models
 
+@using CashRegister_App.Data
+
+
+
+<MudTabs Elevation="2" Rounded="true" Centered="true" Class="buttonWidth" Color="Color.Dark">
+    <MudTabPanel Icon="@Icons.Filled.FoodBank" Text="Gastro" />
+    <MudTabPanel Icon="@Icons.Filled.IncompleteCircle" Text="Sennerei" />
+</MudTabs>
+
 
 <table>
     <tr valign="top">
@@ -41,7 +50,12 @@
     </tr>
 </table>
 
-
+<style>
+    .buttonWidth {
+        width: 320px;
+        color: #ffff;
+    }
+</style>
 
 @code {
     static CashRegisterContextDB context = new CashRegisterContextDB();
