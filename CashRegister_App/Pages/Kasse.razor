@@ -21,7 +21,7 @@
                             int localindex = i;
 
                             <MudItem xs="3">
-                                <MudPaper Style="@color" Class="d-flex flex-column align-center justify-center mud-width-full py-8">
+                                <MudPaper onclick="@kategorieclick" Style="@color" Class="d-flex flex-column align-center justify-center mud-width-full py-8">
                                     <MudText Typo="Typo.h6">@produkttext</MudText>
                                 </MudPaper>
                             </MudItem>
@@ -30,22 +30,21 @@
                 </MudItem>
             </MudGrid>
         </td>
-        <td>
-            
-            <MudPaper Height="@SetHeight()" Width="500px" Square="true" Class="rounded" Style="position:fixed; background-color: #333333; margin-bottom: 20px; margin-left: 17px;">
+        <td>   
+                <MudPaper Height="450px" Width="500px" Square="true" Class="rounded"  Style=" background-color: #333333;  margin-left: 20px; margin-top: 80%;">
               
-                @for (int i = 1; i < (produktAnzahl + 1); i++)
-                {
-                   
-                    <span class="labelclass"><pre>@i.  Thüringer Klöse  x[Anzahl]    [Preis * Anzahl]€ </pre></span>  
-                    
-                }
-                <MudDivider Style="margin-top: 20px;"/>
+                    <span class="groseschrif"><pre> Total:               €801.00</pre></span>
 
-                <span class="gesamtPreisClass"><pre>Gesamtpreis: [GesamtPreis]€</pre></span>
+                    <MudDivider Style="margin-top: 20px;"/>
+
+                    <span class="groseschrif"><pre> Gegeben:             €900.00</pre></span>
+
+                    <span class="groseschrif"><pre> Rückgeld:            €99.00</pre></span>
+
+                    <MudButton Variant="Variant.Filled" style="margin-bottom: 2%; margin-left 50%" Color="Color.Primary">Kassa Öfnen</MudButton>
+
                 
-            </MudPaper>
-
+                </MudPaper>
         </td>
     </tr>
 </table>
@@ -62,7 +61,7 @@
         background-color: #1b1b1b;
     }
 
-    .labelclass {
+    .mitlereschrift {
         color: white;
         display: block;
         text-align: center;
@@ -70,7 +69,7 @@
         font-size: 16px;
     }
 
-    .gesamtPreisClass {
+    .groseschrif {
         color: white;
         display: block;
         text-align: center;
@@ -87,7 +86,9 @@
     string mycolor;
     string text;
     static CashRegisterContextDB context = new CashRegisterContextDB();
-    List<String> colorlist = new List<String> { "#CFDDDB", "#E4CDEE", "#C2DBE9", "#C9CAEE", "#FAC2D9", "#E6DADE", "#10c4ea", "#a08af9", "#59f996", "#497E76", "#6C7156" };
+    List<String> colorlist = new List<String> 
+    {   "#CFDDDB", "#E4CDEE", "#C2DBE9", "#C9CAEE", "#FAC2D9", "#E6DADE", "#10c4ea", "#a08af9", "#59f996", "#497E76", "#6C7156", 
+        "#CFDDDB", "#E4CDEE", "#C2DBE9", "#C9CAEE", "#FAC2D9", "#E6DADE", "#10c4ea", "#a08af9", "#59f996", "#497E76", "#6C7156"};
 
     public string color {
 
@@ -101,20 +102,20 @@
     }
 
     static List<Kategorie> kategorien = context.Kategorie.ToList();
-     
 
-    
+
+
     public string produkttext
     {
 
         get
         { 
-          
+
             List<String> kategorieNamen = kategorien.Select(cat => cat.KategorieName).ToList();
 
             text = kategorieNamen.ElementAt(y);
 
-            
+
             y++;
             return text;
         }
@@ -134,16 +135,9 @@
         StateHasChanged();
     }
 
-
-    int produktAnzahl = 15; // anzahl der Produkte
-
-    string SetHeight()
-    {
-
-        return ((140 + (produktAnzahl * 37)) + "px");
+    public void kategorieclick()
+    { 
+    
     }
-
-
-
 
 }
