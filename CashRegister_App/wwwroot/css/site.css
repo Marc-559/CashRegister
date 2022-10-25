@@ -64,3 +64,23 @@ a, .btn-link {
     .blazor-error-boundary::after {
         content: "An error has occurred."
     }
+
+.color3 {
+    color: white !important;
+    background-color: #808080 !important;
+}
+
+.colorDatagridHeader {
+    color: white !important;
+    background-color: #424242 !important;
+}
+
+.color5 {
+    color: white !important;
+    background-color: #333333 !important;
+}
+.color9 {
+    color: white !important;
+    background-color: white !important;
+    
+}

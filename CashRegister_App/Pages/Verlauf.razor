@@ -17,20 +17,20 @@
                 <ToolBarContent>
                     <MudText Typo="Typo.h6">Belege</MudText>
                     <MudSpacer />
-                    <MudTextField @bind-Value="_searchString" Placeholder="Search" Adornment="Adornment.Start" Immediate="true"
-                        AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                    <MudTextField @bind-Value="_searchString" Placeholder="Search"  Adornment="Adornment.Start" Immediate="true"
+                                  AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
                 </ToolBarContent>
                 
-                <Columns>
+                <Columns >
                     <Column T="Beleg" Field="@nameof(Beleg.Belegnummer)"/>
-                    <Column T="Beleg" Field="@nameof(Beleg.Kaufdatum)" />
+                    <Column T="Beleg" Field="@nameof(Beleg.Kaufdatum)"/>
                     <Column T="Beleg" Field="@nameof(Beleg.Gesamtpreis)"/>
                 </Columns>
             </MudDataGrid>
         </td>
         <td>
             
-            <MudPaper Height="@SetHeight()" Width="500px" Square="true" Class="rounded" Style="position:fixed; background-color: #333333; margin-bottom: 20px; margin-left: 17px;">
+            <MudPaper Height="@SetHeight()" Width="500px" Square="true" Class="rounded" Style="position:fixed; background-color: #f0f0f0; margin-bottom: 20px; margin-left: 17px;">
               
                 @for (int i = 1; i < (produktAnzahl + 1); i++)
                 {
