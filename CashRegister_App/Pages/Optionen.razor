@@ -5,7 +5,7 @@
 
 <div class="body">
 
-    <MudTabs  Elevation="2" Rounded="true" Centered="true" Color="Color.Dark">
+    <MudTabs  Elevation="2" Rounded="true" Centered="true">
         <MudTabPanel OnClick="@(e => ButtonOverlay(1))" Icon="@Icons.Filled.AddCircleOutline" Text="Produkt Hinzufügen" />
         <MudTabPanel OnClick="@(e => ButtonOverlay(2))" Icon="@Icons.Filled.RemoveCircleOutline" Text="Produkt Löschen" />
         <MudTabPanel OnClick="@(e => ButtonOverlay(3))" Icon="@Icons.Outlined.AutoDelete" Text="Beleg Löschen" />
@@ -13,12 +13,12 @@
 </div>
 
 <div class="containerBody" >
-    <MudPaper Elevation="0" Style="background-color: #1f1f1f">
+    
         @switch (containerContent)
         {
             case 1:
                 //Kategorie funct
-                <div class="dropDownBody">
+                <div >
                     <MudSelect OnOpen="refreshData" @bind-Value="gewaehlteKategorie" Label="Kategorie" Variant="Variant.Filled" AnchorOrigin="Origin.BottomCenter">
                         @foreach (var kategorie in kategorieen)
                         {
@@ -47,12 +47,12 @@
 
                 //Add Button
 
-                <MudFab OnClick="@CreateProdukt" Label="Produkt Hinzufügen" Style="margin-top: 50px" />
+                <MudFab OnClick="@CreateProdukt" Label="Produkt Hinzufügen" Style="margin-top: 50px;" />
 
                 break;
 
             case 2:
-                <MudDataGrid T="Produkt" Items="@Produkte" MultiSelection="true" SelectedItemsChanged="@SelectedItemsChanged" Virtualize="true" FixedHeader="true" Height="600px" Style="width: 100%; margin-top: 10px;">
+                <MudDataGrid Style="width: 100%; margin-top: 10px;" T="Produkt" Items="@Produkte" MultiSelection="true" SelectedItemsChanged="@SelectedItemsChanged" Virtualize="true" Height="600px">
                     <ToolBarContent>
                         <MudText Typo="Typo.h6">Produkte</MudText>
                         <MudSpacer />
@@ -60,22 +60,21 @@
                               AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
                     </ToolBarContent>
 
-                    <Columns>
-                        <SelectColumn T="Produkt" />
-                        <Column T="Produkt" Field="@nameof(Produkt.Id)" />
-                        <Column T="Produkt" Field="@nameof(Produkt.Name)" />
-                        <Column T="Produkt" Field="@nameof(Produkt.Preis)" />
+                    <Columns >
+                        <SelectColumn Class="color9" T="Produkt" />
+                        <Column  T="Produkt" Field="@nameof(Produkt.Id)" />
+                        <Column  T="Produkt" Field="@nameof(Produkt.Name)" />
+                        <Column  T="Produkt" Field="@nameof(Produkt.Preis)" />
                     </Columns>
                 </MudDataGrid>
 
-                <MudButton OnClick="(e => ShowMessagebox(false))" Style="margin-left: 92%; margin-top: 10px; background-color: white; color:black;
-                    height: 50px;width:  100px;" Variant="Variant.Filled" Color="Color.Primary">
-                    Produkt Löschen
-                </MudButton>
+            <MudFab OnClick="@CreateProdukt" Label="Produkt Löschen" Style="margin-left: 88%; margin-top: 10px;
+                    height: 50px; width:200px;" />
+               
                 break;
 
             case 3:
-                <MudDataGrid Items="@belege" Virtualize="true" FixedHeader="true" Height="600px" Style="width: 100%;margin-top: 10px;">
+                <MudDataGrid Style="width: 100%; margin-top: 10px;" Items="@belege" Virtualize="true" Height="600px">
                     <ToolBarContent>
                         <MudText Typo="Typo.h6">Belege</MudText>
                         <MudSpacer />
@@ -89,13 +88,12 @@
                     </Columns>
                 </MudDataGrid>
 
-                <MudButton OnClick="(e => ShowMessagebox(true))" Style="margin-left: 92%; margin-top: 10px; background-color: white; color:black;
-                    height: 50px;width:  100px;;" Variant="Variant.Filled" Color="Color.Primary">Beleg Löschen
-                </MudButton>
+                <MudFab OnClick="@CreateProdukt" Label="Beleg Löschen" Style="margin-left: 88%; margin-top: 10px;
+                    height: 50px; width:200px;" />
 
                 break;
         }
-    </MudPaper>
+    
 </div>
 
 
@@ -116,6 +114,7 @@
         <MudButton OnClick="deleteProdukt" Variant="Variant.Filled" Color="Color.Error" StartIcon="@Icons.Material.Filled.DeleteForever">Löschen!</MudButton>
     </YesButton>
 </MudMessageBox>
+
 
 
 @code {
