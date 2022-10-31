@@ -17,6 +17,7 @@ namespace CashRegister.DAL
               new Mandant { Id= 2, MandantName = "Sennerei" }
               );
 
+            //Seeding der kategorien
             modelBuilder.Entity<Kategorie>().HasData(
 
                 // Sennerei Kategorieen 
@@ -71,7 +72,7 @@ namespace CashRegister.DAL
             
 
         public DbSet<Produkt> Produkt {get; set; }
-        public DbSet<Beleg> Einkauf { get; set; }
+        public DbSet<Beleg> Beleg { get; set; }
         public DbSet<EinkaufsPosition> EinkaufsPosition { get; set; }
         public DbSet<Kategorie> Kategorie { get; set; }
         public DbSet<Mandant> Mandant { get; set; }

@@ -16,9 +16,10 @@ namespace CashRegister_DAL.DataAccessLayer
             this.context = context;
         }
 
+        //Holt alle Belege aus der Dtaenbank und gibt sie zurück
         public List<Beleg> GetBelege()
         {
-            return context.Einkauf.ToList();
+            return context.Beleg.ToList();
         }
 
     }

@@ -16,6 +16,7 @@ namespace CashRegister_DAL.DataAccessLayer
             this.context = context;
         }
 
+        //Erstelt ein neues Produkt mit den übergebenen Werten
         public void Create(string Name, double Preis, bool Preisart, Kategorie kategorie)
         {
             Produkt produkt = new Produkt

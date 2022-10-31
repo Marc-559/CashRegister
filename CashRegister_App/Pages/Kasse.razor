@@ -3,24 +3,28 @@
 @using CashRegister.Models
 @using CashRegister.DAL
 
+@*Button zum auswählen ob man die Kategorien von der Sennerei oder von der Gastro sehen will*@
+
 <MudTabs Elevation="2" Rounded="true" Centered="true" Class="buttonWidth" Color="@Color.Primary">
     <MudTabPanel Icon="@Icons.Filled.IncompleteCircle" Text="Sennerei" />
-    <MudTabPanel Icon="@Icons.Filled.FoodBank" Text="Gastro" />
-    
+    <MudTabPanel Icon="@Icons.Filled.FoodBank" Text="Gastro" />    
 </MudTabs>
 
 
 <table>
     <tr valign="top">
         <td>
+            @*Grid wird erstellt indem alle Papers reingepackt werden*@
             <MudGrid Style="width: 1120px; margin-top: 20px">
-
                 <MudItem xs="14">
                     <MudGrid Justify="justification">
+
+                        @*Für die Anzahl von dem int papers werden jetzt Papers erstellt (z.b papers = 4 Es werden dan 4 Paper erstellt)*@
                         @for (int i = 0; i < papers; i++)
                         {
                             int localindex = i;
 
+                            //Hier werden Die Papers errstellt mit einer bestimten Größe(xs)
                             <MudItem xs="4">
                                 <MudPaper onclick="@kategorieclick" Style="@color" Class="d-flex flex-column align-center justify-center mud-width-full py-8">
                                     <MudText Typo="Typo.h6">@produkttext</MudText>
@@ -31,20 +35,18 @@
                 </MudItem>
             </MudGrid>
         </td>
+
         <td>
+
+            @*Unten rechst vom Bildschirm wird der jetzige Beleg angezeigt*@
             <MudPaper Height="450px" Width="400px" Square="true" Class="rounded" Style=" background-color: #594ae2;  margin-left: 100px; margin-top: 80%;">
               
                     <span class="groseschrif"><pre> Total:      €801.00</pre></span>
-
                     <MudDivider Style="margin-top: 20px;"/>
-
                     <span class="groseschrif"><pre> Gegeben:    €900.00</pre></span>
-
                     <span class="groseschrif"><pre> Rückgeld:   €99.00</pre></span>
 
                     <MudButton Variant="Variant.Filled" style="margin-bottom: 2%; margin-left 50%" Color="Color.Primary">Kassa Öfnen</MudButton>
-
-                
                 </MudPaper>
         </td>
     </tr>
