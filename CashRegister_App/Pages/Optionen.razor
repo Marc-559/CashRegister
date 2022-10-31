@@ -152,8 +152,8 @@
     List<Produkt> Produkte = context.Produkt.ToList();
     List<Kategorie> kategorieen = new List<Kategorie>();
 
-    MudMessageBox? Belegbox { get; set; }
-    MudMessageBox? Produktbox { get; set; }
+    MudMessageBox Belegbox { get; set; }
+    MudMessageBox Produktbox { get; set; }
     bool SelectedOption { get; set; }
     double _produktPreisPlace { get; set; }
     string _produktNamePlace { get; set; }
