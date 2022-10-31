@@ -39,7 +39,7 @@ namespace CashRegister_DAL.Migrations
 
                     b.HasKey("Belegnummer");
 
-                    b.ToTable("Einkauf");
+                    b.ToTable("Beleg");
                 });
 
             modelBuilder.Entity("CashRegister.Models.EinkaufsPosition", b =>

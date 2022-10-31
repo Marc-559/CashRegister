@@ -4,11 +4,13 @@
 @using CashRegister.DAL
 
 @*Button zum auswählen ob man die Kategorien von der Sennerei oder von der Gastro sehen will*@
+<div class="body">
+    <MudTabs Elevation="2" Rounded="true" Centered="true">
+        <MudTabPanel Icon="@Icons.Filled.IncompleteCircle" Text="Sennerei" />
+        <MudTabPanel Icon="@Icons.Filled.FoodBank" Text="Gastro" />
+    </MudTabs>
+</div>
 
-<MudTabs Elevation="2" Rounded="true" Centered="true" Class="buttonWidth" Color="@Color.Primary">
-    <MudTabPanel Icon="@Icons.Filled.IncompleteCircle" Text="Sennerei" />
-    <MudTabPanel Icon="@Icons.Filled.FoodBank" Text="Gastro" />    
-</MudTabs>
 
 
 <table>
@@ -39,14 +41,15 @@
         <td>
 
             @*Unten rechst vom Bildschirm wird der jetzige Beleg angezeigt*@
-            <MudPaper Height="450px" Width="400px" Square="true" Class="rounded" Style=" background-color: #594ae2;  margin-left: 100px; margin-top: 80%;">
+            <MudPaper Height="450px" Width="400px" Square="true" Class="rounded" Style="  background-color: #f0f0f0; margin-left: 100px; margin-top: 80%;">
               
                     <span class="groseschrif"><pre> Total:      €801.00</pre></span>
                     <MudDivider Style="margin-top: 20px;"/>
                     <span class="groseschrif"><pre> Gegeben:    €900.00</pre></span>
                     <span class="groseschrif"><pre> Rückgeld:   €99.00</pre></span>
 
-                    <MudButton Variant="Variant.Filled" style="margin-bottom: 2%; margin-left 50%" Color="Color.Primary">Kassa Öfnen</MudButton>
+                   
+                <MudFab Label="Kassa Öffnen" Style="width: 150px; margin-top: 50px; margin-left: 125px" />
                 </MudPaper>
         </td>
     </tr>
@@ -59,26 +62,6 @@
         color: #ffff;
     }
 
-    .body {
-        width: 700px;
-        background-color: #1b1b1b;
-    }
-
-    .mitlereschrift {
-        color: white;
-        display: block;
-        text-align: center;
-        margin-top: 15px;
-        font-size: 16px;
-    }
-
-    .groseschrif {
-        color: white;
-        display: block;
-        text-align: center;
-        margin-top: 50px;
-        font-size: 30px;
-    }
 </style>
 
 
