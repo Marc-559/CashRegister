@@ -2,8 +2,17 @@
 @using CashRegister.DAL
 @using CashRegister.Models
 @using CashRegister_DAL.DataAccessLayer
+@using System.Data
+@using Microsoft.Win32
+@using System.Text
+@using System.IO
+@inject IJSRuntime JS
+
+<script suppress-error="BL9992" src="js/dowloadutil.js"></script>
 
 <div class="body">
+
+    @*Button zum auswählen ob man ein Produkt löschen, hinzufügen oder ob man Ein Beleg Löschen will*@
 
     <MudTabs  Elevation="2" Rounded="true" Centered="true">
         <MudTabPanel OnClick="@(e => ButtonOverlay(1))" Icon="@Icons.Filled.AddCircleOutline" Text="Produkt Hinzufügen" />
@@ -17,6 +26,9 @@
         @switch (containerContent)
         {
             case 1:
+            //Produkt Hinzufügen
+            //Wenn der Erste Button ausgewählt wird Das erste Case ausgewählt
+
                 //Kategorie funct
                 <div class="selectBody">
                     <MudSelect OnOpen="refreshData" @bind-Value="gewaehlteKategorie" Label="Kategorie" Variant="Variant.Filled" AnchorOrigin="Origin.BottomCenter">
@@ -52,32 +64,47 @@
                 break;
 
             case 2:
-            <MudDataGrid Style="width: 100%; margin-top: 10px;" T="Produkt" Items="@Produkte" MultiSelection="true" SelectedItemsChanged="@SelectedItemsChanged" Virtualize="true" Height="600px" QuickFilter="@_quickFilter">
+            //Produkt Löschen
+            //Wenn der Zweite Button ausgewählt wird Das Zweite Case ausgewählt
+            
+                //Datagrid erstellen
+                <MudDataGrid Style="width: 100%; margin-top: 10px;" T="Produkt" Items="@Produkte" MultiSelection="true" SelectedItemsChanged="@SelectedItemsChanged" Virtualize="true" Height="600px" QuickFilter="@_quickFilter">
+                    
+                    @*Im DataGrid Header wird eine Searchbar erstellt mir einer Such Funktion*@
                     <ToolBarContent>
                         <MudText Typo="Typo.h6">Produkte</MudText>
-                        <MudSpacer />
-                       <MudTextField @bind-Value="_searchString" Placeholder="Search" Adornment="Adornment.Start" Immediate="true"
-                              AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                        <MudSpacer/>
+                        @*Textfeld mit Such Funktion*@
+                        <MudTextField @bind-Value="_searchString" Placeholder="Search" Adornment="Adornment.Start" Immediate="true"AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"/>
                     </ToolBarContent>
 
-                    <Columns >
+                    @*Die Einzelnen Spalten von Von Produkt werden erstellt*@
+                    <Columns>
+                        @*Checkbox Spalte*@
                         <SelectColumn Class="color9" T="Produkt" />
+
                         <Column  T="Produkt" Field="@nameof(Produkt.Id)" />
                         <Column  T="Produkt" Field="@nameof(Produkt.Name)" />
                         <Column  T="Produkt" Field="@nameof(Produkt.Preis)" />
                     </Columns>
                 </MudDataGrid>
 
-            <MudFab OnClick="@deleteProdukt" Label="Produkt Löschen" Style="margin-left: 88%; margin-top: 10px;
-                    height: 50px; width:200px;" />
-               
+                @*Wenn der Button geddrückt wird werden alle ausgwählten Produkte gelöscht*@
+                <MudFab OnClick="@deleteProdukt" Label="Produkt Löschen" Style="margin-left: 88%; margin-top: 10px;height: 50px; width:200px;" />
                 break;
 
             case 3:
+            //Beleg Löschen
+            //Wenn der Dritte Button ausgewählt wird der Dritte Case ausgewählt
+                
+                //Datagrid wird erstellt und alle Belege werden reingeladen
                 <MudDataGrid Style="width: 100%; margin-top: 10px;" Items="@belege" Virtualize="true" Height="600px">
+
+                    @*Such Funktion (Siehe Case: 2)*@
                     <ToolBarContent>
                         <MudText Typo="Typo.h6">Belege</MudText>
                         <MudSpacer />
+                        @*In der Toolbar ist noch ein Datepicker wo man ein Zeitraum(von bis) auswählen kann*@
                         <MudDateRangePicker Label="Basic range picker" @bind-DateRange="_dateRange" />
                     </ToolBarContent>
 
@@ -88,15 +115,15 @@
                     </Columns>
                 </MudDataGrid>
 
-                <MudFab OnClick="@deleteBelege" Label="Beleg Löschen" Style="margin-left: 88%; margin-top: 10px;
-                    height: 50px; width:200px;" />
-
+                //Alle Belege in dem ausgwählten zeitraum werden gelöscht
+                <MudFab OnClick="@deleteBelege" Label="Beleg Löschen" Style="margin-left: 88%; margin-top: 10px;height: 50px; width:200px;" />
+            <MudFab OnClick="@DownloadFileFromStream" Label="Beleg Download" Style="margin-left: 20%; margin-top: 10px;height: 50px; width:200px;" />
                 break;
         }
     
 </div>
 
-
+@*MessageBox ob man wirklich die Belege löschen will*@
 <MudMessageBox @ref="Belegbox" Title="Beleg Löschen?" CancelText="Abbrechen">
     <MessageContent>
         Sicher das du <b><i>alle</i></b> belege in dem ausgewählten Zeitraum löschen willst?  
@@ -106,6 +133,7 @@
     </YesButton>
 </MudMessageBox>
 
+@*MessageBox ob man wirklich das Produkt löschen will*@
 <MudMessageBox @ref="Produktbox" Title="Produkt Löschen?" CancelText="Abbrechen">
     <MessageContent>
         Sicher das du das augewählte Produkt Löschen willst?
@@ -128,12 +156,12 @@
 
     List<string> _events = new();
     HashSet<Produkt> selectedProdukt = new HashSet<Produkt>();
-    List<Beleg> belege = context.Einkauf.ToList();
+    List<Beleg> belege = context.Beleg.ToList();
     List<Produkt> Produkte = context.Produkt.ToList();
     List<Kategorie> kategorieen = new List<Kategorie>();
 
-    MudMessageBox? Belegbox { get; set; }
-    MudMessageBox? Produktbox { get; set; }
+    MudMessageBox Belegbox { get; set; }
+    MudMessageBox Produktbox { get; set; }
     bool SelectedOption { get; set; }
     double _produktPreisPlace { get; set; }
     string _produktNamePlace { get; set; }
@@ -141,11 +169,6 @@
     Kategorie gewaehlteKategorie;
     private string _searchString;
     private int containerContent = 1;
-
-
-
-
-
 
 
     //Produkt Erstellen
@@ -162,7 +185,21 @@
         context.SaveChanges();
         refreshData();
     }
+    private async Task DownloadFileFromStream()
+    {
 
+        string csvString = "Id;Name;Preis;\n";
+        foreach (var item in Produkte)
+        {
+            csvString = csvString + item.Id + ";" + item.Name + ";" + item.Preis + "\n";
+        }
+        var fileStream = new MemoryStream(Encoding.ASCII.GetBytes(csvString));
+
+        var filename = "Beleg.csv";
+        using var streamRef = new DotNetStreamReference(stream: fileStream);
+
+        await JS.InvokeVoidAsync("downloadFileFromStream", filename, streamRef);
+    }
 
     //Beleg Löschen
     void deleteBelege()
@@ -178,13 +215,14 @@
     {
         selectedProdukt.Clear();
         kategorieen = context.Kategorie.ToList();
-        belege = context.Einkauf.ToList();
+        belege = context.Beleg.ToList();
         Produkte = context.Produkt.ToList();
     }
 
     //Show Messagebox
     private async void ShowMessagebox(bool istBeleg)
     {
+        //wenn man Beleg löschen will wird die messagbox für den Beleg angezeigt, sonst wird die messagebox für die Produkte angezeigt
         if(istBeleg)
         {
             bool? result = await Belegbox.Show();
@@ -193,9 +231,9 @@
         {
             bool? result = await Produktbox.Show();
         }
-
     }
 
+    //Button Case auswählen
     public void ButtonOverlay(int i)
     {
         containerContent = i;

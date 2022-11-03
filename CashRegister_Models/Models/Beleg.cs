@@ -16,6 +16,7 @@ namespace CashRegister.Models
         public string Gesamtpreis { get; set; }
         public List<EinkaufsPosition> EinkaufsPosition { get; set; }
 
+        //Methode um das kaufdatum nur als Datum anzeigen zu lassen (Funktioniert nicht, Kann in eine andere Klasse versetzt werden)
         public string displayDatum()
         {
             return Kaufdatum.ToShortDateString();

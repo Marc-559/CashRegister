@@ -14,6 +14,7 @@ namespace CashRegister.Models
         public Beleg Beleg { get; set; }
         public Produkt Produkt { get; set; }
 
+        //Holt den Preis von den Produkten (z.b 2 * 2€ = 4€) 
         public double GetPreis()
         {
             return Anzahl * Produkt.Preis;
