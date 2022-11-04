@@ -25,8 +25,27 @@
                         {
                             //Hier werden Die Papers errstellt mit einer bestimten Größe(xs)
                             <MudItem xs="4">
-                                <MudPaper @onclick="() => kategorieclick(kategorie)" Style="@color" Class="d-flex flex-column align-center justify-center mud-width-full py-8">
+                                <MudPaper @onclick="() => kategorieClick(kategorie)" Style=" background-color: #CFDDDB" Class="d-flex flex-column align-center justify-center mud-width-full py-8">
                                     <MudText Typo="Typo.h6">@kategorie</MudText>
+                                </MudPaper>
+                            </MudItem>
+                        }
+                    </MudGrid>
+                </MudItem>
+            </MudGrid>
+            <MudDivider></MudDivider>
+        
+            <MudGrid Style="width: 1120px; margin-top: 20px">
+                <MudItem xs="14">
+                    <MudGrid Justify="justification">
+
+                        @*Für die Anzahl von dem int papers werden jetzt Papers erstellt (z.b papers = 4 Es werden dan 4 Paper erstellt)*@
+                        @foreach (var produkt in getProdukte)
+                        {
+                            //Hier werden Die Papers errstellt mit einer bestimten Größe(xs)
+                            <MudItem xs="4">
+                                <MudPaper @onclick="() => produktClick(produkt)" Style=" background-color: #CFDDDB" Class="d-flex flex-column align-center justify-center mud-width-full py-8">
+                                    <MudText Typo="Typo.h6">@produkt</MudText>
                                 </MudPaper>
                             </MudItem>
                         }
@@ -53,30 +72,25 @@
 
 
 @code {
-    int colorIndex = 0;
-    string mycolor;
-    string text;
+
+
+
     static CashRegisterContextDB context = new CashRegisterContextDB();
-    List<String> colorlist = new List<String> 
-    {   "#CFDDDB", "#E4CDEE", "#C2DBE9", "#C9CAEE", "#FAC2D9", "#E6DADE", "#10c4ea", "#a08af9", "#59f996", "#497E76", "#6C7156", 
-        "#CFDDDB", "#E4CDEE", "#C2DBE9", "#C9CAEE", "#FAC2D9", "#E6DADE", "#10c4ea", "#a08af9", "#59f996", "#497E76", "#6C7156"};
-
-    public string color {
-
-        get {
-            mycolor = colorlist.ElementAt(colorIndex);
-
-            colorIndex++;
-            return "background-color:" + mycolor;
-        }
-        set { }
-    }
 
     static List<Kategorie> kategorien = context.Kategorie.ToList();
+    static List<Produkt> Produkte = context.Produkt.ToList();
 
     public List<String> getKategorien {
         get{
-            return kategorien.Select(cat => cat.KategorieName).ToList();
+            return kategorien.Select(x => x.KategorieName).ToList();
+        }
+        set { }
+    }
+    public List<string> getProdukte
+    {
+        get
+        {
+            return Produkte.Select(x => x.Name).ToList();
         }
         set { }
     }
@@ -92,9 +106,15 @@
         StateHasChanged();
     }
 
-    public void kategorieclick(string kategorie)
+    public void kategorieClick(string kategorie)
     {
-        
+        Produkte = context.Produkt.Where(x => x.Kategorie.KategorieName == kategorie).ToList();
+    }
+    public void produktClick(string produkt)
+    {
+        List<Produkt> selectedProducts = context.Produkt.Where(x => x.Name == produkt).ToList();
+
+
     }
 
 }
