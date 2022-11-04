@@ -114,9 +114,11 @@
         Produkt selectedProducts = (Produkt)context.Produkt.Where(x => x.Name == produkt);
 
         einkaufsPositionData.Create(10, selectedProducts);
-        context.SaveChanges();
 
+
+        context.SaveChanges();
         List<EinkaufsPosition> jd = context.EinkaufsPosition.ToList();
+        
     }
 
 }
