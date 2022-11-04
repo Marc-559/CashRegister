@@ -21,14 +21,12 @@
                     <MudGrid Justify="justification">
 
                         @*Für die Anzahl von dem int papers werden jetzt Papers erstellt (z.b papers = 4 Es werden dan 4 Paper erstellt)*@
-                        @for (int i = 0; i < papers; i++)
+                        @foreach (var kategorie in getKategorien)
                         {
-                            int localindex = i;
-
                             //Hier werden Die Papers errstellt mit einer bestimten Größe(xs)
                             <MudItem xs="4">
-                                <MudPaper onclick="@kategorieclick" Style="@color" Class="d-flex flex-column align-center justify-center mud-width-full py-8">
-                                    <MudText Typo="Typo.h6">@produkttext</MudText>
+                                <MudPaper @onclick="() => kategorieclick(kategorie)" Style="@color" Class="d-flex flex-column align-center justify-center mud-width-full py-8">
+                                    <MudText Typo="Typo.h6">@kategorie</MudText>
                                 </MudPaper>
                             </MudItem>
                         }
@@ -38,7 +36,6 @@
         </td>
 
         <td>
-
             @*Unten rechst vom Bildschirm wird der jetzige Beleg angezeigt*@
             <MudPaper Height="450px" Width="400px" Square="true" Class="rounded" Style="  background-color: #f0f0f0; margin-left: 100px; margin-top: 80%;">
               
@@ -56,8 +53,7 @@
 
 
 @code {
-    int x = 0;
-    int y = 0;
+    int colorIndex = 0;
     string mycolor;
     string text;
     static CashRegisterContextDB context = new CashRegisterContextDB();
@@ -68,9 +64,9 @@
     public string color {
 
         get {
-            mycolor = colorlist.ElementAt(x);
+            mycolor = colorlist.ElementAt(colorIndex);
 
-            x++;
+            colorIndex++;
             return "background-color:" + mycolor;
         }
         set { }
@@ -78,29 +74,15 @@
 
     static List<Kategorie> kategorien = context.Kategorie.ToList();
 
-
-
-    public string produkttext
-    {
-
-        get
-        { 
-
-            List<String> kategorieNamen = kategorien.Select(cat => cat.KategorieName).ToList();
-
-            text = kategorieNamen.ElementAt(y);
-
-
-            y++;
-            return text;
+    public List<String> getKategorien {
+        get{
+            return kategorien.Select(cat => cat.KategorieName).ToList();
         }
         set { }
     }
 
-
     int papers = kategorien.Count; // anzahl der grid items
     Justify justification = Justify.FlexStart; 
-
 
     void UpdateBreaks(int index, int changeamount)
     {
@@ -110,9 +92,9 @@
         StateHasChanged();
     }
 
-    public void kategorieclick()
-    { 
-    
+    public void kategorieclick(string kategorie)
+    {
+        
     }
 
 }
