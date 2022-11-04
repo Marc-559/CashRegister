@@ -20,6 +20,9 @@
                     <Column T="Beleg" Field="@nameof(Beleg.Gesamtpreis)"/>
                 </Columns>
             </MudDataGrid>
+
+            <MudFab StartIcon="@Icons.Filled.Download" Label="Bookmark" class="py-4 px-6 mx-4 rounded-b-xl" Style="margin-right: 400px; margin-bottom:10px;" />
+
         </td>
         <td>
 
@@ -38,7 +41,7 @@
 
 @code {
     static CashRegisterContextDB context = new CashRegisterContextDB();
-
+    public bool AlarmOn { get; set; }
     private string _searchString;
     int produktAnzahl = 15; // anzahl der Produkte
     List<Beleg> einkaeufe = context.Beleg.ToList();
