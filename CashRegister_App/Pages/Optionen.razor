@@ -117,7 +117,7 @@
 
                 //Alle Belege in dem ausgwählten zeitraum werden gelöscht
                 <MudFab OnClick="@deleteBelege" Label="Beleg Löschen" Style="margin-left: 88%; margin-top: 10px;height: 50px; width:200px;" />
-            <MudFab OnClick="@DownloadFileFromStream" Label="Beleg Download" Style="margin-left: 20%; margin-top: 10px;height: 50px; width:200px;" />
+           
                 break;
         }
     
@@ -185,21 +185,7 @@
         context.SaveChanges();
         refreshData();
     }
-    private async Task DownloadFileFromStream()
-    {
-
-        string csvString = "Id;Name;Preis;\n";
-        foreach (var item in Produkte)
-        {
-            csvString = csvString + item.Id + ";" + item.Name + ";" + item.Preis + "\n";
-        }
-        var fileStream = new MemoryStream(Encoding.ASCII.GetBytes(csvString));
-
-        var filename = "Beleg.csv";
-        using var streamRef = new DotNetStreamReference(stream: fileStream);
-
-        await JS.InvokeVoidAsync("downloadFileFromStream", filename, streamRef);
-    }
+   
 
     //Beleg Löschen
     void deleteBelege()

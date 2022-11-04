@@ -25,7 +25,7 @@
                         {
                             //Hier werden Die Papers errstellt mit einer bestimten Größe(xs)
                             <MudItem xs="4">
-                                <MudPaper @onclick="() => kategorieclick(kategorie)" Style="@color" Class="d-flex flex-column align-center justify-center mud-width-full py-8">
+                                <MudPaper @onclick="() => kategorieclick(kategorie)" Style="background-color: #c9caee;" Class="d-flex flex-column align-center justify-center mud-width-full py-8">
                                     <MudText Typo="Typo.h6">@kategorie</MudText>
                                 </MudPaper>
                             </MudItem>
@@ -44,7 +44,7 @@
                     <span class="groseschrif"><pre>Gegeben:    €900.00</pre></span>
                     <span class="groseschrif"><pre>Rückgeld:    €99.00</pre></span>
 
-                <MudFab Label="Kassa Öffnen" Style="width: 250px; margin-top: 50px; margin-left: 85px" />
+                <MudFab Label="Kassa Öffnen" Style="background-color: #c9caee; width: 250px; margin-top: 50px; margin-left: 85px" />
                 </MudPaper>
         </td>
     </tr>
@@ -57,20 +57,9 @@
     string mycolor;
     string text;
     static CashRegisterContextDB context = new CashRegisterContextDB();
-    List<String> colorlist = new List<String> 
-    {   "#CFDDDB", "#E4CDEE", "#C2DBE9", "#C9CAEE", "#FAC2D9", "#E6DADE", "#10c4ea", "#a08af9", "#59f996", "#497E76", "#6C7156", 
-        "#CFDDDB", "#E4CDEE", "#C2DBE9", "#C9CAEE", "#FAC2D9", "#E6DADE", "#10c4ea", "#a08af9", "#59f996", "#497E76", "#6C7156"};
+   
 
-    public string color {
 
-        get {
-            mycolor = colorlist.ElementAt(colorIndex);
-
-            colorIndex++;
-            return "background-color:" + mycolor;
-        }
-        set { }
-    }
 
     static List<Kategorie> kategorien = context.Kategorie.ToList();
 
