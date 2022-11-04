@@ -2,6 +2,7 @@
 @using System.Linq;
 @using CashRegister.Models
 @using CashRegister.DAL
+@using CashRegister_DAL.DataAccessLayer
 
 @*Button zum auswählen ob man die Kategorien von der Sennerei oder von der Gastro sehen will*@
 <div class="body">
@@ -72,14 +73,8 @@
 
 
 @code {
-
-
-
-            colorIndex++;
-            return "background-color:" + mycolor;
-        }
-        set { }
-    }
+    static CashRegisterContextDB context = new CashRegisterContextDB();
+    EinkaufsPositionDAL einkaufsPositionData = new EinkaufsPositionDAL(context);
 
     static List<Kategorie> kategorien = context.Kategorie.ToList();
     static List<Produkt> Produkte = context.Produkt.ToList();
@@ -116,9 +111,9 @@
     }
     public void produktClick(string produkt)
     {
-        List<Produkt> selectedProducts = context.Produkt.Where(x => x.Name == produkt).ToList();
+        Produkt selectedProducts = (Produkt)context.Produkt.Where(x => x.Name == produkt);
 
-
+        einkaufsPositionData.Create(10, selectedProducts);
     }
 
 }
