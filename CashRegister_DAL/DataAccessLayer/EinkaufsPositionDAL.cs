@@ -17,17 +17,15 @@ namespace CashRegister_DAL.DataAccessLayer
         {
             this.context = context;
         }
-        public void Create(int anzahl, Produkt produkt)
+        public void Create(int anzahl, Produkt produkt, List<EinkaufsPosition> einkaufsPositionAktuell)
         {
             EinkaufsPosition einkaufsPosition = new EinkaufsPosition
             {
                 Anzahl = anzahl,
                 Produkt = produkt,
             };
+            einkaufsPositionAktuell.Add(einkaufsPosition);
             context.Add(einkaufsPosition);
-
-
-
         }
     }
 }

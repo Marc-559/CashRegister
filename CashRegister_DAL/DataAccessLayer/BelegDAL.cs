@@ -22,5 +22,25 @@ namespace CashRegister_DAL.DataAccessLayer
             return context.Beleg.ToList();
         }
 
+        double GetGesamtPreis(List<EinkaufsPosition> einkaufsPosition)
+        {
+            double gesamtPreis = 0;
+            foreach (EinkaufsPosition einkaufsPositionsProdukt in einkaufsPosition)
+            {
+                gesamtPreis = gesamtPreis + (einkaufsPositionsProdukt.Anzahl * einkaufsPositionsProdukt.Produkt.Preis);
+            }
+            return gesamtPreis;
+        }
+
+        public void Create(List<EinkaufsPosition> einkaufsposition)
+        {
+            Beleg beleg = new Beleg
+            {
+                Kaufdatum = DateTime.Now,
+                Gesamtpreis = GetGesamtPreis(einkaufsposition),
+                EinkaufsPosition = einkaufsposition,
+            };
+            context.Add(beleg);
+        }
     }
 }

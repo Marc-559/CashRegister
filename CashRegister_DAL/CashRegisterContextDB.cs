@@ -47,7 +47,6 @@ namespace CashRegister.DAL
                 new Produkt { Id = 6, Name = "Modelbutter", Preis = 6.00, Preisart = false, KategorieId = 3 },
                 //Sonstiges
                 new Produkt { Id = 7, Name = "Molke", Preis = 2.00, Preisart = false, KategorieId = 4 },
-                new Produkt { Id = 8, Name = "Alpkäs", Preis = 2.00, Preisart = false, KategorieId = 4 },
 
                 // Gastro Kategorie
                 // Alc.Getränke
