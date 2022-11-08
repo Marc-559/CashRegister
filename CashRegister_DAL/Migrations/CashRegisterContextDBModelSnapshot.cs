@@ -17,7 +17,7 @@ namespace CashRegister_DAL.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.10")
+                .HasAnnotation("ProductVersion", "6.0.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -31,7 +31,6 @@ namespace CashRegister_DAL.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Belegnummer"), 1L, 1);
 
                     b.Property<string>("Gesamtpreis")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Kaufdatum")
@@ -53,10 +52,10 @@ namespace CashRegister_DAL.Migrations
                     b.Property<int>("Anzahl")
                         .HasColumnType("int");
 
-                    b.Property<int>("Belegnummer")
+                    b.Property<int?>("Belegnummer")
                         .HasColumnType("int");
 
-                    b.Property<int>("ProduktId")
+                    b.Property<int?>("ProduktId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -74,7 +73,6 @@ namespace CashRegister_DAL.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("KategorieName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("MandantId")
@@ -140,7 +138,6 @@ namespace CashRegister_DAL.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("MandantName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -172,7 +169,6 @@ namespace CashRegister_DAL.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("Preis")
@@ -370,15 +366,11 @@ namespace CashRegister_DAL.Migrations
                 {
                     b.HasOne("CashRegister.Models.Beleg", "Beleg")
                         .WithMany("EinkaufsPosition")
-                        .HasForeignKey("Belegnummer")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("Belegnummer");
 
                     b.HasOne("CashRegister.Models.Produkt", "Produkt")
                         .WithMany("EinkaufsPositionen")
-                        .HasForeignKey("ProduktId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ProduktId");
 
                     b.Navigation("Beleg");
 
