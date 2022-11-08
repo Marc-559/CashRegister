@@ -2,6 +2,13 @@
 @using CashRegister.DAL
 @using CashRegister.Models
 @using CashRegister_DAL.DataAccessLayer
+@using System.Data
+@using Microsoft.Win32
+@using System.Text
+@using System.IO
+@inject IJSRuntime JS
+
+
 
 <div class="body">
 
@@ -110,6 +117,7 @@
 
                 //Alle Belege in dem ausgwählten zeitraum werden gelöscht
                 <MudFab OnClick="@deleteBelege" Label="Beleg Löschen" Style="margin-left: 88%; margin-top: 10px;height: 50px; width:200px;" />
+           
                 break;
         }
     
@@ -163,7 +171,6 @@
     private int containerContent = 1;
 
 
-
     //Produkt Erstellen
     public void CreateProdukt()
     {
@@ -178,7 +185,7 @@
         context.SaveChanges();
         refreshData();
     }
-
+   
 
     //Beleg Löschen
     void deleteBelege()

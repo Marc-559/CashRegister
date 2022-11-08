@@ -2,115 +2,103 @@
 @using System.Linq;
 @using CashRegister.Models
 @using CashRegister.DAL
+@using CashRegister_DAL.DataAccessLayer
 
 @*Button zum auswählen ob man die Kategorien von der Sennerei oder von der Gastro sehen will*@
 <div class="body">
     <MudTabs Elevation="2" Rounded="true" Centered="true">
-        <MudTabPanel Icon="@Icons.Filled.IncompleteCircle" Text="Sennerei" />
-        <MudTabPanel Icon="@Icons.Filled.FoodBank" Text="Gastro" />
+        <MudTabPanel OnClick="getSennerei" Icon="@Icons.Filled.IncompleteCircle" Text="Sennerei" />
+        <MudTabPanel OnClick="getGastro" Icon="@Icons.Filled.FoodBank" Text="Gastro" />
     </MudTabs>
 </div>
-
 
 <table>
     <tr valign="top">
         <td>
             @*Grid wird erstellt indem alle Papers reingepackt werden*@
             <MudGrid Style="width: 1120px; margin-top: 20px">
-                <MudItem xs="14">
-                    <MudGrid Justify="justification">
-
+                <MudItem xs="14" Style="margin-top: 20px;">
+                    <MudGrid >
                         @*Für die Anzahl von dem int papers werden jetzt Papers erstellt (z.b papers = 4 Es werden dan 4 Paper erstellt)*@
-                        @for (int i = 0; i < papers; i++)
+                        @foreach (var kategorie in getKategorien)
                         {
-                            int localindex = i;
-
                             //Hier werden Die Papers errstellt mit einer bestimten Größe(xs)
-                            <MudItem xs="4">
-                                <MudPaper onclick="@kategorieclick" Style="@color" Class="d-flex flex-column align-center justify-center mud-width-full py-8">
-                                    <MudText Typo="Typo.h6">@produkttext</MudText>
+                            <MudItem xs="14" Style="width: 243.8px; height: 96px; margin-top: 20px; margin-left: 20px;">
+                                <MudPaper @onclick="() => kategorieClick(kategorie)" Style=" background-color:#c9caee; width: 243.8px; height: 96px;" Class="d-flex flex-column align-center justify-center mud-width-full py-8">
+                                    <MudText Typo="Typo.h6">@kategorie</MudText>
                                 </MudPaper>
                             </MudItem>
                         }
                     </MudGrid>
                 </MudItem>
             </MudGrid>
+            <MudDivider Style="margin-left: 20px; margin-top: 65px; width: 1035px; background-color: black;"></MudDivider>
+            @if (isLoaded)
+            {
+                <MudGrid Style="width: 1120px;">
+                    <MudItem xs="14" Style="margin-top: 20px;">
+                        <MudGrid>
+
+                            @*Für die Anzahl von dem int papers werden jetzt Papers erstellt (z.b papers = 4 Es werden dan 4 Paper erstellt)*@
+                            @foreach (var produkt in Produkte)
+                            {
+                                //Hier werden Die Papers errstellt mit einer bestimten Größe(xs)
+                                <MudItem xs="14" Style="width: 243.8px; height: 96px; margin-top: 20px; margin-left: 20px;">
+                                    <MudButton @onclick="() => produktClick(produkt)" Style=" background-color: #c9caee; width: 243.8px; height: 96px;" Class="d-flex flex-column align-center justify-center mud-width-full py-8">
+                                        <MudText Typo="Typo.h6">@produkt.Name</MudText>
+                                    </MudButton>
+                                </MudItem>
+                            }
+                        </MudGrid>
+                    </MudItem>
+                </MudGrid>
+            }
+           
         </td>
 
         <td>
-
             @*Unten rechst vom Bildschirm wird der jetzige Beleg angezeigt*@
             <MudPaper Height="450px" Width="400px" Square="true" Class="rounded" Style="  background-color: #f0f0f0; margin-left: 100px; margin-top: 80%;">
               
-                    <span class="groseschrif"><pre> Total:      €801.00</pre></span>
+                    <span class="groseschrif"><pre>Total:      €801.00</pre></span>
                     <MudDivider Style="margin-top: 20px;"/>
-                    <span class="groseschrif"><pre> Gegeben:    €900.00</pre></span>
-                    <span class="groseschrif"><pre> Rückgeld:   €99.00</pre></span>
+                    <span class="groseschrif"><pre>Gegeben:    €900.00</pre></span>
+                    <span class="groseschrif"><pre>Rückgeld:    €99.00</pre></span>
 
-                   
-                <MudFab Label="Kassa Öffnen" Style="width: 150px; margin-top: 50px; margin-left: 125px" />
+                <MudFab Label="Kassa Öffnen" OnClick="createBeleg" Style="background-color: #c9caee; width: 250px; margin-top: 50px; margin-left: 85px" />
                 </MudPaper>
         </td>
     </tr>
 </table>
 
-
-<style>
-    .buttonWidth {
-        width: 320px;
-        color: #ffff;
-    }
-
-</style>
-
-
-
 @code {
-    int x = 0;
-    int y = 0;
-    string mycolor;
-    string text;
     static CashRegisterContextDB context = new CashRegisterContextDB();
-    List<String> colorlist = new List<String> 
-    {   "#CFDDDB", "#E4CDEE", "#C2DBE9", "#C9CAEE", "#FAC2D9", "#E6DADE", "#10c4ea", "#a08af9", "#59f996", "#497E76", "#6C7156", 
-        "#CFDDDB", "#E4CDEE", "#C2DBE9", "#C9CAEE", "#FAC2D9", "#E6DADE", "#10c4ea", "#a08af9", "#59f996", "#497E76", "#6C7156"};
+    EinkaufsPositionDAL einkaufsPositionData = new EinkaufsPositionDAL(context);
+    BelegDAL belegData = new BelegDAL(context);
 
-    public string color {
-
-        get {
-            mycolor = colorlist.ElementAt(x);
-
-            x++;
-            return "background-color:" + mycolor;
-        }
-        set { }
-    }
-
+    List<EinkaufsPosition> einkaufsposition = new List<EinkaufsPosition>();
     static List<Kategorie> kategorien = context.Kategorie.ToList();
+    static List<Produkt> Produkte = context.Produkt.ToList();
 
+    bool isLoaded = false;
 
-
-    public string produkttext
-    {
-
-        get
-        { 
-
-            List<String> kategorieNamen = kategorien.Select(cat => cat.KategorieName).ToList();
-
-            text = kategorieNamen.ElementAt(y);
-
-
-            y++;
-            return text;
+    public List<String> getKategorien {
+        get{
+            return kategorien.Select(x => x.KategorieName).ToList();
         }
         set { }
     }
-
 
     int papers = kategorien.Count; // anzahl der grid items
     Justify justification = Justify.FlexStart; 
 
+    void createBeleg()
+    {
+
+        belegData.Create(einkaufsposition);
+        context.SaveChanges();
+        einkaufsposition.Clear();
+    }
 
     void UpdateBreaks(int index, int changeamount)
     {
@@ -120,9 +108,29 @@
         StateHasChanged();
     }
 
-    public void kategorieclick()
-    { 
-    
+    public void kategorieClick(string kategorie)
+    {
+        isLoaded = true;
+        Produkte = context.Produkt.Where(x => x.Kategorie.KategorieName == kategorie).ToList();
     }
 
+    public void produktClick(Produkt produkt)
+    {
+        einkaufsPositionData.Create(10, produkt,einkaufsposition);
+        context.SaveChanges();
+    }
+
+    public void getGastro()
+    {
+        isLoaded = false;
+        kategorien = context.Kategorie.Where(x => x.MandantId == 1).ToList();
+    }
+
+    public void getSennerei()
+    {
+        isLoaded = false;
+        kategorien = context.Kategorie.Where(x => x.MandantId == 2).ToList();
+    }
+
+ 
 }

@@ -30,8 +30,8 @@ namespace CashRegister_DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Belegnummer"), 1L, 1);
 
-                    b.Property<string>("Gesamtpreis")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<double>("Gesamtpreis")
+                        .HasColumnType("float");
 
                     b.Property<DateTime>("Kaufdatum")
                         .HasColumnType("datetime2");
@@ -237,14 +237,6 @@ namespace CashRegister_DAL.Migrations
                             Id = 7,
                             KategorieId = 4,
                             Name = "Molke",
-                            Preis = 2.0,
-                            Preisart = false
-                        },
-                        new
-                        {
-                            Id = 8,
-                            KategorieId = 4,
-                            Name = "Alpkäs",
                             Preis = 2.0,
                             Preisart = false
                         },
