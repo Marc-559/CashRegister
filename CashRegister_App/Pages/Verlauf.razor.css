@@ -1,7 +1,10 @@
 ﻿.body {
-    width: 700px;
-    background-color: #1b1b1b;
+    margin-top: 20px;
+    margin-left: 25px;
+    width: 480px;
+    color: black;
 }
+
 .labelclass {
     color: black;
     display: block;

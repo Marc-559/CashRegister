@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,7 @@ namespace CashRegister.Models
 
         public int Id { get; set; }
         public int Anzahl { get; set; }
+        [Required]
         public Beleg Beleg { get; set; }
         public Produkt Produkt { get; set; }
 

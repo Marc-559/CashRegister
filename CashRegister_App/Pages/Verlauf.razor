@@ -3,6 +3,7 @@
 @using CashRegister.Models
 @using CashRegister_DAL.DataAccessLayer
 @using System.Data
+@using CashRegister_Models.Models
 @using Microsoft.Win32
 @using System.Text
 @using System.IO
@@ -10,22 +11,32 @@
 
 <script suppress-error="BL9992" src="js/dowloadutil.js"></script>
 
+<div class="body">
+    <MudTabs Elevation="2" Rounded="true" Centered="true">
+        <MudTabPanel OnClick="@(e => ChooseTableItems(2))" Icon="@Icons.Filled.IncompleteCircle" Text="Sennerei" />
+        <MudTabPanel OnClick="@(e => ChooseTableItems(1))" Icon="@Icons.Filled.FoodBank" Text="Gastro" />
+        <MudTabPanel OnClick="@(e => ChooseTableItems(3))" Icon="@Icons.Filled.FoodBank" Text="Alle Belege" />
+    </MudTabs>
+</div>
+    
+
 <table>
     <tr valign="top">
         <td>
             @*Datagrid wird erstellt*@
-            <MudDataGrid Style="width: 1100px;" Items="@einkaeufe" QuickFilter="@_quickFilter">
+            <MudDataGrid Style="width: 1100px;" T="ModelVerlauf" Items="@verlaufList" >
                 <ToolBarContent>
                     <MudText Typo="Typo.h6">Belege</MudText>
                     <MudSpacer />
-                    <MudTextField @bind-Value="_searchString" Placeholder="Search"  Adornment="Adornment.Start" Immediate="true"AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                    @*In der Toolbar ist noch ein Datepicker wo man ein Zeitraum(von bis) auswählen kann*@
+                    <MudDateRangePicker Label="Basic range picker" @bind-DateRange="_dateRange" />
                 </ToolBarContent>
                 
                 @*Spalten werden erstellt*@
                 <Columns >
-                    <Column T="Beleg" Field="@nameof(Beleg.Belegnummer)"/>
-                    <Column T="Beleg" Field="@nameof(Beleg.Kaufdatum)"/>
-                    <Column T="Beleg" Field="@nameof(Beleg.Gesamtpreis)"/>
+                    <Column T="ModelVerlauf" Field="@nameof(ModelVerlauf.ProduktName)" />
+                    <Column T="ModelVerlauf" Field="@nameof(ModelVerlauf.Gesamtpreis)" />
+                    <Column T="ModelVerlauf" Field="@nameof(ModelVerlauf.Anzahl)" />
                 </Columns>
             </MudDataGrid>
 
@@ -47,11 +58,45 @@
 
 @code {
     static CashRegisterContextDB context = new CashRegisterContextDB();
+    VerlaufDAL verlaufData = new VerlaufDAL(context);
+    List<ModelVerlauf> verlaufList = new List<ModelVerlauf>();
+    private DateRange _dateRange = new DateRange(DateTime.Now.Date, DateTime.Now.AddDays(5).Date);
+    List<Beleg> einkaeufe = context.Beleg.ToList();
+    List<Produkt> Produkte = context.Produkt.ToList();
+
     public bool AlarmOn { get; set; }
     private string _searchString;
     int produktAnzahl = 15; // anzahl der Produkte
-    List<Beleg> einkaeufe = context.Beleg.ToList();
-    List<Produkt> Produkte = context.Produkt.ToList();
+    private int containerContent = 1;
+    string ProduktName;
+    int ProduktAnzahl;
+    double ProduktPreis;
+
+
+
+
+
+
+    void ChooseTableItems(int containerContent)
+    {
+         @switch (containerContent)
+        {
+            case 1:
+                verlaufList.Clear();
+                verlaufList = CreateVerlaufList(containerContent);
+                break;
+
+            case 2:
+                verlaufList.Clear();
+                verlaufList = CreateVerlaufList(containerContent);
+                break;
+
+            case 3:
+                verlaufList.Clear();
+                verlaufList = CreateVerlaufList(containerContent);
+                break;
+        }
+    }
 
     string SetHeight()
     {
@@ -72,22 +117,39 @@
         return Ergebniss;
     }
 
-    private Func<Beleg, bool> _quickFilter => x =>
+    public List<ModelVerlauf> CreateVerlaufList(int containerContent)
     {
-       if (string.IsNullOrWhiteSpace(_searchString))
-           return true;
-
-       if ($"{x.Belegnummer} {x.Kaufdatum} {x.Gesamtpreis}".Contains(_searchString))
-           return true;
-           return false;
-    };
+        if (containerContent == 1 || containerContent == 2)
+        {
+            return verlaufData.Create(verlaufData.GetProduktCountMandant(containerContent, _dateRange.Start, _dateRange.End), verlaufList);
+        }
+        return verlaufData.Create(verlaufData.GetProduktCountAll(_dateRange.Start, _dateRange.End), verlaufList);
+    }
 
     private async Task DownloadFileFromStream()
     {
-        string csvString = "Id;Name;Preis;\n";
-        foreach (var item in Produkte)
+        @switch (containerContent)
         {
-            csvString = csvString + item.Id + ";" + item.Name + ";" + item.Preis + "\n";
+            case 1:
+                FileDownload();
+                break;
+
+            case 2:
+                FileDownload();
+                break;
+
+            case 3:
+                FileDownload();
+                break;
+        }
+
+    }
+    private async Task FileDownload()
+    {
+        string csvString = "Produkt Name;Gesampreis;Anzahl der Produkte;\n";
+        foreach (var item in verlaufList)
+        {
+            csvString = csvString + item.ProduktName + ";" + item.Gesamtpreis + ";" + item.Anzahl + "\n";
         }
         var fileStream = new MemoryStream(Encoding.ASCII.GetBytes(csvString));
 
