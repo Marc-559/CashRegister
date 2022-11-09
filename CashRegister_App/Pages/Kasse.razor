@@ -122,9 +122,6 @@
     }
     public void produktClick(Produkt produkt)
     {
-        produktus = produkt.Name;
-        test = Anzahl.ToString();
-
         if (einkaufsPosition.Exists(x => x.Produkt.Id == produkt.Id))
         {
             einkaufsPosition.Find(x => x.Produkt.Id == produkt.Id).Anzahl++;
