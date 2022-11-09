@@ -24,7 +24,7 @@
     <tr valign="top">
         <td>
             @*Datagrid wird erstellt*@
-            <MudDataGrid Style="width: 1100px;" T="ModelVerlauf" Items="@verlaufList" >
+            <MudDataGrid  Style="width: 1100px;" T="ModelVerlauf" Items="@verlaufList" >
                 <ToolBarContent>
                     <MudText Typo="Typo.h6">Belege</MudText>
                     <MudSpacer />
@@ -77,7 +77,7 @@
 
 
 
-    void ChooseTableItems(int containerContent)
+    string ChooseTableItems(int containerContent)
     {
          @switch (containerContent)
         {
@@ -96,6 +96,7 @@
                 verlaufList = CreateVerlaufList(containerContent);
                 break;
         }
+        return "";
     }
 
     string SetHeight()

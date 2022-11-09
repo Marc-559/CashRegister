@@ -38,7 +38,6 @@ namespace CashRegister_DAL.DataAccessLayer
             {
                 Kaufdatum = DateTime.Now,
                 Gesamtpreis = GetGesamtPreis(einkaufsposition),
-                EinkaufsPosition = einkaufsposition
             };
             beleg.EinkaufsPosition.AddRange(einkaufsposition);
             context.Add(beleg);
