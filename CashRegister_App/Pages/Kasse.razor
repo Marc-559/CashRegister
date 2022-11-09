@@ -80,7 +80,9 @@
     static List<Kategorie> kategorien = context.Kategorie.ToList();
     static List<Produkt> Produkte = context.Produkt.ToList();
 
+    int Anzahl = 0;
     bool isLoaded = false;
+    int papers = kategorien.Count; // anzahl der grid items
 
     public List<String> getKategorien {
         get{
@@ -89,8 +91,7 @@
         set { }
     }
 
-    int papers = kategorien.Count; // anzahl der grid items
-    Justify justification = Justify.FlexStart; 
+
 
     void createBeleg()
     {
@@ -116,8 +117,24 @@
 
     public void produktClick(Produkt produkt)
     {
-        einkaufsPositionData.Create(10, produkt,einkaufsposition);
-        context.SaveChanges();
+        if (einkaufsPositionData.CheckIfAdded(produkt, einkaufsposition))
+        {
+            Anzahl++;
+        }
+        else
+        {
+            Anzahl = 1;
+            EinkaufsPosition einkaufsPosition = new EinkaufsPosition
+                {
+                    Anzahl = Anzahl,
+                    Produkt = produkt,
+                };
+            einkaufsposition.Add(einkaufsPosition);
+
+            //  context.SaveChanges();
+            
+        }
+
     }
 
     public void getGastro()

@@ -27,5 +27,16 @@ namespace CashRegister_DAL.DataAccessLayer
             einkaufsPositionAktuell.Add(einkaufsPosition);
             context.Add(einkaufsPosition);
         }
+        public bool CheckIfAdded (Produkt newProdukt, List<EinkaufsPosition> OldProdukte)
+        {
+            foreach (var produkt in OldProdukte)
+            {
+                if (newProdukt.Id == produkt.Id)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }

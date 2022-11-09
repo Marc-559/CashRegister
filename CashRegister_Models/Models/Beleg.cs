@@ -14,7 +14,7 @@ namespace CashRegister.Models
         public int Belegnummer { get; set; }
         public DateTime Kaufdatum { get; set; }
         public double Gesamtpreis { get; set; }
-        public List<EinkaufsPosition> EinkaufsPosition { get; set; }
+        public List<EinkaufsPosition> EinkaufsPosition { get; set; } = new List<EinkaufsPosition>();
 
         //Methode um das kaufdatum nur als Datum anzeigen zu lassen (Funktioniert nicht, Kann in eine andere Klasse versetzt werden)
         public string displayDatum()

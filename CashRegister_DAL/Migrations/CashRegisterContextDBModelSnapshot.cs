@@ -52,7 +52,7 @@ namespace CashRegister_DAL.Migrations
                     b.Property<int>("Anzahl")
                         .HasColumnType("int");
 
-                    b.Property<int?>("Belegnummer")
+                    b.Property<int>("Belegnummer")
                         .HasColumnType("int");
 
                     b.Property<int?>("ProduktId")
@@ -358,7 +358,9 @@ namespace CashRegister_DAL.Migrations
                 {
                     b.HasOne("CashRegister.Models.Beleg", "Beleg")
                         .WithMany("EinkaufsPosition")
-                        .HasForeignKey("Belegnummer");
+                        .HasForeignKey("Belegnummer")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("CashRegister.Models.Produkt", "Produkt")
                         .WithMany("EinkaufsPositionen")
