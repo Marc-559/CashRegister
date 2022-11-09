@@ -109,7 +109,7 @@
                     </ToolBarContent>
 
                     <Columns>
-                        <Column T="Beleg" Field="@nameof(Beleg.Belegnummer)" />
+                        <Column T="Beleg" Field="@nameof(Beleg.Belegnummer)"/>
                         <Column T="Beleg" Field="@nameof(Beleg.Kaufdatum)" />
                         <Column T="Beleg" Field="@nameof(Beleg.Gesamtpreis)" />
                     </Columns>
@@ -242,7 +242,6 @@
 
     void SelectedItemsChanged(HashSet<Produkt> items)
     {
-        
         selectedProdukt = items;
     }
 

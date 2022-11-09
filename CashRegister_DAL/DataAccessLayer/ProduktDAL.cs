@@ -32,6 +32,8 @@ namespace CashRegister_DAL.DataAccessLayer
 
             context.Add(produkt);
 
+            
+
         }
     }
 }
