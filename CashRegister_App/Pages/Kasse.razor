@@ -32,6 +32,7 @@
                     </MudGrid>
                 </MudItem>
             </MudGrid>
+
             <MudDivider Style="margin-left: 20px; margin-top: 65px; width: 1035px; background-color: black;"></MudDivider>
             @if (isLoaded)
             {
@@ -40,7 +41,7 @@
                         <MudGrid>
 
                             @*Für die Anzahl von dem int papers werden jetzt Papers erstellt (z.b papers = 4 Es werden dan 4 Paper erstellt)*@
-                            @foreach (var produkt in Produkte)
+                            @foreach (var produkt in produkte)
                             {
                                 //Hier werden Die Papers errstellt mit einer bestimten Größe(xs)
                                 <MudItem xs="14" Style="width: 243.8px; height: 96px; margin-top: 20px; margin-left: 20px;">
@@ -53,33 +54,41 @@
                     </MudItem>
                 </MudGrid>
             }
-           
         </td>
 
         <td>
-            @*Unten rechst vom Bildschirm wird der jetzige Beleg angezeigt*@
-            <MudPaper Height="450px" Width="400px" Square="true" Class="rounded" Style="  background-color: #f0f0f0; margin-left: 100px; margin-top: 80%;">
-              
-                    <span class="groseschrif"><pre>Total:      €801.00</pre></span>
-                    <MudDivider Style="margin-top: 20px;"/>
-                    <span class="groseschrif"><pre>Gegeben:    €900.00</pre></span>
-                    <span class="groseschrif"><pre>Rückgeld:    €99.00</pre></span>
+            <MudDataGrid T="EinkaufsPosition" Style=" width: 500px; height: 700px; margin-top: 10px;" Items="@einkaufsPosition" Virtualize="true">
+                    <Columns>
+                    <Column T="EinkaufsPosition" Title="Menge" Field="Anzahl" />
+                    <Column T="EinkaufsPosition" Title="Bezeichung" Field="ProduktName" />
+                    <Column T="EinkaufsPosition" Title="CHF" Field="ZwischenPreis" />
+                </Columns>
+                </MudDataGrid>
 
-                <MudFab Label="Kassa Öffnen" OnClick="createBeleg" Style="background-color: #c9caee; width: 250px; margin-top: 50px; margin-left: 85px" />
-                </MudPaper>
+            <MudTextField @bind-Value="@Gesamtpreis" ReadOnly="true" Label="Gesamtpreis" Variant="Variant.Outlined"></MudTextField>
+
+                <MudFab Label="Kassa Öffnen" OnClick="createBeleg" Style="background-color: #c9caee; width: 250px; margin-top: 20px; margin-left: 85px" />
+
+            
+
         </td>
     </tr>
 </table>
 
 @code {
     static CashRegisterContextDB context = new CashRegisterContextDB();
-    EinkaufsPositionDAL einkaufsPositionData = new EinkaufsPositionDAL(context);
-    BelegDAL belegData = new BelegDAL(context);
+    EinkaufsPosition EP = new EinkaufsPosition();
+    EinkaufsPositionDAL einkaufsPositionDAL = new EinkaufsPositionDAL(context);
+    BelegDAL belegDAL = new BelegDAL(context);
+    List<EinkaufsPosition> einkaufsPosition = new List<EinkaufsPosition>();
 
-    List<EinkaufsPosition> einkaufsposition = new List<EinkaufsPosition>();
     static List<Kategorie> kategorien = context.Kategorie.ToList();
-    static List<Produkt> Produkte = context.Produkt.ToList();
+    static List<Produkt> produkte = context.Produkt.ToList();
+    string produktus;
+    //   Einka EinkaufusPositionusMaximusConradusDeytonus;
 
+    double Gesamtpreis = 0;
+    int Anzahl = 0;
     bool isLoaded = false;
 
     public List<String> getKategorien {
@@ -89,15 +98,13 @@
         set { }
     }
 
-    int papers = kategorien.Count; // anzahl der grid items
-    Justify justification = Justify.FlexStart; 
+
 
     void createBeleg()
     {
-
-        belegData.Create(einkaufsposition);
+        belegDAL.Create(einkaufsPosition);
         context.SaveChanges();
-        einkaufsposition.Clear();
+        einkaufsPosition.Clear();
     }
 
     void UpdateBreaks(int index, int changeamount)
@@ -111,13 +118,20 @@
     public void kategorieClick(string kategorie)
     {
         isLoaded = true;
-        Produkte = context.Produkt.Where(x => x.Kategorie.KategorieName == kategorie).ToList();
+        produkte = context.Produkt.Where(x => x.Kategorie.KategorieName == kategorie).ToList();
     }
-
     public void produktClick(Produkt produkt)
     {
-        einkaufsPositionData.Create(10, produkt,einkaufsposition);
-        context.SaveChanges();
+        if (einkaufsPosition.Exists(x => x.Produkt.Id == produkt.Id))
+        {
+            einkaufsPosition.Find(x => x.Produkt.Id == produkt.Id).Anzahl++;
+        }
+        else
+        {
+            einkaufsPositionDAL.Create(Anzahl = 1, produkt, einkaufsPosition);
+            context.SaveChanges();
+        }
+        Gesamtpreis = belegDAL.GetGesamtPreis(einkaufsPosition);
     }
 
     public void getGastro()
@@ -131,6 +145,4 @@
         isLoaded = false;
         kategorien = context.Kategorie.Where(x => x.MandantId == 2).ToList();
     }
-
- 
 }

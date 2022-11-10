@@ -29,7 +29,10 @@ namespace CashRegister_DAL.DataAccessLayer
                 Kategorie = kategorie
 
             };
+
             context.Add(produkt);
+
+            
 
         }
     }
