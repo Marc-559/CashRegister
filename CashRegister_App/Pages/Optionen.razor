@@ -90,7 +90,7 @@
                 </MudDataGrid>
 
                 @*Wenn der Button geddrückt wird werden alle ausgwählten Produkte gelöscht*@
-                <MudFab OnClick="@deleteProdukt" Label="Produkt Löschen" Style="margin-left: 88%; margin-top: 10px;height: 50px; width:200px;" />
+            <MudFab OnClick="@(e => ShowMessagebox(false))" Label="Produkt Löschen" Style="margin-left: 88%; margin-top: 10px;height: 50px; width:200px;" />
                 break;
 
             case 3:
@@ -109,14 +109,14 @@
                     </ToolBarContent>
 
                     <Columns>
-                        <Column T="Beleg" Field="@nameof(Beleg.Belegnummer)" />
+                        <Column T="Beleg" Field="@nameof(Beleg.Belegnummer)"/>
                         <Column T="Beleg" Field="@nameof(Beleg.Kaufdatum)" />
                         <Column T="Beleg" Field="@nameof(Beleg.Gesamtpreis)" />
                     </Columns>
                 </MudDataGrid>
 
                 //Alle Belege in dem ausgwählten zeitraum werden gelöscht
-                <MudFab OnClick="@deleteBelege" Label="Beleg Löschen" Style="margin-left: 88%; margin-top: 10px;height: 50px; width:200px;" />
+            <MudFab OnClick="@(e => ShowMessagebox(true))" Label="Beleg Löschen" Style="margin-left: 88%; margin-top: 10px;height: 50px; width:200px;" />
            
                 break;
         }
@@ -136,7 +136,7 @@
 @*MessageBox ob man wirklich das Produkt löschen will*@
 <MudMessageBox @ref="Produktbox" Title="Produkt Löschen?" CancelText="Abbrechen">
     <MessageContent>
-        Sicher das du das augewählte Produkt Löschen willst?
+        Sicher das du das augewählte Produkt Löschen willst, dadurch werden auch <b><i>alle Belege mit diesem Produkt darin gelöscht</i></b>?
     </MessageContent>
     <YesButton>
         <MudButton OnClick="deleteProdukt" Variant="Variant.Filled" Color="Color.Error" StartIcon="@Icons.Material.Filled.DeleteForever">Löschen!</MudButton>
@@ -181,6 +181,22 @@
     //Produkt Löschen
     void deleteProdukt()
     {
+        List<EinkaufsPosition> einlist = new List<EinkaufsPosition>();
+        List<Beleg> belegs = new List<Beleg>();
+
+        //BRainlag vielleicht gehts besser
+        foreach (Produkt produkt in selectedProdukt)
+        {
+            einlist = context.EinkaufsPosition.Where(x => x.Produkt == produkt).ToList();
+
+        }
+        foreach (EinkaufsPosition einkauf in einlist)
+        {
+             belegs = context.Beleg.Where(x => x.Belegnummer == einkauf.Beleg.Belegnummer).ToList();
+
+        }
+        
+        
         context.RemoveRange(selectedProdukt);
         context.SaveChanges();
         refreshData();
@@ -242,7 +258,6 @@
 
     void SelectedItemsChanged(HashSet<Produkt> items)
     {
-        
         selectedProdukt = items;
     }
 
