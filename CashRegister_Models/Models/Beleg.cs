@@ -9,7 +9,7 @@ namespace CashRegister.Models
         public int Belegnummer { get; set; }
         public DateTime Kaufdatum { get; set; }
 
-        [Column(TypeName = "decimal(4,2)")]
+        [Column(TypeName = "decimal(6,2)")]
         public decimal Gesamtpreis { get; set; }
         public List<EinkaufsPosition> EinkaufsPosition { get; set; } = new List<EinkaufsPosition>();
 

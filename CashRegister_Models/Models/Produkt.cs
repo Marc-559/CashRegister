@@ -9,7 +9,7 @@ namespace CashRegister.Models
         public int Id { get; set; }
         public string Name { get; set; }
 
-        [Column(TypeName = "decimal(3,2)")]
+        [Column(TypeName = "decimal(6,2)")]
         public decimal Preis { get; set; }
         public bool Preisart { get; set; }
         public List<EinkaufsPosition> EinkaufsPositionen { get; set; }
