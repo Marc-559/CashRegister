@@ -181,27 +181,18 @@
     //Produkt Löschen
     void deleteProdukt()
     {
-        List<EinkaufsPosition> einlist = new List<EinkaufsPosition>();
-        List<Beleg> belegs = new List<Beleg>();
+        List<Beleg> belegList = new List<Beleg>();
 
-        //BRainlag vielleicht gehts besser
+        //Löscht alle belege wo die Einkaufspositionen der Ausgewählten Produkte übereinstimmt
         foreach (Produkt produkt in selectedProdukt)
         {
-            einlist = context.EinkaufsPosition.Where(x => x.Produkt == produkt).ToList();
-
+            belegList = context.Beleg.Where(x => x.EinkaufsPosition == produkt.EinkaufsPositionen).ToList();
         }
-        foreach (EinkaufsPosition einkauf in einlist)
-        {
-             belegs = context.Beleg.Where(x => x.Belegnummer == einkauf.Beleg.Belegnummer).ToList();
-
-        }
-        
-        
+        context.RemoveRange(belegList);
         context.RemoveRange(selectedProdukt);
         context.SaveChanges();
         refreshData();
     }
-   
 
     //Beleg Löschen
     void deleteBelege()
@@ -210,7 +201,6 @@
         context.SaveChanges();
         refreshData();
     }
-
 
     //Refresh Database Data
     private void refreshData()
