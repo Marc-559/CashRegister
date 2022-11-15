@@ -6,9 +6,9 @@ namespace CashRegister_App.Data
     public class ProduktService
     {
         static CashRegisterContextDB context = new CashRegisterContextDB();
-     
 
-        public void Create(string Name, double Preis, bool Preisart, Kategorie kategorie )
+
+        public void Create(string Name, decimal Preis, bool Preisart, Kategorie kategorie)
         {
             Produkt produkt = new Produkt
             {
@@ -18,7 +18,7 @@ namespace CashRegister_App.Data
                 Kategorie = kategorie
             };
             context.Add(produkt);
-            
+
         }
     }
 }

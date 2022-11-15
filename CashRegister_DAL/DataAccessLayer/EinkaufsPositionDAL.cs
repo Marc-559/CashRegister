@@ -38,11 +38,11 @@ namespace CashRegister_DAL.DataAccessLayer
 
             foreach (EinkaufsPosition einkaufspositionsitem in einkaufsPositionAktuell)
             {
-                 einkaufsposition = (EinkaufsPosition)context.EinkaufsPosition.Where(x => x.Id == einkaufspositionsitem.Id);
+                einkaufsposition = (EinkaufsPosition)context.EinkaufsPosition.Where(x => x.Id == einkaufspositionsitem.Id);
             }
             einkaufsposition.Anzahl = anzahl;
             context.SaveChanges();
         }
-       
+
     }
 }

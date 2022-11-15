@@ -22,9 +22,9 @@ namespace CashRegister_DAL.DataAccessLayer
             return context.Beleg.ToList();
         }
 
-        public double GetGesamtPreis(List<EinkaufsPosition> einkaufsPosition)
+        public decimal GetGesamtPreis(List<EinkaufsPosition> einkaufsPosition)
         {
-            double gesamtPreis = 0;
+            decimal gesamtPreis = 0;
             foreach (EinkaufsPosition einkaufsPositionsProdukt in einkaufsPosition)
             {
                 gesamtPreis = gesamtPreis + (einkaufsPositionsProdukt.Anzahl * einkaufsPositionsProdukt.Produkt.Preis);

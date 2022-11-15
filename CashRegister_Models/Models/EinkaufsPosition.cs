@@ -1,28 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CashRegister.Models
 {
-    
+
 
     public class EinkaufsPosition
     {
-        
+
 
         public int Id { get; set; }
         public int Anzahl { get; set; }
+
         [Required]
         public Beleg Beleg { get; set; }
         public Produkt Produkt { get; set; }
 
-        public double CalcGesamtPreis(List<EinkaufsPosition> einkaufsPositionList)
+
+        public decimal CalcGesamtPreis(List<EinkaufsPosition> einkaufsPositionList)
         {
-            double gesamtPreis = 0;
+
+            decimal gesamtPreis = 0;
             foreach (EinkaufsPosition einkaufsPositionsProdukt in einkaufsPositionList)
             {
                 gesamtPreis = gesamtPreis + (einkaufsPositionsProdukt.Anzahl * einkaufsPositionsProdukt.Produkt.Preis);
@@ -30,9 +28,9 @@ namespace CashRegister.Models
             return gesamtPreis;
         }
 
-        
 
-        public double ZwischenPreis
+
+        public decimal ZwischenPreis
         {
             get { return (Anzahl * Produkt.Preis); }
         }
