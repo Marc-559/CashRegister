@@ -1,9 +1,4 @@
-﻿using CashRegister.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CashRegister_Models.Models
 {
@@ -11,6 +6,8 @@ namespace CashRegister_Models.Models
     {
         public string ProduktName { get; set; } // Produkt Name
         public int Anzahl { get; set; } // Anzahl der Produkte die insgesamt gekauft wurden
-        public double Gesamtpreis { get; set; } // Alle EInkaufspositionen Preise zusammen
+
+        [Column(TypeName = "decimal(3,2)")]
+        public decimal Gesamtpreis { get; set; } // Alle EInkaufspositionen Preise zusammen
     }
 }

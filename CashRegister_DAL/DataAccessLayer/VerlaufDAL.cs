@@ -2,13 +2,7 @@
 using CashRegister.Models;
 using CashRegister_Models.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace CashRegister_DAL.DataAccessLayer
 {
@@ -23,7 +17,7 @@ namespace CashRegister_DAL.DataAccessLayer
 
         public List<ModelVerlauf> Create(List<ProductCount> produktcount, List<ModelVerlauf> verlaufList)
         {
-            foreach (ProductCount produkt in produktcount) 
+            foreach (ProductCount produkt in produktcount)
             {
                 ModelVerlauf verlauf = new ModelVerlauf
                 {
@@ -31,7 +25,7 @@ namespace CashRegister_DAL.DataAccessLayer
                     Anzahl = produkt.Anzahl,
                     Gesamtpreis = (produkt.Anzahl * produkt.product.Preis),
                 };
-                verlaufList.Add(verlauf);    
+                verlaufList.Add(verlauf);
             }
             return verlaufList;
         }
@@ -46,12 +40,12 @@ namespace CashRegister_DAL.DataAccessLayer
                 .AsEnumerable()
                 .GroupBy(x => x.Produkt)
                 .Where(x => x.Key.Kategorie.MandantId == mandantID)
-                .Select(g => new ProductCount{ product = g.Key, Anzahl = g.Sum(s => s.Anzahl)})
+                .Select(g => new ProductCount { product = g.Key, Anzahl = g.Sum(s => s.Anzahl) })
                 .ToList();
 
             return productcount;
         }
-        public List<ProductCount> GetProduktCountAll( DateTime? start, DateTime? end)
+        public List<ProductCount> GetProduktCountAll(DateTime? start, DateTime? end)
         {
             //Rückgabe: Gibt die Anzahl der jeweiligen Produkte zurück
             List<ProductCount> productcount = context.EinkaufsPosition
