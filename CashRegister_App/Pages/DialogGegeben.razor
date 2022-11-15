@@ -3,7 +3,7 @@
 <MudDialog>
     <DialogContent>
         <label>GesamtPreis: @Gesamtpreis</label>
-        <MudTextField @bind-Value="@Gegeben"  T="double" ></MudTextField>
+        <MudTextField @bind-Value="@Gegeben"  T="decimal" ></MudTextField>
     </DialogContent>
     <DialogActions>
         <MudButton Color="Color.Primary" OnClick="OpenSecondDialog">Ok</MudButton>
@@ -12,8 +12,8 @@
 @code {
 
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
-    [Parameter] public double Gesamtpreis { get; set; }
-    [Parameter] public double Gegeben { get; set; }
+    [Parameter] public decimal Gesamtpreis { get; set; }
+    [Parameter] public decimal Gegeben { get; set; }
 
     
     async Task OpenSecondDialog()

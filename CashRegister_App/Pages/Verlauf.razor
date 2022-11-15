@@ -65,16 +65,8 @@
     List<Produkt> Produkte = context.Produkt.ToList();
 
     public bool AlarmOn { get; set; }
-    private string _searchString;
     int produktAnzahl = 15; // anzahl der Produkte
     private int containerContent = 1;
-    string ProduktName;
-    int ProduktAnzahl;
-    decimal ProduktPreis;
-
-
-
-
 
 
     string ChooseTableItems(int containerContent)
@@ -132,15 +124,15 @@
         @switch (containerContent)
         {
             case 1:
-                FileDownload();
+                await FileDownload();
                 break;
 
             case 2:
-                FileDownload();
+                await FileDownload();
                 break;
 
             case 3:
-                FileDownload();
+                await FileDownload();
                 break;
         }
 

@@ -98,13 +98,10 @@
 
     decimal Gesamtpreis = 0;
     string gegebenesGeld;
-    double Gesamtpreis = 0;
-    int Anzahl = 0;
     bool isLoaded = false;
 
     void createBeleg()
     {
-
         OpenDialog();
         belegDAL.Create(einkaufsPosition);
         printService.PrintBeleg(einkaufsPosition);
@@ -140,7 +137,7 @@
         }
         else
         {
-            einkaufsPositionDAL.Create(Anzahl = 1, produkt, einkaufsPosition);
+            einkaufsPositionDAL.Create(1, produkt, einkaufsPosition);
 
         }
         Gesamtpreis = belegDAL.GetGesamtPreis(einkaufsPosition);
