@@ -17,7 +17,7 @@ namespace CashRegister_DAL.DataAccessLayer
         }
 
         //Erstelt ein neues Produkt mit den übergebenen Werten
-        public void Create(string Name, double Preis, bool Preisart, Kategorie kategorie)
+        public void Create(string Name, decimal Preis, bool Preisart, Kategorie kategorie)
         {
             Produkt produkt = new Produkt
             {
@@ -32,7 +32,7 @@ namespace CashRegister_DAL.DataAccessLayer
 
             context.Add(produkt);
 
-            
+
 
         }
     }
