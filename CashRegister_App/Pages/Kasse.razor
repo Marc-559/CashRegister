@@ -8,6 +8,8 @@
 @using System.Net
 @using System.Text
 
+@inject IDialogService DialogService
+
 @*Button zum auswählen ob man die Kategorien von der Sennerei oder von der Gastro sehen will*@
 <div class="body">
     <MudTabs Elevation="2" Rounded="true" Centered="true" >
@@ -91,23 +93,23 @@
 
     static List<Kategorie> kategorien = context.Kategorie.Where(x => x.MandantId == 2).ToList();
     static List<Produkt> produkte = context.Produkt.ToList();
-    string produktus;
+
     //   Einka EinkaufusPositionusMaximusConradusDeytonus;
 
+    string gegebenesGeld;
     double Gesamtpreis = 0;
     int Anzahl = 0;
     bool isLoaded = false;
 
-
-
-
     void createBeleg()
     {
+
+        OpenDialog();
         belegDAL.Create(einkaufsPosition);
         printService.PrintBeleg(einkaufsPosition);
         context.SaveChanges();
         einkaufsPosition.Clear();
-        
+        Gesamtpreis = 0;
     }
     public class DirectPrintingScript
     {
@@ -115,8 +117,6 @@
         public int PrintMethodID { get; set; }
         public bool IsNeedPrint { get; set; }
     }
-
-  
 
     void UpdateBreaks(int index, int changeamount)
     {
@@ -140,7 +140,7 @@
         else
         {
             einkaufsPositionDAL.Create(Anzahl = 1, produkt, einkaufsPosition);
-          
+
         }
         Gesamtpreis = belegDAL.GetGesamtPreis(einkaufsPosition);
     }
@@ -155,5 +155,16 @@
     {
         isLoaded = false;
         kategorien = context.Kategorie.Where(x => x.MandantId == 2).ToList();
+    }
+
+    async Task OpenDialog()
+    {
+        var parameters = new DialogParameters { ["Gesamtpreis"] = belegDAL.GetGesamtPreis(einkaufsPosition), ["Gegeben"] = belegDAL.GetGesamtPreis(einkaufsPosition) };
+
+        var dialog = DialogService.Show<DialogGegeben>("Geld Erhalten", parameters);
+
+        var result = await dialog.Result;
+
+        gegebenesGeld = result.Data.ToString();
     }
 }

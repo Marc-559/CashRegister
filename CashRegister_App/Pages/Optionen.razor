@@ -98,7 +98,7 @@
             //Wenn der Dritte Button ausgewählt wird der Dritte Case ausgewählt
                 
                 //Datagrid wird erstellt und alle Belege werden reingeladen
-                <MudDataGrid Style="width: 100%; margin-top: 10px;" Items="@belege" Virtualize="true" Height="600px">
+                <MudDataGrid Style="width: 100%; margin-top: 10px;" Items="@GetBelegeByDate()" Virtualize="true" Height="600px">
 
                     @*Such Funktion (Siehe Case: 2)*@
                     <ToolBarContent>
@@ -136,17 +136,24 @@
 @*MessageBox ob man wirklich das Produkt löschen will*@
 <MudMessageBox @ref="Produktbox" Title="Produkt Löschen?" CancelText="Abbrechen">
     <MessageContent>
-        Sicher das du das augewählte Produkt Löschen willst, dadurch werden auch <b><i>alle Belege mit diesem Produkt darin gelöscht</i></b>?
+        Sicher das du das augewählte Produkt Löschen willst?
     </MessageContent>
     <YesButton>
         <MudButton OnClick="deleteProdukt" Variant="Variant.Filled" Color="Color.Error" StartIcon="@Icons.Material.Filled.DeleteForever">Löschen!</MudButton>
     </YesButton>
 </MudMessageBox>
 
+@*MessageBox ob man wirklich das Produkt löschen will*@
+<MudMessageBox @ref="ProduktboxError" Title="Produkt Löschen?" CancelText="Abbrechen">
+    <MessageContent>
+        Um die ausgewählten Produkte zu löschen musst du erst Allee Belege löschen?
+    </MessageContent>
+</MudMessageBox>
+
 
 
 @code {
-    [Inject] private IDialogService DialogService { get; set; }
+        [Inject] private IDialogService DialogService { get; set; }
     private DateRange _dateRange = new DateRange(DateTime.Now.Date, DateTime.Now.AddDays(5).Date);
     static CashRegisterContextDB context = new CashRegisterContextDB();
 
@@ -156,12 +163,18 @@
 
     List<string> _events = new();
     HashSet<Produkt> selectedProdukt = new HashSet<Produkt>();
-    List<Beleg> belege = context.Beleg.ToList();
+
+    public List<Beleg> GetBelegeByDate()
+    {
+        return context.Beleg.Where(x => x.Kaufdatum >= _dateRange.Start && x.Kaufdatum <= _dateRange.End).ToList();
+    }
+
     List<Produkt> Produkte = context.Produkt.ToList();
     List<Kategorie> kategorieen = new List<Kategorie>();
 
     MudMessageBox Belegbox { get; set; }
     MudMessageBox Produktbox { get; set; }
+    MudMessageBox ProduktboxError { get; set; }
     bool SelectedOption { get; set; }
     double _produktPreisPlace { get; set; }
     string _produktNamePlace { get; set; }
@@ -178,16 +191,23 @@
         context.SaveChanges();
     }
 
+
+
     //Produkt Löschen
     void deleteProdukt()
     {
         List<Beleg> belegList = new List<Beleg>();
+        List<EinkaufsPosition> einkaufList = new List<EinkaufsPosition>();
 
         //Löscht alle belege wo die Einkaufspositionen der Ausgewählten Produkte übereinstimmt
         foreach (Produkt produkt in selectedProdukt)
         {
-            belegList = context.Beleg.Where(x => x.EinkaufsPosition == produkt.EinkaufsPositionen).ToList();
+            foreach (EinkaufsPosition item in produkt.EinkaufsPositionen)
+            {
+                context.Remove(item.Beleg);
+            }
         }
+
         context.RemoveRange(belegList);
         context.RemoveRange(selectedProdukt);
         context.SaveChanges();
@@ -197,7 +217,7 @@
     //Beleg Löschen
     void deleteBelege()
     {
-        context.RemoveRange(belege.Where(x => x.Kaufdatum >= _dateRange.Start && x.Kaufdatum <= _dateRange.End));
+        context.RemoveRange(GetBelegeByDate());
         context.SaveChanges();
         refreshData();
     }
@@ -207,7 +227,6 @@
     {
         selectedProdukt.Clear();
         kategorieen = context.Kategorie.ToList();
-        belege = context.Beleg.ToList();
         Produkte = context.Produkt.ToList();
     }
 
@@ -221,8 +240,26 @@
         }
         else
         {
-            bool? result = await Produktbox.Show();
+          //  if (selectedProdukt.All<Produkt>(produkt => { return produkt.EinkaufsPositionen.Count == 0;  }))
+                if (darfIchLoeschen())
+                {
+                bool? result = await Produktbox.Show();
+            }
+    else
+            {
+                bool? result = await ProduktboxError.Show();
+            }
+
         }
+    }
+
+    public Boolean darfIchLoeschen() {
+        foreach(Produkt produkt in selectedProdukt) {
+            if (produkt.EinkaufsPositionen.Count() > 0) {
+                return false;
+            }
+        }
+        return true;
     }
 
     //Button Case auswählen

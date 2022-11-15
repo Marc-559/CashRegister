@@ -42,5 +42,7 @@ namespace CashRegister_DAL.DataAccessLayer
             beleg.EinkaufsPosition.AddRange(einkaufsposition);
             context.Add(beleg);
         }
+
+        
     }
 }
