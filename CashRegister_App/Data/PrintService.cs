@@ -2,10 +2,6 @@
 using CashRegister.Models;
 using CashRegister_DAL.DataAccessLayer;
 using ESC_POS_USB_NET.Printer;
-using Microsoft.IdentityModel.Protocols.OpenIdConnect;
-using System.Diagnostics;
-using System.Diagnostics.Metrics;
-using System.Drawing;
 
 namespace CashRegister_App.Data
 {
@@ -18,10 +14,10 @@ namespace CashRegister_App.Data
             this.context = context;
             belegData = new BelegDAL(context);
         }
-        
+
         public void PrintBeleg(List<EinkaufsPosition> einkaufsPositionList)
         {
-            
+
 
             Printer printer = new Printer("POS-58");
             printer.Append("Martins Käslada");
@@ -38,10 +34,10 @@ namespace CashRegister_App.Data
 
                 printer.Append(einkaufsPosition.Produkt.Name + space + (einkaufsPosition.Produkt.Preis * einkaufsPosition.Anzahl) + "  CHF");
             }
-            
+
             printer.Append("--------------------------------");
 
-            string spaceSum = spacing(25,6, belegData.GetGesamtPreis(einkaufsPositionList).ToString().Length);
+            string spaceSum = spacing(25, 6, belegData.GetGesamtPreis(einkaufsPositionList).ToString().Length);
 
             printer.Append("Summe:" + spaceSum + belegData.GetGesamtPreis(einkaufsPositionList) + "  CHF");
             printer.Append("--------------------------------");
@@ -51,7 +47,7 @@ namespace CashRegister_App.Data
             printer.Append(" ");
             printer.PrintDocument();
         }
-        private string spacing(int spaceCount,int PoductLenght, int priceLenght)
+        private string spacing(int spaceCount, int PoductLenght, int priceLenght)
         {
             string space = "";
 
