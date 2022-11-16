@@ -1,8 +1,6 @@
 ﻿using CashRegister.DAL;
-using CashRegister.Models;
 using CashRegister_Models.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 
 namespace CashRegister_DAL.DataAccessLayer
 {

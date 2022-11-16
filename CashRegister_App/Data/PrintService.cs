@@ -2,10 +2,6 @@
 using CashRegister.Models;
 using CashRegister_DAL.DataAccessLayer;
 using ESC_POS_USB_NET.Printer;
-using Microsoft.IdentityModel.Protocols.OpenIdConnect;
-using System.Diagnostics;
-using System.Diagnostics.Metrics;
-using System.Drawing;
 
 namespace CashRegister_App.Data
 {
@@ -37,7 +33,7 @@ namespace CashRegister_App.Data
 
                 printer.Append(einkaufsPosition.Produkt.Name + space + (einkaufsPosition.Produkt.Preis * einkaufsPosition.Anzahl) + "  CHF");
             }
-            
+
             printer.Append("--------------------------------");
 
             string spaceSum = spacing(25,6, belegData.GetGesamtPreis(einkaufsPositionList).ToString().Length);
@@ -54,7 +50,7 @@ namespace CashRegister_App.Data
             printer.Append(" ");
             printer.PrintDocument();
         }
-        private string spacing(int spaceCount,int PoductLenght, int priceLenght)
+        private string spacing(int spaceCount, int PoductLenght, int priceLenght)
         {
             string space = "";
 
