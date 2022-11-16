@@ -89,42 +89,32 @@
 @code {
 
     static CashRegisterContextDB context = new CashRegisterContextDB();
-    EinkaufsPosition EP = new EinkaufsPosition();
     EinkaufsPositionDAL einkaufsPositionDAL = new EinkaufsPositionDAL(context);
     BelegDAL belegDAL = new BelegDAL(context);
     List<EinkaufsPosition> einkaufsPosition = new List<EinkaufsPosition>();
     PrintService printService = new PrintService(context);
-
-
     static List<Kategorie> kategorien = context.Kategorie.Where(x => x.MandantId == 2).ToList();
     static List<Produkt> produkte = context.Produkt.ToList();
 
     decimal Gesamtpreis = 0;
-    
     bool isLoaded = false;
 
     async void createBeleg()
     {
-        string gegebenesGeld = await OpenDialog();
+        string gegebenesGeld = await OpenDialog();                  //warten auf Rückgeld vom Dialog
+        belegDAL.Create(einkaufsPosition);                          //Beleg wird erstellt
+        printService.PrintBeleg(einkaufsPosition, gegebenesGeld);   //Beleg wird gedruckt
 
-        belegDAL.Create(einkaufsPosition);
-        printService.PrintBeleg(einkaufsPosition, gegebenesGeld);
         context.SaveChanges();
         einkaufsPosition.Clear();
         Gesamtpreis = 0;
     }
-    public class DirectPrintingScript
-    {
-        public string Value { get; set; }
-        public int PrintMethodID { get; set; }
-        public bool IsNeedPrint { get; set; }
-    }
 
+    //Was das für Methode?
     void UpdateBreaks(int index, int changeamount)
     {
         int newbreaks = 2; 
         newbreaks += changeamount;
-
         StateHasChanged();
     }
 
@@ -133,6 +123,7 @@
         isLoaded = true;
         produkte = context.Produkt.Where(x => x.Kategorie == kategorie).ToList();
     }
+
     public void produktClick(Produkt produkt)
     {
         if (einkaufsPosition.Exists(x => x.Produkt.Id == produkt.Id))
@@ -142,32 +133,32 @@
         else
         {
             einkaufsPositionDAL.Create(1, produkt, einkaufsPosition);
-
         }
+
         Gesamtpreis = belegDAL.GetGesamtPreis(einkaufsPosition);
     }
 
     public void getGastro()
     {
-        isLoaded = false;
         kategorien = context.Kategorie.Where(x => x.MandantId == 1).ToList();
     }
 
     public void getSennerei()
     {
-        isLoaded = false;
         kategorien = context.Kategorie.Where(x => x.MandantId == 2).ToList();
     }
 
     async  Task<string> OpenDialog()
     {
-        var parameters = new DialogParameters { ["Gesamtpreis"] = belegDAL.GetGesamtPreis(einkaufsPosition), ["Gegeben"] = belegDAL.GetGesamtPreis(einkaufsPosition) };
-
+        //Parameter für Dialog werden erstellt
+        var parameters = new DialogParameters {["Gesamtpreis"] = belegDAL.GetGesamtPreis(einkaufsPosition), ["Gegeben"] = belegDAL.GetGesamtPreis(einkaufsPosition)};
+        
+        //Dialog wid erstellt
         var dialog = DialogService.Show<DialogGegeben>("Geld Erhalten", parameters);
-
+        
+        //auf ergebniss warten
         var result = await dialog.Result;
-
+        
         return result.Data.ToString();
-       
     }
 }

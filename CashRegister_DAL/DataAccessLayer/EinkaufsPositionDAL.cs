@@ -13,6 +13,7 @@ namespace CashRegister_DAL.DataAccessLayer
         }
 
 
+        //Einkaufsposition wird erstellt
         public void Create(int anzahl, Produkt produkt, List<EinkaufsPosition> einkaufsPositionAktuell)
         {
             EinkaufsPosition einkaufsPosition = new EinkaufsPosition
@@ -25,7 +26,7 @@ namespace CashRegister_DAL.DataAccessLayer
         }
 
 
-
+        //Einkaufsposition wird geändert oder aktualisiert
         public void Update(int anzahl, List<EinkaufsPosition> einkaufsPositionAktuell)
         {
             EinkaufsPosition einkaufsposition = new EinkaufsPosition();

@@ -5,7 +5,6 @@ namespace CashRegister.Models
 {
     public class Kategorie
     {
-
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
@@ -13,6 +12,5 @@ namespace CashRegister.Models
         public List<Produkt> Produkte { get; set; }
         public int MandantId { get; set; }
         public Mandant Mandant { get; set; }
-
     }
 }

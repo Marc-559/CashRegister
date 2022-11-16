@@ -13,6 +13,7 @@ namespace CashRegister_DAL.DataAccessLayer
             this.context = context;
         }
 
+        //ModelVerlauf wird erstellt
         public List<ModelVerlauf> Create(List<ProductCount> produktcount, List<ModelVerlauf> verlaufList)
         {
             foreach (ProductCount produkt in produktcount)
@@ -28,6 +29,7 @@ namespace CashRegister_DAL.DataAccessLayer
             return verlaufList;
         }
 
+        //Holt alle Produkte mit dem übergebenen Mandant (Sennerei oder Gastro)
         public List<ProductCount> GetProduktCountMandant(int mandantID, DateTime? start, DateTime? end)
         {
             //Rückgabe: Gibt die Anzahl der jeweiligen Produkte zurück
@@ -43,6 +45,8 @@ namespace CashRegister_DAL.DataAccessLayer
 
             return productcount;
         }
+
+        //Holt alle Produkte
         public List<ProductCount> GetProduktCountAll(DateTime? start, DateTime? end)
         {
             //Rückgabe: Gibt die Anzahl der jeweiligen Produkte zurück

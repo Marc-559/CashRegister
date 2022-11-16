@@ -75,7 +75,5 @@ namespace CashRegister.DAL
         public DbSet<EinkaufsPosition> EinkaufsPosition { get; set; }
         public DbSet<Kategorie> Kategorie { get; set; }
         public DbSet<Mandant> Mandant { get; set; }
-
-
     }
 }

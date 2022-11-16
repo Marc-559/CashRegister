@@ -12,12 +12,5 @@ namespace CashRegister.Models
         [Column(TypeName = "decimal(6,2)")]
         public decimal Gesamtpreis { get; set; }
         public List<EinkaufsPosition> EinkaufsPosition { get; set; } = new List<EinkaufsPosition>();
-
-        //Methode um das kaufdatum nur als Datum anzeigen zu lassen (Funktioniert nicht, Kann in eine andere Klasse versetzt werden)
-        public string displayDatum()
-        {
-            return Kaufdatum.ToShortDateString();
-        }
-
     }
 }

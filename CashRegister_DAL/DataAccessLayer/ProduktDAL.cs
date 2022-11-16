@@ -16,19 +16,13 @@ namespace CashRegister_DAL.DataAccessLayer
         {
             Produkt produkt = new Produkt
             {
-
                 Name = Name,
                 Preis = Preis,
                 Preisart = Preisart,
                 KategorieId = kategorie.Id,
                 Kategorie = kategorie
-
             };
-
             context.Add(produkt);
-
-
-
         }
     }
 }

@@ -11,12 +11,8 @@ namespace CashRegister_DAL.DataAccessLayer
             this.context = context;
         }
 
-        //Holt alle Belege aus der Dtaenbank und gibt sie zurück
-        public List<Beleg> GetBelege()
-        {
-            return context.Beleg.ToList();
-        }
 
+        //Gibt den Gesamtpreis zurück (Alle zwischen ergebnisse zusammengerechnet)
         public decimal GetGesamtPreis(List<EinkaufsPosition> einkaufsPosition)
         {
             decimal gesamtPreis = 0;
@@ -27,6 +23,7 @@ namespace CashRegister_DAL.DataAccessLayer
             return gesamtPreis;
         }
 
+        //Beleg wird erstellt
         public void Create(List<EinkaufsPosition> einkaufsposition)
         {
             Beleg beleg = new Beleg
