@@ -153,36 +153,28 @@
 
 
 @code {
-        [Inject] private IDialogService DialogService { get; set; }
     private DateRange _dateRange = new DateRange(DateTime.Now.Date, DateTime.Now.AddDays(5).Date);
     static CashRegisterContextDB context = new CashRegisterContextDB();
-
-    BelegDAL belegData = new BelegDAL(context);
     ProduktDAL produktData = new ProduktDAL(context);
-    KategorieDAL kategorieData = new KategorieDAL(context);
-
-    List<string> _events = new();
     HashSet<Produkt> selectedProdukt = new HashSet<Produkt>();
+    List<Produkt> Produkte = context.Produkt.ToList();
+    List<Kategorie> kategorieen = new List<Kategorie>();
+    Kategorie gewaehlteKategorie;
+
+    MudMessageBox Belegbox { get; set; }
+    MudMessageBox Produktbox { get; set; }
+    MudMessageBox ProduktboxError { get; set; }
 
     public List<Beleg> GetBelegeByDate()
     {
         return context.Beleg.Where(x => x.Kaufdatum >= _dateRange.Start && x.Kaufdatum <= _dateRange.End).ToList();
     }
 
-    List<Produkt> Produkte = context.Produkt.ToList();
-    List<Kategorie> kategorieen = new List<Kategorie>();
-
-    MudMessageBox Belegbox { get; set; }
-    MudMessageBox Produktbox { get; set; }
-    MudMessageBox ProduktboxError { get; set; }
     bool SelectedOption { get; set; }
     decimal _produktPreisPlace { get; set; }
     string _produktNamePlace { get; set; }
-
-    Kategorie gewaehlteKategorie;
     private string _searchString;
     private int containerContent = 1;
-
 
     //Produkt Erstellen
     public void CreateProdukt()
@@ -190,8 +182,6 @@
         produktData.Create(_produktNamePlace, _produktPreisPlace, SelectedOption, gewaehlteKategorie);
         context.SaveChanges();
     }
-
-
 
     //Produkt Löschen
     void deleteProdukt()
@@ -207,7 +197,6 @@
                 context.Remove(item.Beleg);
             }
         }
-
         context.RemoveRange(belegList);
         context.RemoveRange(selectedProdukt);
         context.SaveChanges();
@@ -240,16 +229,15 @@
         }
         else
         {
-          //  if (selectedProdukt.All<Produkt>(produkt => { return produkt.EinkaufsPositionen.Count == 0;  }))
-                if (darfIchLoeschen())
-                {
+            //If (selectedProdukt.All<Produkt>(produkt => { return produkt.EinkaufsPositionen.Count == 0;  }))
+            if (darfIchLoeschen())
+            {
                 bool? result = await Produktbox.Show();
             }
-    else
+            else
             {
                 bool? result = await ProduktboxError.Show();
             }
-
         }
     }
 
@@ -270,23 +258,21 @@
 
     //Searchbar Funktion für Produkte
     private Func<Produkt, bool> _quickFilter => x =>
-       {
-           if (string.IsNullOrWhiteSpace(_searchString))
-               return true;
+    {
+        if (string.IsNullOrWhiteSpace(_searchString))
+            return true;
 
-           if (x.Name.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
-               return true;
+        if (x.Name.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
 
-           if ($"{x.Id}".Contains(_searchString))
-               return true;
+        if ($"{x.Id}".Contains(_searchString))
+            return true;
 
-           return false;
-       };
+        return false;
+    };
 
     void SelectedItemsChanged(HashSet<Produkt> items)
     {
         selectedProdukt = items;
     }
-
-
 }

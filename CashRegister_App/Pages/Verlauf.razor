@@ -50,11 +50,7 @@
     VerlaufDAL verlaufData = new VerlaufDAL(context);
     List<ModelVerlauf> verlaufList = new List<ModelVerlauf>();
     private DateRange _dateRange = new DateRange(DateTime.Now.Date, DateTime.Now.AddDays(5).Date);
-    List<Beleg> einkaeufe = context.Beleg.ToList();
-    List<Produkt> Produkte = context.Produkt.ToList();
 
-    public bool AlarmOn { get; set; }
-    int produktAnzahl = 15; // anzahl der Produkte
     private int containerContent = 1;
 
 
@@ -120,8 +116,9 @@
                 await FileDownload();
                 break;
         }
-
     }
+
+    //Excel Download
     private async Task FileDownload()
     {
         string csvString = "Produkt Name;Gesampreis;Anzahl der Produkte;\n";
@@ -130,10 +127,8 @@
             csvString = csvString + item.ProduktName + ";" + item.Gesamtpreis + ";" + item.Anzahl + "\n";
         }
         var fileStream = new MemoryStream(Encoding.ASCII.GetBytes(csvString));
-
         var filename = "Beleg.csv";
         using var streamRef = new DotNetStreamReference(stream: fileStream);
-
         await JS.InvokeVoidAsync("downloadFileFromStream", filename, streamRef);
     }
 }

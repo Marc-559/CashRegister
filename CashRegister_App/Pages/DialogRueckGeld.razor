@@ -3,7 +3,6 @@
        Rueckgeld: @Rueckgeld
     </DialogContent>
     <DialogActions>
-        
         <MudButton Color="Color.Primary" OnClick="CancelAll">Schließen</MudButton>
     </DialogActions>
 </MudDialog>
@@ -11,7 +10,6 @@
 @code {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
     [Parameter] public decimal Rueckgeld { get; set; }
-    
     
     private void CancelAll()
     {

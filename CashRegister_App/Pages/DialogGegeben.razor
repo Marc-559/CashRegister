@@ -15,14 +15,12 @@
     [Parameter] public decimal Gesamtpreis { get; set; }
     [Parameter] public decimal Gegeben { get; set; }
 
-    
     async Task OpenSecondDialog()
     {
         var parameters = new DialogParameters { ["Rueckgeld"] = (Gegeben - Gesamtpreis) };
 
         MudDialog.Close(DialogResult.Ok(Gegeben));
 
-        DialogService.Show<DialogRueckGeld>("Rückgeld", parameters);
-                
+        DialogService.Show<DialogRueckGeld>("Rückgeld", parameters);           
     }
 }
