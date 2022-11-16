@@ -61,20 +61,25 @@
                 </MudGrid>
             }
         </td>
-
+        
         <td>
-            <MudDataGrid T="EinkaufsPosition" Style=" width: 500px; height: 700px; margin-top: 10px;" Items="@einkaufsPosition" Virtualize="true">
+            <p>
+                <MudDataGrid T="EinkaufsPosition" Style=" width: 500px; height: 700px; border: solid 0.5pt; border-color: gray; margin-bottom: 10px;" Items="@einkaufsPosition" Virtualize="true">
                     <Columns>
-                    <Column T="EinkaufsPosition" Title="Menge" Field="Anzahl" />
-                    <Column T="EinkaufsPosition" Title="Bezeichung" Field="ProduktName" />
-                    <Column T="EinkaufsPosition" Title="CHF" Field="ZwischenPreis" />
-                </Columns>
+                        <Column T="EinkaufsPosition" Title="Menge" Field="Anzahl" />
+                        <Column T="EinkaufsPosition" Title="Bezeichung" Field="ProduktName" />
+                        <Column T="EinkaufsPosition" Title="CHF" Field="ZwischenPreis" />
+                    </Columns>
                 </MudDataGrid>
+            </p>
 
-            <MudTextField @bind-Value="@Gesamtpreis" ReadOnly="true" Label="Gesamtpreis" Variant="Variant.Outlined"></MudTextField>
 
+            <p>
+                <MudTextField @bind-Value="@Gesamtpreis" ReadOnly="true" Label="Gesamtpreis" Variant="Variant.Outlined" style="margin-top: 10px;"></MudTextField>
                 <MudFab Label="Kassa Öffnen" OnClick="createBeleg" Style="background-color: #c9caee; width: 250px; margin-top: 20px; margin-left: 85px" />
-
+            </p>
+            
+           
             
 
         </td>
