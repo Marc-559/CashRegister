@@ -94,17 +94,16 @@
     static List<Kategorie> kategorien = context.Kategorie.Where(x => x.MandantId == 2).ToList();
     static List<Produkt> produkte = context.Produkt.ToList();
 
-    //   Einka EinkaufusPositionusMaximusConradusDeytonus;
-
     decimal Gesamtpreis = 0;
-    string gegebenesGeld;
+    
     bool isLoaded = false;
 
-    void createBeleg()
+    async void createBeleg()
     {
-        OpenDialog();
+        string gegebenesGeld = await OpenDialog();
+
         belegDAL.Create(einkaufsPosition);
-        printService.PrintBeleg(einkaufsPosition);
+        printService.PrintBeleg(einkaufsPosition, gegebenesGeld);
         context.SaveChanges();
         einkaufsPosition.Clear();
         Gesamtpreis = 0;
@@ -155,7 +154,7 @@
         kategorien = context.Kategorie.Where(x => x.MandantId == 2).ToList();
     }
 
-    async Task OpenDialog()
+    async  Task<string> OpenDialog()
     {
         var parameters = new DialogParameters { ["Gesamtpreis"] = belegDAL.GetGesamtPreis(einkaufsPosition), ["Gegeben"] = belegDAL.GetGesamtPreis(einkaufsPosition) };
 
@@ -163,6 +162,7 @@
 
         var result = await dialog.Result;
 
-        gegebenesGeld = result.Data.ToString();
+        return result.Data.ToString();
+       
     }
 }

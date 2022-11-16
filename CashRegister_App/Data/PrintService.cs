@@ -19,9 +19,8 @@ namespace CashRegister_App.Data
             belegData = new BelegDAL(context);
         }
         
-        public void PrintBeleg(List<EinkaufsPosition> einkaufsPositionList)
+        public void PrintBeleg(List<EinkaufsPosition> einkaufsPositionList, string Gegebenesgeld)
         {
-            
 
             Printer printer = new Printer("POS-58");
             printer.Append("Martins Käslada");
@@ -42,9 +41,13 @@ namespace CashRegister_App.Data
             printer.Append("--------------------------------");
 
             string spaceSum = spacing(25,6, belegData.GetGesamtPreis(einkaufsPositionList).ToString().Length);
+            string spaceGegeben = spacing(25, 16, Convert.ToDecimal(Gegebenesgeld).ToString("F2").Length);
+            string spaceRueckgeld = spacing(25, 9, (Convert.ToDecimal(Gegebenesgeld) - belegData.GetGesamtPreis(einkaufsPositionList)).ToString().Length);
 
             printer.Append("Summe:" + spaceSum + belegData.GetGesamtPreis(einkaufsPositionList) + "  CHF");
             printer.Append("--------------------------------");
+            printer.Append("Gegebenses Geld:" + spaceGegeben + Convert.ToDecimal(Gegebenesgeld).ToString("F2") + "  CHF");
+            printer.Append("Rückgeld:" + spaceRueckgeld + (Convert.ToDecimal(Gegebenesgeld) - belegData.GetGesamtPreis(einkaufsPositionList)) + "  CHF");
             printer.Append(" ");
             printer.Append(" ");
             printer.Append(" ");
