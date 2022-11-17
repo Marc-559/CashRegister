@@ -97,7 +97,7 @@
     static List<Produkt> produkte = context.Produkt.ToList();
     MudMessageBox Belegbox { get; set; }
 
-    decimal Gesamtpreis = 0;
+    double Gesamtpreis = 0;
     bool isLoaded = false;
 	
 	[CascadingParameter] MudDialogInstance MudDialog { get; set; }
@@ -165,8 +165,6 @@
         Gesamtpreis = belegDAL.GetGesamtPreis(einkaufsPositionen);
         //double GesamtPreisRound = Gesamtpreis;
         //Math.Round(GesamtPreisRound, 2);
-
-        einkaufsPositionDAL.Create(1, produkt, einkaufsPositionen);
     }
 
     public void getGastro()
