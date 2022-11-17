@@ -116,11 +116,11 @@
     async void createBeleg()
     {
         string gegebenesGeld = await OpenDialog();                  //warten auf Rückgeld vom Dialog
-        belegDAL.Create(einkaufsPosition);                          //Beleg wird erstellt
-        printService.PrintBeleg(einkaufsPosition, gegebenesGeld);   //Beleg wird gedruckt
+        belegDAL.Create(einkaufsPositionen);                          //Beleg wird erstellt
+        printService.PrintBeleg(einkaufsPositionen, gegebenesGeld);   //Beleg wird gedruckt
 
         context.SaveChanges();
-        einkaufsPosition.Clear();
+        einkaufsPositionen.Clear();
         Gesamtpreis = 0;
     }
 
@@ -145,7 +145,7 @@
         EinkaufsPosition einkaufsPosition = einkaufsPositionen.Find(x => x.Produkt.Id == produkt.Id);
         if (einkaufsPosition == null)
         {
-            einkaufsPositionDAL.Create(Anzahl = 0, produkt, einkaufsPositionen);
+            einkaufsPositionDAL.Create(0, produkt, einkaufsPositionen);
             einkaufsPosition = einkaufsPositionen.Find(x => x.Produkt.Id == produkt.Id);
         }
 
@@ -166,7 +166,7 @@
         //double GesamtPreisRound = Gesamtpreis;
         //Math.Round(GesamtPreisRound, 2);
 
-        einkaufsPositionDAL.Create(1, produkt, einkaufsPosition);
+        einkaufsPositionDAL.Create(1, produkt, einkaufsPositionen);
     }
 
     public void getGastro()
@@ -182,7 +182,7 @@
     async  Task<string> OpenDialog()
     {
         //Parameter für Dialog werden erstellt
-        var parameters = new DialogParameters {["Gesamtpreis"] = belegDAL.GetGesamtPreis(einkaufsPosition), ["Gegeben"] = belegDAL.GetGesamtPreis(einkaufsPosition)};
+        var parameters = new DialogParameters { ["Gesamtpreis"] = belegDAL.GetGesamtPreis(einkaufsPositionen), ["Gegeben"] = belegDAL.GetGesamtPreis(einkaufsPositionen) };
         
         //Dialog wid erstellt
         var dialog = DialogService.Show<DialogGegeben>("Geld Erhalten", parameters);
