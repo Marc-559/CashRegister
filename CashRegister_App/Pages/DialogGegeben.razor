@@ -1,0 +1,26 @@
+﻿@inject IDialogService DialogService
+
+<MudDialog Style="width: 300px; height: 210px;">
+    <DialogContent>
+        <label>GesamtPreis: @Gesamtpreis</label>
+        <MudTextField @bind-Value="@Gegeben"  T="decimal" ></MudTextField>
+    </DialogContent>
+    <DialogActions>
+        <MudButton Color="Color.Primary" OnClick="OpenSecondDialog">Ok</MudButton>
+    </DialogActions>
+</MudDialog>
+@code {
+
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public decimal Gesamtpreis { get; set; }
+    [Parameter] public decimal Gegeben { get; set; }
+
+    async Task OpenSecondDialog()
+    {
+        var parameters = new DialogParameters { ["Rueckgeld"] = (Gegeben - Gesamtpreis) };
+
+        MudDialog.Close(DialogResult.Ok(Gegeben));
+
+        DialogService.Show<DialogRueckGeld>("Rückgeld", parameters);           
+    }
+}

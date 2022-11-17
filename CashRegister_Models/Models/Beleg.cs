@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CashRegister.Models
 {
@@ -13,14 +8,9 @@ namespace CashRegister.Models
         [Key]
         public int Belegnummer { get; set; }
         public DateTime Kaufdatum { get; set; }
-        public double Gesamtpreis { get; set; }
+
+        [Column(TypeName = "decimal(6,2)")]
+        public decimal Gesamtpreis { get; set; }
         public List<EinkaufsPosition> EinkaufsPosition { get; set; } = new List<EinkaufsPosition>();
-
-        //Methode um das kaufdatum nur als Datum anzeigen zu lassen (Funktioniert nicht, Kann in eine andere Klasse versetzt werden)
-        public string displayDatum()
-        {
-            return Kaufdatum.ToShortDateString();
-        }
-
     }
 }
