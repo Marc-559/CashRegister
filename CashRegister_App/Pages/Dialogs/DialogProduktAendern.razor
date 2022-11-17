@@ -18,7 +18,7 @@
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
     [Parameter] public string Produktname { get; set; }
     [Parameter] public int ProduktId { get; set; }
-    [Parameter] static CashRegisterContextDB context { get; set; }
+    [Parameter] static public CashRegisterContextDB context { get; set; }
     ProduktDAL produktData = new ProduktDAL(context);
     bool status = false;
 

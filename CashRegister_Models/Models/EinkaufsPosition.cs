@@ -16,18 +16,18 @@ namespace CashRegister.Models
         public Beleg Beleg { get; set; }
         public Produkt Produkt { get; set; }
 
-        public double CalcGesamtPreis(List<EinkaufsPosition> einkaufsPositionList)
-        {
-            double gesamtPreis = 0;
-            foreach (EinkaufsPosition einkaufsPositionsProdukt in einkaufsPositionList)
-            {
-                gesamtPreis = gesamtPreis + (einkaufsPositionsProdukt.Anzahl * einkaufsPositionsProdukt.Produkt.Preis);
-            }
-            return Math.Round(gesamtPreis, 2);
-        }
+        //public double CalcGesamtPreis(List<EinkaufsPosition> einkaufsPositionList)
+        //{
+        //    double gesamtPreis = 0;
+        //    foreach (EinkaufsPosition einkaufsPositionsProdukt in einkaufsPositionList)
+        //    {
+        //        gesamtPreis = gesamtPreis + (einkaufsPositionsProdukt.Anzahl * einkaufsPositionsProdukt.Produkt.Preis);
+        //    }
+        //    return Math.Round(gesamtPreis, 2);
+        //}
 
         
-        public decimal ZwischenPreis
+        public double ZwischenPreis
 
         {
             get { return (Anzahl * Produkt.Preis); }

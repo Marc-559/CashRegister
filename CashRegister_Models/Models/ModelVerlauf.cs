@@ -6,8 +6,6 @@ namespace CashRegister_Models.Models
     {
         public string ProduktName { get; set; } // Produkt Name
         public int Anzahl { get; set; } // Anzahl der Produkte die insgesamt gekauft wurden
-
-        [Column(TypeName = "decimal(6,2)")]
-        public decimal Gesamtpreis { get; set; } // Alle EInkaufspositionen Preise zusammen
+        public double Gesamtpreis { get; set; } // Alle EInkaufspositionen Preise zusammen
     }
 }

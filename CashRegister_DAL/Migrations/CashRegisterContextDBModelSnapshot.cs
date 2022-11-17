@@ -165,6 +165,9 @@ namespace CashRegister_DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<bool>("Deaktiviert")
+                        .HasColumnType("bit");
+
                     b.Property<int>("KategorieId")
                         .HasColumnType("int");
 
@@ -187,6 +190,7 @@ namespace CashRegister_DAL.Migrations
                         new
                         {
                             Id = 1,
+                            Deaktiviert = false,
                             KategorieId = 1,
                             Name = "Mutschli",
                             Preis = 0.021999999999999999,
@@ -195,6 +199,7 @@ namespace CashRegister_DAL.Migrations
                         new
                         {
                             Id = 2,
+                            Deaktiviert = false,
                             KategorieId = 1,
                             Name = "Alpkäs",
                             Preis = 0.020500000000000001,
@@ -203,6 +208,7 @@ namespace CashRegister_DAL.Migrations
                         new
                         {
                             Id = 3,
+                            Deaktiviert = false,
                             KategorieId = 1,
                             Name = "Ziger/Ricotta",
                             Preis = 0.021999999999999999,
@@ -211,6 +217,7 @@ namespace CashRegister_DAL.Migrations
                         new
                         {
                             Id = 4,
+                            Deaktiviert = false,
                             KategorieId = 2,
                             Name = "Fruchtjoghurt",
                             Preis = 2.6000000000000001,
@@ -219,6 +226,7 @@ namespace CashRegister_DAL.Migrations
                         new
                         {
                             Id = 5,
+                            Deaktiviert = false,
                             KategorieId = 2,
                             Name = "Naturjoghurt",
                             Preis = 2.0,
@@ -227,6 +235,7 @@ namespace CashRegister_DAL.Migrations
                         new
                         {
                             Id = 6,
+                            Deaktiviert = false,
                             KategorieId = 3,
                             Name = "Modelbutter",
                             Preis = 6.0,
@@ -235,6 +244,7 @@ namespace CashRegister_DAL.Migrations
                         new
                         {
                             Id = 7,
+                            Deaktiviert = false,
                             KategorieId = 4,
                             Name = "Molke",
                             Preis = 2.0,
@@ -243,6 +253,7 @@ namespace CashRegister_DAL.Migrations
                         new
                         {
                             Id = 9,
+                            Deaktiviert = false,
                             KategorieId = 5,
                             Name = "Bier Gr.",
                             Preis = 5.0,
@@ -251,6 +262,7 @@ namespace CashRegister_DAL.Migrations
                         new
                         {
                             Id = 10,
+                            Deaktiviert = false,
                             KategorieId = 5,
                             Name = "Bier Kl.",
                             Preis = 4.5,
@@ -259,6 +271,7 @@ namespace CashRegister_DAL.Migrations
                         new
                         {
                             Id = 11,
+                            Deaktiviert = false,
                             KategorieId = 5,
                             Name = "Most 5cl",
                             Preis = 5.0,
@@ -267,6 +280,7 @@ namespace CashRegister_DAL.Migrations
                         new
                         {
                             Id = 12,
+                            Deaktiviert = false,
                             KategorieId = 5,
                             Name = "Most 3cl",
                             Preis = 3.5,
@@ -275,6 +289,7 @@ namespace CashRegister_DAL.Migrations
                         new
                         {
                             Id = 13,
+                            Deaktiviert = false,
                             KategorieId = 6,
                             Name = "Limo 33cl",
                             Preis = 4.5,
@@ -283,6 +298,7 @@ namespace CashRegister_DAL.Migrations
                         new
                         {
                             Id = 14,
+                            Deaktiviert = false,
                             KategorieId = 6,
                             Name = "Mineral 33cl",
                             Preis = 4.5,
@@ -291,6 +307,7 @@ namespace CashRegister_DAL.Migrations
                         new
                         {
                             Id = 15,
+                            Deaktiviert = false,
                             KategorieId = 6,
                             Name = "Kaffee",
                             Preis = 4.0,
@@ -299,6 +316,7 @@ namespace CashRegister_DAL.Migrations
                         new
                         {
                             Id = 16,
+                            Deaktiviert = false,
                             KategorieId = 6,
                             Name = "Kafi Lutz",
                             Preis = 6.0,
@@ -307,6 +325,7 @@ namespace CashRegister_DAL.Migrations
                         new
                         {
                             Id = 17,
+                            Deaktiviert = false,
                             KategorieId = 7,
                             Name = "Portion Käse",
                             Preis = 8.0,
@@ -315,6 +334,7 @@ namespace CashRegister_DAL.Migrations
                         new
                         {
                             Id = 18,
+                            Deaktiviert = false,
                             KategorieId = 7,
                             Name = "Wurst-Käsesalat",
                             Preis = 12.0,
@@ -323,6 +343,7 @@ namespace CashRegister_DAL.Migrations
                         new
                         {
                             Id = 19,
+                            Deaktiviert = false,
                             KategorieId = 7,
                             Name = "Salsiz",
                             Preis = 8.0,
@@ -331,6 +352,7 @@ namespace CashRegister_DAL.Migrations
                         new
                         {
                             Id = 20,
+                            Deaktiviert = false,
                             KategorieId = 7,
                             Name = "Salsiz mit Käse",
                             Preis = 12.0,
@@ -339,6 +361,7 @@ namespace CashRegister_DAL.Migrations
                         new
                         {
                             Id = 21,
+                            Deaktiviert = false,
                             KategorieId = 7,
                             Name = "Buurawurst",
                             Preis = 7.0,
@@ -347,6 +370,7 @@ namespace CashRegister_DAL.Migrations
                         new
                         {
                             Id = 22,
+                            Deaktiviert = false,
                             KategorieId = 7,
                             Name = "Käseschnitte",
                             Preis = 7.0,
