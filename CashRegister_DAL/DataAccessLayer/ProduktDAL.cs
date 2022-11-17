@@ -24,5 +24,13 @@ namespace CashRegister_DAL.DataAccessLayer
             };
             context.Add(produkt);
         }
+
+        public void Update(int ProduktId, string Produktname, bool status)
+        {
+            Produkt produkt = context.Produkt.Where(x => x.Id == ProduktId).First();
+
+            produkt.Name = Produktname;
+            produkt.Deaktiviert = status;
+        }
     }
 }

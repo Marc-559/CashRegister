@@ -1,6 +1,8 @@
 ﻿@page "/verlauf"
 @using CashRegister.DAL
 @using CashRegister.Models
+@using CashRegister_App.Data
+@using CashRegister_App.Pages.Dialogs
 @using CashRegister_DAL.DataAccessLayer
 @using System.Data
 @using CashRegister_Models.Models
@@ -8,6 +10,8 @@
 @using System.Text
 @using System.IO
 @inject IJSRuntime JS
+@inject IDialogService DialogService
+@using System.Drawing.Printing;
 
 <script suppress-error="BL9992" src="js/dowloadutil.js"></script>
 
@@ -40,7 +44,8 @@
                 </Columns>
             </MudDataGrid>
 
-            <MudFab OnClick="@DownloadFileFromStream" StartIcon="@Icons.Filled.Download" Label="Belege Herunterladen" Class="py-4 px-6 mx-4 rounded-b-xl" Style="margin-right: 400px; margin-bottom:10px;" />
+            <MudFab OnClick="@DownloadFileFromStream" StartIcon="@Icons.Filled.Download" Label="Verlauf Herunterladen" Class="py-4 px-6 mx-4 rounded-b-xl" Style="margin-right: 400px; margin-bottom:10px; margin-top: 5px;" />
+            <MudFab OnClick="@OpenDialog" StartIcon="@Icons.Filled.Download" Label="verlauf Drucken" Class="py-4 px-6 mx-4 rounded-b-xl" Style="margin-right: 400px; margin-bottom:10px; margin-top: 5px;" />
         </td>
     </tr>
 </table>
@@ -50,6 +55,7 @@
     VerlaufDAL verlaufData = new VerlaufDAL(context);
     List<ModelVerlauf> verlaufList = new List<ModelVerlauf>();
     private DateRange _dateRange = new DateRange(DateTime.Now.Date, DateTime.Now.AddDays(5).Date);
+    PrintService printService = new PrintService(context);
 
     private int containerContent = 1;
 
@@ -57,7 +63,7 @@
     string ChooseTableItems(int containerContent)
     {
         this.containerContent = containerContent;
-        @switch (containerContent)
+    @switch (containerContent)
         {
             case 1:
                 verlaufList.Clear();
@@ -102,7 +108,7 @@
 
     private async Task DownloadFileFromStream()
     {
-        @switch (containerContent)
+    @switch (containerContent)
         {
             case 1:
                 await FileDownload();
@@ -116,6 +122,20 @@
                 await FileDownload();
                 break;
         }
+    }
+
+    async Task<string> OpenDialog()
+    {
+        //Parameter für Dialog werden erstellt
+        var parameters = new DialogParameters { ["DruckerList"] = printService.GetPrinters()};
+
+        //Dialog wid erstellt
+        var dialog = DialogService.Show<DialogDrucker>("Drucker auswählen", parameters);
+
+        //auf ergebniss warten
+        var result = await dialog.Result;
+
+        return result.Data.ToString();
     }
 
     //Excel Download
