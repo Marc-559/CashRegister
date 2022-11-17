@@ -90,7 +90,7 @@
                 </MudDataGrid>
 
                 @*Wenn der Button geddrückt wird werden alle ausgwählten Produkte gelöscht*@
-                <MudFab OnClick="@deleteProdukt" Label="Produkt Löschen" Style="margin-left: 88%; margin-top: 10px;height: 50px; width:200px;" />
+            <MudFab OnClick="@(e => ShowMessagebox(false))" Label="Produkt Löschen" Style="margin-left: 88%; margin-top: 10px;height: 50px; width:200px;" />
                 break;
 
             case 3:
@@ -98,7 +98,7 @@
             //Wenn der Dritte Button ausgewählt wird der Dritte Case ausgewählt
                 
                 //Datagrid wird erstellt und alle Belege werden reingeladen
-                <MudDataGrid Style="width: 100%; margin-top: 10px;" Items="@belege" Virtualize="true" Height="600px">
+                <MudDataGrid Style="width: 100%; margin-top: 10px;" Items="@GetBelegeByDate()" Virtualize="true" Height="600px">
 
                     @*Such Funktion (Siehe Case: 2)*@
                     <ToolBarContent>
@@ -116,7 +116,7 @@
                 </MudDataGrid>
 
                 //Alle Belege in dem ausgwählten zeitraum werden gelöscht
-                <MudFab OnClick="@deleteBelege" Label="Beleg Löschen" Style="margin-left: 88%; margin-top: 10px;height: 50px; width:200px;" />
+            <MudFab OnClick="@(e => ShowMessagebox(true))" Label="Beleg Löschen" Style="margin-left: 88%; margin-top: 10px;height: 50px; width:200px;" />
            
                 break;
         }
@@ -143,33 +143,38 @@
     </YesButton>
 </MudMessageBox>
 
+@*MessageBox ob man wirklich das Produkt löschen will*@
+<MudMessageBox @ref="ProduktboxError" Title="Produkt Löschen?" CancelText="Abbrechen">
+    <MessageContent>
+        Um die ausgewählten Produkte zu löschen musst du erst Allee Belege löschen?
+    </MessageContent>
+</MudMessageBox>
+
 
 
 @code {
-    [Inject] private IDialogService DialogService { get; set; }
     private DateRange _dateRange = new DateRange(DateTime.Now.Date, DateTime.Now.AddDays(5).Date);
     static CashRegisterContextDB context = new CashRegisterContextDB();
-
-    BelegDAL belegData = new BelegDAL(context);
     ProduktDAL produktData = new ProduktDAL(context);
-    KategorieDAL kategorieData = new KategorieDAL(context);
-
-    List<string> _events = new();
     HashSet<Produkt> selectedProdukt = new HashSet<Produkt>();
-    List<Beleg> belege = context.Beleg.ToList();
     List<Produkt> Produkte = context.Produkt.ToList();
     List<Kategorie> kategorieen = new List<Kategorie>();
+    Kategorie gewaehlteKategorie;
 
     MudMessageBox Belegbox { get; set; }
     MudMessageBox Produktbox { get; set; }
-    bool SelectedOption { get; set; }
-    double _produktPreisPlace { get; set; }
-    string _produktNamePlace { get; set; }
+    MudMessageBox ProduktboxError { get; set; }
 
-    Kategorie gewaehlteKategorie;
+    public List<Beleg> GetBelegeByDate()
+    {
+        return context.Beleg.Where(x => x.Kaufdatum >= _dateRange.Start && x.Kaufdatum <= _dateRange.End).ToList();
+    }
+
+    bool SelectedOption { get; set; }
+    decimal _produktPreisPlace { get; set; }
+    string _produktNamePlace { get; set; }
     private string _searchString;
     private int containerContent = 1;
-
 
     //Produkt Erstellen
     public void CreateProdukt()
@@ -181,27 +186,36 @@
     //Produkt Löschen
     void deleteProdukt()
     {
+        List<Beleg> belegList = new List<Beleg>();
+        List<EinkaufsPosition> einkaufList = new List<EinkaufsPosition>();
+
+        //Löscht alle belege wo die Einkaufspositionen der Ausgewählten Produkte übereinstimmt
+        foreach (Produkt produkt in selectedProdukt)
+        {
+            foreach (EinkaufsPosition item in produkt.EinkaufsPositionen)
+            {
+                context.Remove(item.Beleg);
+            }
+        }
+        context.RemoveRange(belegList);
         context.RemoveRange(selectedProdukt);
         context.SaveChanges();
         refreshData();
     }
-   
 
     //Beleg Löschen
     void deleteBelege()
     {
-        context.RemoveRange(belege.Where(x => x.Kaufdatum >= _dateRange.Start && x.Kaufdatum <= _dateRange.End));
+        context.RemoveRange(GetBelegeByDate());
         context.SaveChanges();
         refreshData();
     }
-
 
     //Refresh Database Data
     private void refreshData()
     {
         selectedProdukt.Clear();
         kategorieen = context.Kategorie.ToList();
-        belege = context.Beleg.ToList();
         Produkte = context.Produkt.ToList();
     }
 
@@ -215,8 +229,25 @@
         }
         else
         {
-            bool? result = await Produktbox.Show();
+            //If (selectedProdukt.All<Produkt>(produkt => { return produkt.EinkaufsPositionen.Count == 0;  }))
+            if (darfIchLoeschen())
+            {
+                bool? result = await Produktbox.Show();
+            }
+            else
+            {
+                bool? result = await ProduktboxError.Show();
+            }
         }
+    }
+
+    public Boolean darfIchLoeschen() {
+        foreach(Produkt produkt in selectedProdukt) {
+            if (produkt.EinkaufsPositionen.Count() > 0) {
+                return false;
+            }
+        }
+        return true;
     }
 
     //Button Case auswählen
@@ -227,23 +258,21 @@
 
     //Searchbar Funktion für Produkte
     private Func<Produkt, bool> _quickFilter => x =>
-       {
-           if (string.IsNullOrWhiteSpace(_searchString))
-               return true;
+    {
+        if (string.IsNullOrWhiteSpace(_searchString))
+            return true;
 
-           if (x.Name.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
-               return true;
+        if (x.Name.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
 
-           if ($"{x.Id}".Contains(_searchString))
-               return true;
+        if ($"{x.Id}".Contains(_searchString))
+            return true;
 
-           return false;
-       };
+        return false;
+    };
 
     void SelectedItemsChanged(HashSet<Produkt> items)
     {
         selectedProdukt = items;
     }
-
-
 }
