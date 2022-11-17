@@ -64,7 +64,7 @@
             }
         </td>
         <td>
-            <MudDataGrid T="EinkaufsPosition" Style=" width: 500px; height: 700px; margin-top: 10px;" Items="@einkaufsPositionen" Virtualize="true">
+            <MudDataGrid T="EinkaufsPosition" Elevation="0" Style=" width: 500px; height: 700px; margin-top: 10px; border: solid 0.5pt; border-color:lightslategray; margin-bottom: 10px;" Items="@einkaufsPositionen" Virtualize="true">
                 <Columns>
                     <Column T="EinkaufsPosition" Title="Menge/Gramm" Field="Anzahl" />
                     <Column T="EinkaufsPosition" Title="Bezeichung" Field="ProduktName" />
