@@ -4,6 +4,8 @@
 @using CashRegister.DAL
 @using CashRegister_DAL.DataAccessLayer
 
+@inject IDialogService DialogService
+
 @*Button zum auswählen ob man die Kategorien von der Sennerei oder von der Gastro sehen will*@
 <div class="body">
     <MudTabs Elevation="2" Rounded="true" Centered="true">
@@ -18,7 +20,7 @@
             @*Grid wird erstellt indem alle Papers reingepackt werden*@
             <MudGrid Style="width: 1120px; margin-top: 20px">
                 <MudItem xs="14" Style="margin-top: 20px;">
-                    <MudGrid >
+                    <MudGrid>
                         @*Für die Anzahl von dem int papers werden jetzt Papers erstellt (z.b papers = 4 Es werden dan 4 Paper erstellt)*@
                         @foreach (var kategorie in getKategorien)
                         {
@@ -39,7 +41,6 @@
                 <MudGrid Style="width: 1120px;">
                     <MudItem xs="14" Style="margin-top: 20px;">
                         <MudGrid>
-
                             @*Für die Anzahl von dem int papers werden jetzt Papers erstellt (z.b papers = 4 Es werden dan 4 Paper erstellt)*@
                             @foreach (var produkt in produkte)
                             {
@@ -55,22 +56,18 @@
                 </MudGrid>
             }
         </td>
-
         <td>
-            <MudDataGrid T="EinkaufsPosition" Style=" width: 500px; height: 700px; margin-top: 10px;" Items="@einkaufsPosition" Virtualize="true">
-                    <Columns>
-                    <Column T="EinkaufsPosition" Title="Menge" Field="Anzahl" />
+            <MudDataGrid T="EinkaufsPosition" Style=" width: 500px; height: 700px; margin-top: 10px;" Items="@einkaufsPositionen" Virtualize="true">
+                <Columns>
+                    <Column T="EinkaufsPosition" Title="Menge/Gramm" Field="Anzahl" />
                     <Column T="EinkaufsPosition" Title="Bezeichung" Field="ProduktName" />
-                    <Column T="EinkaufsPosition" Title="CHF" Field="ZwischenPreis" />
+                    <Column T="EinkaufsPosition" Title="CHF" Field="ZwischenPreisRound" />
                 </Columns>
-                </MudDataGrid>
+            </MudDataGrid>
 
             <MudTextField @bind-Value="@Gesamtpreis" ReadOnly="true" Label="Gesamtpreis" Variant="Variant.Outlined"></MudTextField>
 
-                <MudFab Label="Kassa Öffnen" OnClick="createBeleg" Style="background-color: #c9caee; width: 250px; margin-top: 20px; margin-left: 85px" />
-
-            
-
+            <MudFab Label="Kassa Öffnen" OnClick="createBeleg" Style="background-color: #c9caee; width: 250px; margin-top: 20px; margin-left: 85px" />
         </td>
     </tr>
 </table>
@@ -80,36 +77,36 @@
     EinkaufsPosition EP = new EinkaufsPosition();
     EinkaufsPositionDAL einkaufsPositionDAL = new EinkaufsPositionDAL(context);
     BelegDAL belegDAL = new BelegDAL(context);
-    List<EinkaufsPosition> einkaufsPosition = new List<EinkaufsPosition>();
+    public List<EinkaufsPosition> einkaufsPositionen = new List<EinkaufsPosition>();
 
     static List<Kategorie> kategorien = context.Kategorie.ToList();
     static List<Produkt> produkte = context.Produkt.ToList();
     string produktus;
-    //   Einka EinkaufusPositionusMaximusConradusDeytonus;
+    MudMessageBox Belegbox { get; set; }
 
     double Gesamtpreis = 0;
     int Anzahl = 0;
     bool isLoaded = false;
 
-    public List<String> getKategorien {
-        get{
+    public List<String> getKategorien
+    {
+        get
+        {
             return kategorien.Select(x => x.KategorieName).ToList();
         }
         set { }
     }
 
-
-
     void createBeleg()
     {
-        belegDAL.Create(einkaufsPosition);
+        belegDAL.Create(einkaufsPositionen);
         context.SaveChanges();
-        einkaufsPosition.Clear();
+        einkaufsPositionen.Clear();
     }
 
     void UpdateBreaks(int index, int changeamount)
     {
-        int newbreaks = 2; 
+        int newbreaks = 2;
         newbreaks += changeamount;
 
         StateHasChanged();
@@ -120,18 +117,37 @@
         isLoaded = true;
         produkte = context.Produkt.Where(x => x.Kategorie.KategorieName == kategorie).ToList();
     }
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    public double mengenPreis = 0;
+    public int GrammAnzahl = 0;
+
     public void produktClick(Produkt produkt)
     {
-        if (einkaufsPosition.Exists(x => x.Produkt.Id == produkt.Id))
+
+        // EInkaufsposition suchen oder neu erstellen
+        EinkaufsPosition einkaufsPosition = einkaufsPositionen.Find(x => x.Produkt.Id == produkt.Id);
+        if (einkaufsPosition == null)
         {
-            einkaufsPosition.Find(x => x.Produkt.Id == produkt.Id).Anzahl++;
+            einkaufsPositionDAL.Create(Anzahl = 0, produkt, einkaufsPositionen);
+            einkaufsPosition = einkaufsPositionen.Find(x => x.Produkt.Id == produkt.Id);
+        }
+
+        if (produkt.Preisart)
+        {
+            var parameters = new DialogParameters { ["einkaufsPosition"] = einkaufsPosition };
+
+            DialogOptions closeOnEscapeKey = new DialogOptions() { CloseOnEscapeKey = true };
+
+            DialogService.Show<MengeDialog>("Gramm/Produkt", parameters, closeOnEscapeKey);
         }
         else
         {
-            einkaufsPositionDAL.Create(Anzahl = 1, produkt, einkaufsPosition);
-            context.SaveChanges();
+            einkaufsPosition.Anzahl++;
         }
-        Gesamtpreis = belegDAL.GetGesamtPreis(einkaufsPosition);
+
+        Gesamtpreis = belegDAL.GetGesamtPreis(einkaufsPositionen);
+        //double GesamtPreisRound = Gesamtpreis;
+        //Math.Round(GesamtPreisRound, 2);
     }
 
     public void getGastro()

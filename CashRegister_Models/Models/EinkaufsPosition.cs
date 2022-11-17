@@ -15,7 +15,7 @@ namespace CashRegister.Models
         
 
         public int Id { get; set; }
-        public int Anzahl { get; set; }
+        public int Anzahl { get; set; } = 0;
         [Required]
         public Beleg Beleg { get; set; }
         public Produkt Produkt { get; set; }
@@ -27,7 +27,7 @@ namespace CashRegister.Models
             {
                 gesamtPreis = gesamtPreis + (einkaufsPositionsProdukt.Anzahl * einkaufsPositionsProdukt.Produkt.Preis);
             }
-            return gesamtPreis;
+            return Math.Round(gesamtPreis, 2);
         }
 
         
@@ -35,6 +35,11 @@ namespace CashRegister.Models
         public double ZwischenPreis
         {
             get { return (Anzahl * Produkt.Preis); }
+        }
+
+        public double ZwischenPreisRound
+        {
+            get { return Math.Round(ZwischenPreis, 2);  }
         }
 
         public string ProduktName

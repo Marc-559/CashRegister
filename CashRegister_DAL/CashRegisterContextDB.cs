@@ -37,9 +37,9 @@ namespace CashRegister.DAL
 
                 // Sennerei Kategorie
                 // Käse
-                new Produkt { Id = 1, Name = "Mutschli", Preis = 22.00, Preisart = true, KategorieId = 1 },
-                new Produkt { Id = 2, Name = "Alpkäs", Preis = 20.50, Preisart = true, KategorieId = 1 },
-                new Produkt { Id = 3, Name = "Ziger/Ricotta", Preis = 22.00, Preisart = true, KategorieId = 1 },
+                new Produkt { Id = 1, Name = "Mutschli", Preis = 0.022, Preisart = true, KategorieId = 1 },
+                new Produkt { Id = 2, Name = "Alpkäs", Preis = 0.0205, Preisart = true, KategorieId = 1 },
+                new Produkt { Id = 3, Name = "Ziger/Ricotta", Preis = 0.022, Preisart = true, KategorieId = 1 },
                 // Joghurt
                 new Produkt { Id = 4, Name = "Fruchtjoghurt", Preis = 2.60, Preisart = false, KategorieId = 2 },
                 new Produkt { Id = 5, Name = "Naturjoghurt", Preis = 2.00, Preisart = false, KategorieId = 2 },

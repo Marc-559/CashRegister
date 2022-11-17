@@ -189,7 +189,7 @@ namespace CashRegister_DAL.Migrations
                             Id = 1,
                             KategorieId = 1,
                             Name = "Mutschli",
-                            Preis = 22.0,
+                            Preis = 0.021999999999999999,
                             Preisart = true
                         },
                         new
@@ -197,7 +197,7 @@ namespace CashRegister_DAL.Migrations
                             Id = 2,
                             KategorieId = 1,
                             Name = "Alpkäs",
-                            Preis = 20.5,
+                            Preis = 0.020500000000000001,
                             Preisart = true
                         },
                         new
@@ -205,7 +205,7 @@ namespace CashRegister_DAL.Migrations
                             Id = 3,
                             KategorieId = 1,
                             Name = "Ziger/Ricotta",
-                            Preis = 22.0,
+                            Preis = 0.021999999999999999,
                             Preisart = true
                         },
                         new
