@@ -1,0 +1,29 @@
+﻿@using CashRegister.Models
+
+
+<MudDialog>
+    <DialogContent>
+        <MudTextField T="int" Label="Gramm" @bind-Value="anzahlGramm"></MudTextField>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Abbruch</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit">Ok</MudButton>
+    </DialogActions>
+</MudDialog>
+
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    [Parameter] public EinkaufsPosition einkaufsPosition { get; set; }
+
+    int anzahlGramm;
+
+    void Submit() 
+    {
+        
+        einkaufsPosition.Anzahl = einkaufsPosition.Anzahl + anzahlGramm;
+        MudDialog.Close(DialogResult.Ok(true));
+    }
+    void Cancel() => MudDialog.Cancel();
+}
