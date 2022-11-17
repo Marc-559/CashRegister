@@ -162,7 +162,7 @@
             einkaufsPosition.Anzahl++;
         }
 
-        Gesamtpreis = belegDAL.GetGesamtPreis(einkaufsPositionen);
+        Gesamtpreis = Math.Round(belegDAL.GetGesamtPreis(einkaufsPositionen), 2);
         //double GesamtPreisRound = Gesamtpreis;
         //Math.Round(GesamtPreisRound, 2);
     }
@@ -180,7 +180,7 @@
     async  Task<string> OpenDialog()
     {
         //Parameter für Dialog werden erstellt
-        var parameters = new DialogParameters { ["Gesamtpreis"] = belegDAL.GetGesamtPreis(einkaufsPositionen), ["Gegeben"] = belegDAL.GetGesamtPreis(einkaufsPositionen) };
+        var parameters = new DialogParameters { ["Gesamtpreis"] = Math.Round(belegDAL.GetGesamtPreis(einkaufsPositionen), 2), ["Gegeben"] = Math.Round(belegDAL.GetGesamtPreis(einkaufsPositionen), 2)};
         
         //Dialog wid erstellt
         var dialog = DialogService.Show<DialogGegeben>("Geld Erhalten", parameters);

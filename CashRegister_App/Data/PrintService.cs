@@ -30,21 +30,21 @@ namespace CashRegister_App.Data
             printer.Append("--------------------------------");
             foreach (EinkaufsPosition einkaufsPosition in einkaufsPositionList)
             {
-                string space = spacing(25, einkaufsPosition.Produkt.Name.Length, (einkaufsPosition.Produkt.Preis * einkaufsPosition.Anzahl).ToString().Length);
+                string space = spacing(25, einkaufsPosition.Produkt.Name.Length, Math.Round((einkaufsPosition.Produkt.Preis * einkaufsPosition.Anzahl), 2).ToString().Length);
 
-                printer.Append(einkaufsPosition.Produkt.Name + space + (einkaufsPosition.Produkt.Preis * einkaufsPosition.Anzahl) + "  CHF");
+                printer.Append(einkaufsPosition.Produkt.Name + space + Math.Round((einkaufsPosition.Produkt.Preis * einkaufsPosition.Anzahl),2) + "  CHF");
             }
 
             printer.Append("--------------------------------");
 
-            string spaceSum = spacing(25,6, belegData.GetGesamtPreis(einkaufsPositionList).ToString().Length);
-            string spaceGegeben = spacing(25, 16, Convert.ToDecimal(Gegebenesgeld).ToString("F2").Length);
-            string spaceRueckgeld = spacing(25, 9, (Convert.ToDouble(Gegebenesgeld) - belegData.GetGesamtPreis(einkaufsPositionList)).ToString().Length);
+            string spaceSum = spacing(25,6, Math.Round(belegData.GetGesamtPreis(einkaufsPositionList), 2).ToString().Length);
+            string spaceGegeben = spacing(25, 16, Math.Round(Convert.ToDecimal(Gegebenesgeld), 2).ToString("F2").Length);
+            string spaceRueckgeld = spacing(25, 9, Math.Round((Convert.ToDouble(Gegebenesgeld) - belegData.GetGesamtPreis(einkaufsPositionList)), 2).ToString().Length);
 
-            printer.Append("Summe:" + spaceSum + belegData.GetGesamtPreis(einkaufsPositionList) + "  CHF");
+            printer.Append("Summe:" + spaceSum + Math.Round(belegData.GetGesamtPreis(einkaufsPositionList), 2) + "  CHF");
             printer.Append("--------------------------------");
             printer.Append("Gegebenses Geld:" + spaceGegeben + Convert.ToDecimal(Gegebenesgeld).ToString("F2") + "  CHF");
-            printer.Append("Rückgeld:" + spaceRueckgeld + (Convert.ToDouble(Gegebenesgeld) - belegData.GetGesamtPreis(einkaufsPositionList)) + "  CHF");
+            printer.Append("Rückgeld:" + spaceRueckgeld + Math.Round((Convert.ToDouble(Gegebenesgeld) - belegData.GetGesamtPreis(einkaufsPositionList)),2) + "  CHF");
             printer.Append(" ");
             printer.Append(" ");
             printer.Append(" ");

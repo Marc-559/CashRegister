@@ -17,7 +17,7 @@
 
     async Task OpenSecondDialog()
     {
-        var parameters = new DialogParameters { ["Rueckgeld"] = (Gegeben - Gesamtpreis) };
+        var parameters = new DialogParameters { ["Rueckgeld"] = Math.Round((Gegeben - Gesamtpreis), 2) };
 
         MudDialog.Close(DialogResult.Ok(Gegeben));
 
