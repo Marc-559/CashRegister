@@ -2,6 +2,7 @@
 using CashRegister.Models;
 using CashRegister_DAL.DataAccessLayer;
 using ESC_POS_USB_NET.Printer;
+using System.Drawing.Printing;
 
 namespace CashRegister_App.Data
 {
@@ -53,12 +54,21 @@ namespace CashRegister_App.Data
         private string spacing(int spaceCount, int PoductLenght, int priceLenght)
         {
             string space = "";
-
             for (int i = 0; i < (spaceCount - PoductLenght - priceLenght); i++)
             {
                 space = space + " ";
             }
             return space;
+        }
+
+        public List<string> GetPrinters()
+        {
+            List<string> printerList = new List<string>();
+            foreach (string printname in PrinterSettings.InstalledPrinters)
+            {
+                printerList.Add(printname);
+            }
+            return printerList;
         }
     }
 }

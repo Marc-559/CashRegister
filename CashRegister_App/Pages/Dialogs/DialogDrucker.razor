@@ -1,0 +1,27 @@
+﻿@inject IDialogService DialogService
+
+<MudDialog Style="width: 300px; height: 210px;">
+    <DialogContent>
+        <MudSelect @bind-Value="gewaehlterDrucker" Label="Drucker" Variant="Variant.Filled" AnchorOrigin="Origin.BottomCenter">
+            @foreach (var Drucker in DruckerList)
+            {
+                <MudSelectItem Value="@Drucker">@Drucker</MudSelectItem>
+            }
+        </MudSelect>
+    </DialogContent>
+    <DialogActions>
+        <MudButton Color="Color.Primary" OnClick="Bestaetigen">Bestätigen</MudButton>
+    </DialogActions>
+</MudDialog>
+@code {
+
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public List<string> DruckerList { get; set; }
+    string gewaehlterDrucker;
+
+
+    private void Bestaetigen()
+    {
+        MudDialog.Close(DialogResult.Ok(gewaehlterDrucker));
+    }
+}

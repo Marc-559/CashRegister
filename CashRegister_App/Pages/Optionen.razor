@@ -1,13 +1,14 @@
 ﻿@page "/optionen"
 @using CashRegister.DAL
 @using CashRegister.Models
+@using CashRegister_App.Pages.Dialogs
 @using CashRegister_DAL.DataAccessLayer
 @using System.Data
 @using Microsoft.Win32
 @using System.Text
 @using System.IO
 @inject IJSRuntime JS
-
+@inject IDialogService DialogService
 
 
 <div class="body">
@@ -91,6 +92,7 @@
 
                 @*Wenn der Button geddrückt wird werden alle ausgwählten Produkte gelöscht*@
             <MudFab OnClick="@(e => ShowMessagebox(false))" Label="Produkt Löschen" Style="margin-left: 88%; margin-top: 10px;height: 50px; width:200px;" />
+            <MudFab OnClick="@OpenDialog" Label="Produkt Ändern" Style="margin-left: 88%; margin-top: 10px;height: 50px; width:200px;" />
                 break;
 
             case 3:
@@ -270,6 +272,35 @@
 
         return false;
     };
+    async Task OpenDialog()
+    {
+        if (selectedProdukt.Count == 1)
+        {
+            string produktname = "";
+            int produktId = 0;
+
+            foreach (var produkt in selectedProdukt)
+            {
+                produktname = produkt.Name;
+                produktId = produkt.Id;
+            }
+
+            //Parameter für Dialog werden erstellt
+            var parameters = new DialogParameters { ["Produktname"] = produktname, ["ProduktId"] = produktId, ["context"] = context };
+
+            //Dialog wid erstellt
+            var dialog = DialogService.Show<DialogProduktAendern>("Produkt Ändern", parameters);
+
+            //auf ergebniss warten
+            var result = await dialog.Result;
+
+            context.SaveChanges();
+        }
+        else
+        {
+            //Fehler Dialog
+        }
+    }
 
     void SelectedItemsChanged(HashSet<Produkt> items)
     {
