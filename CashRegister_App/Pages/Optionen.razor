@@ -9,6 +9,7 @@
 @using System.IO
 @inject IJSRuntime JS
 @inject IDialogService DialogService
+@inject ISnackbar Snackbar
 
 
 <div class="body">
@@ -59,9 +60,8 @@
                 </div>
 
                 //Add Button
-
-                <MudFab OnClick="@CreateProdukt" Label="Produkt Hinzufügen" Style="margin-top: 50px;" />
-
+                
+                        <MudFab OnClick="@CreateProdukt" Label="Produkt Hinzufügen" Style="margin-top: 50px;" />
                 break;
 
             case 2:
@@ -181,8 +181,16 @@
     //Produkt Erstellen
     public void CreateProdukt()
     {
-        produktData.Create(_produktNamePlace, _produktPreisPlace, SelectedOption, gewaehlteKategorie);
-        context.SaveChanges();
+       if(_produktNamePlace == null || _produktPreisPlace == null || SelectedOption == null || gewaehlteKategorie == null)
+       {
+            Snackbar.Add("Bitte alle Felder ausfüllen!", Severity.Error);
+
+       }
+       else
+       {
+            produktData.Create(_produktNamePlace, _produktPreisPlace, SelectedOption, gewaehlteKategorie);
+            context.SaveChanges();
+       }
     }
 
     //Produkt Löschen
@@ -191,26 +199,36 @@
         List<Beleg> belegList = new List<Beleg>();
         List<EinkaufsPosition> einkaufList = new List<EinkaufsPosition>();
 
-        //Löscht alle belege wo die Einkaufspositionen der Ausgewählten Produkte übereinstimmt
-        foreach (Produkt produkt in selectedProdukt)
+        
+        if(selectedProdukt.Count == 0)
         {
-            foreach (EinkaufsPosition item in produkt.EinkaufsPositionen)
+            //Löscht alle belege wo die Einkaufspositionen der Ausgewählten Produkte übereinstimmt
+            foreach (Produkt produkt in selectedProdukt)
             {
-                context.Remove(item.Beleg);
+                foreach (EinkaufsPosition item in produkt.EinkaufsPositionen)
+                {
+                    context.Remove(item.Beleg);
+                }
             }
+            context.RemoveRange(belegList);
+            context.RemoveRange(selectedProdukt);
+            context.SaveChanges();
+            refreshData();
         }
-        context.RemoveRange(belegList);
-        context.RemoveRange(selectedProdukt);
-        context.SaveChanges();
-        refreshData();
+        else
+        {
+            Snackbar.Add("Bitte ein Produkt zum löschen auswählen!", Severity.Error);
+        }
+     
     }
 
     //Beleg Löschen
     void deleteBelege()
     {
-        context.RemoveRange(GetBelegeByDate());
-        context.SaveChanges();
-        refreshData();
+       
+            context.RemoveRange(GetBelegeByDate());
+            context.SaveChanges();
+            refreshData();
     }
 
     //Refresh Database Data
@@ -227,7 +245,14 @@
         //wenn man Beleg löschen will wird die messagbox für den Beleg angezeigt, sonst wird die messagebox für die Produkte angezeigt
         if(istBeleg)
         {
-            bool? result = await Belegbox.Show();
+            if (GetBelegeByDate().Count == 0)
+            {
+                Snackbar.Add("Bitte ein Beleg zum löschen auswählen!", Severity.Error);
+            }
+            else
+            {
+                bool? result = await Belegbox.Show();
+            }
         }
         else
         {
@@ -298,7 +323,7 @@
         }
         else
         {
-            //Fehler Dialog
+            Snackbar.Add("Bitte ein Produkt zum ändern auswählen!", Severity.Error);
         }
     }
 
