@@ -13,6 +13,8 @@
 
 @inject IDialogService DialogService
 
+@inject ISnackbar Snackbar
+
 @*Button zum auswählen ob man die Kategorien von der Sennerei oder von der Gastro sehen will*@
 <div class="body">
     <MudTabs Elevation="2" Rounded="true" Centered="true" >
@@ -79,9 +81,6 @@
                 <MudTextField @bind-Value="@Gesamtpreis" ReadOnly="true" Label="Gesamtpreis" Margin="Margin.None"   Adornment="Adornment.End" AdornmentText="CHF" Variant="Variant.Outlined" style="margin-top: 10px;"></MudTextField>
                 <MudFab Label="Kassa Öffnen" OnClick="createBeleg" Style="background-color: #c9caee; width: 250px; margin-top: 20px; margin-left: 85px" />
             </p>
-            
-           
-           
         </td>
     </tr>
 </table>
@@ -117,13 +116,20 @@
 
     async void createBeleg()
     {
-        string gegebenesGeld = await OpenDialog();                  //warten auf Rückgeld vom Dialog
-        belegDAL.Create(einkaufsPositionen);                          //Beleg wird erstellt
-        printService.PrintBeleg(einkaufsPositionen, gegebenesGeld);   //Beleg wird gedruckt
+        if(einkaufsPositionen.Count == 0)
+        {
+            Snackbar.Add("Bitte ein Produkt zum Kauf auswählen!", Severity.Error);
+        }
+        else
+        {
+            string gegebenesGeld = await OpenDialog();                  //warten auf Rückgeld vom Dialog
+            belegDAL.Create(einkaufsPositionen);                          //Beleg wird erstellt
+            printService.PrintBeleg(einkaufsPositionen, gegebenesGeld);   //Beleg wird gedruckt
 
-        context.SaveChanges();
-        einkaufsPositionen.Clear();
-        Gesamtpreis = 0;
+            context.SaveChanges();
+            einkaufsPositionen.Clear();
+            Gesamtpreis = 0;
+        }
     }
 
     //Was das für Methode?
