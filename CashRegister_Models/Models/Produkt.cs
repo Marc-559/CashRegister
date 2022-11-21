@@ -8,7 +8,8 @@ namespace CashRegister.Models
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
-        public double Preis { get; set; } 
+        [Column(TypeName = "numeric(6, 3)")]
+        public decimal Preis { get; set; } 
         public bool Preisart { get; set; }
         public bool Deaktiviert { get; set; } = false;
         public List<EinkaufsPosition> EinkaufsPositionen { get; set; }

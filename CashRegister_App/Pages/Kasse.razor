@@ -98,11 +98,11 @@
     static List<Produkt> produkte = context.Produkt.ToList();
     MudMessageBox Belegbox { get; set; }
 
-    double Gesamtpreis = 0;
+    decimal Gesamtpreis = 0;
     bool isLoaded = false;
 	
 	[CascadingParameter] MudDialogInstance MudDialog { get; set; }
-    public double mengenPreis = 0;
+    public decimal mengenPreis = 0;
     public int GrammAnzahl = 0;
 
     public List<String> getKategorien

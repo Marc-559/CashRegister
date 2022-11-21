@@ -8,7 +8,7 @@ namespace CashRegister.Models
         [Key]
         public int Belegnummer { get; set; }
         public DateTime Kaufdatum { get; set; }
-        public double Gesamtpreis { get; set; }
+        public decimal Gesamtpreis { get; set; }
         public List<EinkaufsPosition> EinkaufsPosition { get; set; } = new List<EinkaufsPosition>();
     }
 }
