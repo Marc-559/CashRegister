@@ -23,7 +23,6 @@
     </MudTabs>
 </div>
     
-
 <table>
     <tr valign="top">
         <td>
@@ -112,23 +111,21 @@
 
     private async Task DownloadFileFromStream()
     {
-    @switch (containerContent)
+        @switch (containerContent)
         {
-            case 1:
-                await FileDownload();
-                break;
+                case 1:
+                    await FileDownload();
+                    break;
 
-            case 2:
-                await FileDownload();
-                break;
+                case 2:
+                    await FileDownload();
+                    break;
 
-            case 3:
-                await FileDownload();
-                break;
+                case 3:
+                    await FileDownload();
+                    break;
         }
     }
-
-   
 
     //Excel Download
     private async Task FileDownload()

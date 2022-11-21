@@ -13,9 +13,9 @@
         <MudButton Color="Color.Primary" OnClick="Bestaetigen">Bestätigen</MudButton>
     </DialogActions>
 </MudDialog>
+
 @code 
 {
-
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
     [Parameter] public string Produktname { get; set; }
     [Parameter] public int ProduktId { get; set; }
@@ -25,10 +25,9 @@
     private void Bestaetigen()
     {
         ProduktDAL produktData = new ProduktDAL(context);
+        produktData.Update(ProduktId, Produktname, status); //Produkt wird geändert
 
-        produktData.Update(ProduktId, Produktname, status);
-
-        MudDialog.Close();
+        MudDialog.Close();                                  //Dialog wird geschlossen
     }
     private void Cancel()
     {

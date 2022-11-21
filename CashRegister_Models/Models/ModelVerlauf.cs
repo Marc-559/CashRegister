@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace CashRegister_Models.Models
+﻿namespace CashRegister_Models.Models
 {
     public class ModelVerlauf
     {

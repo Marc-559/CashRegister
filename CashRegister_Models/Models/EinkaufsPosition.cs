@@ -3,12 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CashRegister.Models
 {
-
-
     public class EinkaufsPosition
     {
-
-
         public int Id { get; set; }
         public int Anzahl { get; set; } = 0;
         [Required]
@@ -17,7 +13,6 @@ namespace CashRegister.Models
 
         [Column(TypeName = "decimal(6, 3)")]
         public decimal ZwischenPreis
-
         {
             get { return (Anzahl * Produkt.Preis); }
         }

@@ -10,27 +10,28 @@
         <MudButton Color="Color.Primary" OnClick="OpenSecondDialog">Ok</MudButton>
     </DialogActions>
 </MudDialog>
-@code {
 
+@code {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
     [Parameter] public decimal Gesamtpreis { get; set; }
     [Parameter] public decimal Gegeben { get; set; }
 
     async Task OpenSecondDialog()
     {
-
         if(Gegeben < Gesamtpreis)
         {
+            //Fehler Ausgabe
             Snackbar.Add("Falsche Eingabe!", Severity.Error);
-         
-        var parameters = new DialogParameters { ["Rueckgeld"] = Math.Round((Gegeben - Gesamtpreis), 2) };
+            //Parameter übergeben
+            var parameters = new DialogParameters { ["Rueckgeld"] = Math.Round((Gegeben - Gesamtpreis), 2) };
         }
         else
         {
+            //Parameter übergeben
             var parameters = new DialogParameters { ["Rueckgeld"] = (Gegeben - Gesamtpreis) };
-
+            //Dialog wird geschlossen
             MudDialog.Close(DialogResult.Ok(Gegeben));
-
+            //Neuer Dialog wird geöffnet mit den erstellten Parametern
             DialogService.Show<DialogRueckGeld>("Rückgeld", parameters);
         }
         DialogResult.Ok(Gegeben);

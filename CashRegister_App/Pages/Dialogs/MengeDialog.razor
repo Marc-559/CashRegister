@@ -11,19 +11,16 @@
     </DialogActions>
 </MudDialog>
 
-
 @code {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
-
     [Parameter] public EinkaufsPosition einkaufsPosition { get; set; }
 
     int anzahlGramm;
 
     void Submit() 
     {
-        
-        einkaufsPosition.Anzahl = einkaufsPosition.Anzahl + anzahlGramm;
-        MudDialog.Close(DialogResult.Ok(true));
+        einkaufsPosition.Anzahl = einkaufsPosition.Anzahl + anzahlGramm;    //Anzahl wird berechnet (Kg)
+        MudDialog.Close(DialogResult.Ok(true));                             //Dialog wird geschlossen
     }
     void Cancel() => MudDialog.Cancel();
 }

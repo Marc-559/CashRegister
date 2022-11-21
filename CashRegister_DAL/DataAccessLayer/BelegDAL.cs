@@ -11,7 +11,6 @@ namespace CashRegister_DAL.DataAccessLayer
             this.context = context;
         }
 
-
         //Gibt den Gesamtpreis zurück (Alle zwischen ergebnisse zusammengerechnet)
         public decimal GetGesamtPreis(List<EinkaufsPosition> einkaufsPosition)
         {
