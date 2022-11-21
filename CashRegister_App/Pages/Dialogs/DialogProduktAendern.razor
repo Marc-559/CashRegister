@@ -9,6 +9,7 @@
         <MudCheckBox @bind-Checked="@status" Label="Produkt deaktivieren" />
     </DialogContent>
     <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
         <MudButton Color="Color.Primary" OnClick="Bestaetigen">Bestätigen</MudButton>
     </DialogActions>
 </MudDialog>
@@ -18,14 +19,19 @@
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
     [Parameter] public string Produktname { get; set; }
     [Parameter] public int ProduktId { get; set; }
-    [Parameter] static public CashRegisterContextDB context { get; set; }
-    ProduktDAL produktData = new ProduktDAL(context);
+    [Parameter] public CashRegisterContextDB context { get; set; } = null;
     bool status = false;
 
     private void Bestaetigen()
     {
+        ProduktDAL produktData = new ProduktDAL(context);
+
         produktData.Update(ProduktId, Produktname, status);
 
         MudDialog.Close();
+    }
+    private void Cancel()
+    {
+        MudDialog.Cancel();
     }
 } 

@@ -18,11 +18,12 @@
 
     async Task OpenSecondDialog()
     {
+
         if(Gegeben < Gesamtpreis)
         {
             Snackbar.Add("Falsche Eingabe!", Severity.Error);
          
-
+        var parameters = new DialogParameters { ["Rueckgeld"] = Math.Round((Gegeben - Gesamtpreis), 2) };
         }
         else
         {
