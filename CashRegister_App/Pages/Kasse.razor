@@ -146,25 +146,14 @@
         }
     }
 
-  
-
-    //Was das für Methode?
-    void UpdateBreaks(int index, int changeamount)
-    {
-        int newbreaks = 2;
-        newbreaks += changeamount;
-        StateHasChanged();
-    }
-
     public void kategorieClick(Kategorie kategorie)
     {
         isLoaded = true;
-        produkte = context.Produkt.Where(x => x.Kategorie == kategorie).ToList();
+        produkte = context.Produkt.Where(x => x.Kategorie == kategorie && x.Deaktiviert == false).ToList();
     }
 
     public void produktClick(Produkt produkt)
     {
-
         // EInkaufsposition suchen oder neu erstellen
         EinkaufsPosition einkaufsPosition = einkaufsPositionen.Find(x => x.Produkt.Id == produkt.Id);
         if (einkaufsPosition == null)
