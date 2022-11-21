@@ -12,7 +12,6 @@ namespace CashRegister_DAL.DataAccessLayer
             this.context = context;
         }
 
-
         //Einkaufsposition wird erstellt
         public void Create(int anzahl, Produkt produkt, List<EinkaufsPosition> einkaufsPositionAktuell)
         {

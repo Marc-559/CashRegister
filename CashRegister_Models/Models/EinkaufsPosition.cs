@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CashRegister.Models
 {
@@ -9,33 +10,19 @@ namespace CashRegister.Models
 
 
         public int Id { get; set; }
-
         public int Anzahl { get; set; } = 0;
-
         [Required]
         public Beleg Beleg { get; set; }
         public Produkt Produkt { get; set; }
 
-        //public double CalcGesamtPreis(List<EinkaufsPosition> einkaufsPositionList)
-        //{
-        //    double gesamtPreis = 0;
-        //    foreach (EinkaufsPosition einkaufsPositionsProdukt in einkaufsPositionList)
-        //    {
-        //        gesamtPreis = gesamtPreis + (einkaufsPositionsProdukt.Anzahl * einkaufsPositionsProdukt.Produkt.Preis);
-        //    }
-        //    return Math.Round(gesamtPreis, 2);
-        //}
-
-        
-        public double ZwischenPreis
+        [Column(TypeName = "decimal(6, 3)")]
+        public decimal ZwischenPreis
 
         {
             get { return (Anzahl * Produkt.Preis); }
         }
 
-        public bool forDelete = false;
-
-        public double ZwischenPreisRound
+        public decimal ZwischenPreisRound
         {
             get { return Math.Round(ZwischenPreis, 2);  }
         }

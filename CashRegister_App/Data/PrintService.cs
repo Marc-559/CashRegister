@@ -39,12 +39,12 @@ namespace CashRegister_App.Data
 
             string spaceSum = spacing(25,6, Math.Round(belegData.GetGesamtPreis(einkaufsPositionList), 2).ToString().Length);
             string spaceGegeben = spacing(25, 16, Math.Round(Convert.ToDecimal(Gegebenesgeld), 2).ToString("F2").Length);
-            string spaceRueckgeld = spacing(25, 9, Math.Round((Convert.ToDouble(Gegebenesgeld) - belegData.GetGesamtPreis(einkaufsPositionList)), 2).ToString().Length);
+            string spaceRueckgeld = spacing(25, 9, Math.Round((Convert.ToDecimal(Gegebenesgeld) - belegData.GetGesamtPreis(einkaufsPositionList)), 2).ToString().Length);
 
             printer.Append("Summe:" + spaceSum + Math.Round(belegData.GetGesamtPreis(einkaufsPositionList), 2) + "  CHF");
             printer.Append("--------------------------------");
             printer.Append("Gegebenses Geld:" + spaceGegeben + Convert.ToDecimal(Gegebenesgeld).ToString("F2") + "  CHF");
-            printer.Append("Rückgeld:" + spaceRueckgeld + Math.Round((Convert.ToDouble(Gegebenesgeld) - belegData.GetGesamtPreis(einkaufsPositionList)),2) + "  CHF");
+            printer.Append("Rückgeld:" + spaceRueckgeld + Math.Round((Convert.ToDecimal(Gegebenesgeld) - belegData.GetGesamtPreis(einkaufsPositionList)),2) + "  CHF");
             printer.Append(" ");
             printer.Append(" ");
             printer.Append(" ");
