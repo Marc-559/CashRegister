@@ -60,8 +60,8 @@
                 </div>
 
                 //Add Button
-                
-                        <MudFab OnClick="@CreateProdukt" Label="Produkt Hinzufügen" Style="margin-top: 50px;" />
+
+            <MudButton OnClick="@CreateProdukt" Class="py-4 px-6 mx-4 rounded-b-xl" Style="background-color: #c9caee; margin-top: 0px;">Produkt Hinzufügen</MudButton>
                 break;
 
             case 2:
@@ -92,8 +92,8 @@
                 </MudDataGrid>
 
                 @*Wenn der Button geddrückt wird werden alle ausgwählten Produkte gelöscht*@
-            <MudFab OnClick="@(e => ShowMessagebox(false))" Label="Produkt Löschen" Style="margin-left: 88%; margin-top: 10px;height: 50px; width:200px;" />
-            <MudFab OnClick="@OpenDialog" Label="Produkt Ändern" Style="margin-left: 88%; margin-top: 10px;height: 50px; width:200px;" />
+            <MudButton OnClick="@(e => ShowMessagebox(false))" Class="py-4 px-6 mx-4 rounded-b-xl" Style="background-color: #c9caee; margin-left: 88%; margin-top: 0px;height: 50px; width:200px;">Produkt Löschen</MudButton>
+            <MudButton OnClick="@OpenDialog" Class="py-4 px-6 mx-4 rounded-b-xl" Style="background-color: #c9caee; margin-left: 88%; margin-top: 0px;height: 50px; width:200px;">Produkt Ändern</MudButton>
                 break;
 
             case 3:
@@ -119,7 +119,7 @@
                 </MudDataGrid>
 
                 //Alle Belege in dem ausgwählten zeitraum werden gelöscht
-            <MudFab OnClick="@(e => ShowMessagebox(true))" Label="Beleg Löschen" Style="margin-left: 88%; margin-top: 10px;height: 50px; width:200px;" />
+            <MudButton OnClick="@(e => ShowMessagebox(true))" Class="py-4 px-6 mx-4 rounded-b-xl" Style="background-color: #c9caee; margin-left: 88%; margin-top: 0px;height: 50px; width:200px;">Beleg Löschen</MudButton>
            
                 break;
         }
