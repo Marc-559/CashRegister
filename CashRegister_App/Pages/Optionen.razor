@@ -82,11 +82,12 @@
                     @*Die Einzelnen Spalten von Von Produkt werden erstellt*@
                     <Columns>
                         @*Checkbox Spalte*@
-                        <SelectColumn Class="color9" T="Produkt" />
+                        <SelectColumn Class="color9" T="Produkt"/>
 
                         <Column  T="Produkt" Field="@nameof(Produkt.Id)" />
                         <Column  T="Produkt" Field="@nameof(Produkt.Name)" />
                         <Column  T="Produkt" Field="@nameof(Produkt.Preis)" />
+                        <Column T="Produkt" Field="@nameof(Produkt.Deaktiviert)" />
                     </Columns>
                 </MudDataGrid>
 
@@ -292,7 +293,7 @@
         if (x.Name.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
             return true;
 
-        if ($"{x.Id}".Contains(_searchString))
+        if ($"{x.Id}{x.Deaktiviert}".Contains(_searchString))
             return true;
 
         return false;
