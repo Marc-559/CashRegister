@@ -137,7 +137,7 @@
         }
         else
         {
-            string gegebenesGeld = await OpenDialog();                  //warten auf Rückgeld vom Dialog
+            string gegebenesGeld = await OpenDialog();                    //warten auf Rückgeld vom Dialog
             belegDAL.Create(einkaufsPositionen);                          //Beleg wird erstellt
             printService.PrintBeleg(einkaufsPositionen, gegebenesGeld);   //Beleg wird gedruckt
 
