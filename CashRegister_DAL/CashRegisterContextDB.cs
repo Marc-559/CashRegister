@@ -37,7 +37,6 @@ namespace CashRegister.DAL
 
                 // Sennerei Kategorie
                 // Käse
-
                 new Produkt { Id = 1, Name = "Mutschli", Preis = 0.022M, Preisart = true, Deaktiviert = false, KategorieId = 1 },
                 new Produkt { Id = 2, Name = "Alpkäs", Preis = 0.0205M, Preisart = true, Deaktiviert = false, KategorieId = 1 },
                 new Produkt { Id = 3, Name = "Ziger/Ricotta", Preis = 0.022M, Preisart = true, KategorieId = 1 },
@@ -70,7 +69,6 @@ namespace CashRegister.DAL
                 new Produkt { Id = 22, Name = "Käseschnitte", Preis = 7.00M, Preisart = false, Deaktiviert = false, KategorieId = 7 }
                 );
         }
-
 
         public DbSet<Produkt> Produkt { get; set; }
         public DbSet<Beleg> Beleg { get; set; }

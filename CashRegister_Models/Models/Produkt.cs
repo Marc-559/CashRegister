@@ -15,6 +15,5 @@ namespace CashRegister.Models
         public List<EinkaufsPosition> EinkaufsPositionen { get; set; }
         public int KategorieId { get; set; }
         public Kategorie Kategorie { get; set; }
-
     }
 }
