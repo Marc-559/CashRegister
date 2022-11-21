@@ -49,7 +49,7 @@ namespace CashRegister_App.Data
             printer.Append(" ");
             printer.Append(" ");
             printer.Append(" ");
-            printer.PrintDocument();
+           // printer.PrintDocument();
         }
         private string spacing(int spaceCount, int PoductLenght, int priceLenght)
         {
