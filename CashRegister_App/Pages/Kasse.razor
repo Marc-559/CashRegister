@@ -84,7 +84,8 @@
 
             <p>
                 <MudTextField @bind-Value="@Gesamtpreis" ReadOnly="true" Label="Gesamtpreis" Margin="Margin.None"   Adornment="Adornment.End" AdornmentText="CHF" Variant="Variant.Outlined" style="margin-top: 10px;"></MudTextField>
-                <MudFab Label="Kassa Öffnen" OnClick="createBeleg" Style="background-color: #c9caee; width: 250px; margin-top: 20px; margin-left: 85px" />
+                
+                <MudButton OnClick="createBeleg" Class="py-4 px-6 mx-4 rounded-b-xl" Style="background-color: #c9caee; width: 300px; height: 60px; margin-top: 0px; margin-right: 10px" >Kassa Öffnen</MudButton>
             </p>
 
         </td>
