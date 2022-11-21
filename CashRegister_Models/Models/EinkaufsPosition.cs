@@ -33,6 +33,8 @@ namespace CashRegister.Models
             get { return (Anzahl * Produkt.Preis); }
         }
 
+        public bool forDelete = false;
+
         public double ZwischenPreisRound
         {
             get { return Math.Round(ZwischenPreis, 2);  }

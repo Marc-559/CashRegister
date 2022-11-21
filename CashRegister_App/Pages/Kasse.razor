@@ -24,7 +24,9 @@
 </div>
 
 <table>
+
     <tr valign="top">
+
         <td>
             @*Grid wird erstellt indem alle Papers reingepackt werden*@
             <MudGrid Style="width: 1120px; margin-top: 20px">
@@ -65,24 +67,30 @@
                 </MudGrid>
             }
         </td>
+
         <td>
-
-            <MudDataGrid T="EinkaufsPosition"  Elevation="0" FixedHeader="true" Virtualize="true" Height="700px" Style=" width: 500px; margin-top: 10px; border: solid 0.5pt; border-color:lightslategray;" Items="@einkaufsPositionen">
-
+            <MudDataGrid T="EinkaufsPosition" ReadOnly="false"  Elevation="0" FixedHeader="true" Height="700px" Style=" width: 540px; margin-top: 10px; border: solid 0.5pt; border-color:lightslategray;" Items="@einkaufsPositionen">
                 <Columns>
+                    <Column T="EinkaufsPosition" StickyLeft="true">
+                        <CellTemplate>
+                            <MudIconButton OnClick="() => DeleteEinkaufsPosition(context.Item)" Icon="@Icons.Material.Outlined.DeleteForever" Size="@Size.Large" Color="@Color.Error" />
+                        </CellTemplate>
+                    </Column>
                     <Column T="EinkaufsPosition" Title="Menge/Gramm" Field="Anzahl" />
                     <Column T="EinkaufsPosition" Title="Bezeichung" Field="ProduktName" />
                     <Column T="EinkaufsPosition" Title="CHF" Field="ZwischenPreisRound" />
                 </Columns>
             </MudDataGrid>
 
-
             <p>
                 <MudTextField @bind-Value="@Gesamtpreis" ReadOnly="true" Label="Gesamtpreis" Margin="Margin.None"   Adornment="Adornment.End" AdornmentText="CHF" Variant="Variant.Outlined" style="margin-top: 10px;"></MudTextField>
                 <MudFab Label="Kassa Öffnen" OnClick="createBeleg" Style="background-color: #c9caee; width: 250px; margin-top: 20px; margin-left: 85px" />
             </p>
+
         </td>
+
     </tr>
+
 </table>
 
 @code {
@@ -100,8 +108,9 @@
 
     double Gesamtpreis = 0;
     bool isLoaded = false;
-	
-	[CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
     public double mengenPreis = 0;
     public int GrammAnzahl = 0;
 
@@ -112,6 +121,11 @@
             return kategorien.Select(x => x.KategorieName).ToList();
         }
         set { }
+    }
+
+    void DeleteEinkaufsPosition(EinkaufsPosition einkaufsPosition)
+    {
+        einkaufsPositionen.Remove(einkaufsPosition);
     }
 
     async void createBeleg()
@@ -130,6 +144,11 @@
             einkaufsPositionen.Clear();
             Gesamtpreis = 0;
         }
+    }
+
+    public void DeleteEinkaufsposition(EinkaufsPosition einkaufsPosition)
+    {
+       
     }
 
     //Was das für Methode?
@@ -195,7 +214,9 @@
         
         //auf ergebniss warten
         var result = await dialog.Result;
-        
+      
         return result.Data.ToString();
+        
+       
     }
 }
