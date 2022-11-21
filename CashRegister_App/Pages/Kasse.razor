@@ -10,9 +10,6 @@
 @using System.Text
 
 @inject IDialogService DialogService
-
-@inject IDialogService DialogService
-
 @inject ISnackbar Snackbar
 
 @*Button zum auswählen ob man die Kategorien von der Sennerei oder von der Gastro sehen will*@
@@ -69,7 +66,7 @@
         </td>
 
         <td>
-            <MudDataGrid T="EinkaufsPosition" ReadOnly="false"  Elevation="0" FixedHeader="true" Height="700px" Style=" width: 540px; margin-top: 10px; border: solid 0.5pt; border-color:lightslategray;" Items="@einkaufsPositionen">
+            <MudDataGrid T="EinkaufsPosition" ReadOnly="false"  Elevation="0" FixedHeader="true" Height="700px" Style=" width: 512px; border: solid 0.5pt; border-color:lightslategray;" Items="@einkaufsPositionen">
                 <Columns>
                     <Column T="EinkaufsPosition" StickyLeft="true">
                         <CellTemplate>

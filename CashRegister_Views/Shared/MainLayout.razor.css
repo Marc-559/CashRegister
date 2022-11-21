@@ -10,10 +10,6 @@ main {
     flex: 1;
 }
 
-.sidebar {
-    background-color: #252526;
-}
-
 .top-row {
     background-color: #1f1f1f;
     justify-content: flex-end;
@@ -57,6 +53,7 @@ main {
     }
 
     .sidebar {
+        background-color: #252526;
         width: 250px;
         height: 100vh;
         position: sticky;
