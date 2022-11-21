@@ -6,7 +6,6 @@ namespace CashRegister_DAL.DataAccessLayer
 {
     public class VerlaufDAL
     {
-
         CashRegisterContextDB context = new CashRegisterContextDB();
         public VerlaufDAL(CashRegisterContextDB context)
         {

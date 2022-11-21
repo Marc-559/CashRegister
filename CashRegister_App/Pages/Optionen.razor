@@ -185,7 +185,6 @@
        if(_produktNamePlace == null || _produktPreisPlace == null || SelectedOption == null || gewaehlteKategorie == null)
        {
             Snackbar.Add("Bitte alle Felder ausfüllen!", Severity.Error);
-
        }
        else
        {
@@ -199,7 +198,6 @@
     {
         List<Beleg> belegList = new List<Beleg>();
         List<EinkaufsPosition> einkaufList = new List<EinkaufsPosition>();
-
         
         if(selectedProdukt.Count == 0)
         {
@@ -220,13 +218,11 @@
         {
             Snackbar.Add("Bitte ein Produkt zum löschen auswählen!", Severity.Error);
         }
-     
     }
 
     //Beleg Löschen
     void deleteBelege()
     {
-       
             context.RemoveRange(GetBelegeByDate());
             context.SaveChanges();
             refreshData();
@@ -269,9 +265,12 @@
         }
     }
 
-    public Boolean darfIchLoeschen() {
-        foreach(Produkt produkt in selectedProdukt) {
-            if (produkt.EinkaufsPositionen.Count() > 0) {
+    public Boolean darfIchLoeschen() 
+    {
+        foreach(Produkt produkt in selectedProdukt) 
+        {
+            if (produkt.EinkaufsPositionen.Count() > 0) 
+            {
                 return false;
             }
         }
@@ -298,6 +297,7 @@
 
         return false;
     };
+
     async Task OpenDialog()
     {
         if (selectedProdukt.Count == 1)

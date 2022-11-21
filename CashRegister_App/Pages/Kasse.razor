@@ -97,21 +97,17 @@
 
     static CashRegisterContextDB context = new CashRegisterContextDB();
     EinkaufsPositionDAL einkaufsPositionDAL = new EinkaufsPositionDAL(context);
-    BelegDAL belegDAL = new BelegDAL(context);
-
     public List<EinkaufsPosition> einkaufsPositionen = new List<EinkaufsPosition>();
+    BelegDAL belegDAL = new BelegDAL(context);
     PrintService printService = new PrintService(context);
-
     static List<Kategorie> kategorien = context.Kategorie.Where(x => x.MandantId == 2).ToList();
     static List<Produkt> produkte = context.Produkt.ToList();
     MudMessageBox Belegbox { get; set; }
 
-    decimal Gesamtpreis = 0;
-    bool isLoaded = false;
-	
-	[CascadingParameter] MudDialogInstance MudDialog { get; set; }
     public decimal mengenPreis = 0;
     public int GrammAnzahl = 0;
+    decimal Gesamtpreis = 0;
+    bool isLoaded = false;
 
     public List<String> getKategorien
     {
@@ -162,29 +158,27 @@
             einkaufsPosition = einkaufsPositionen.Find(x => x.Produkt.Id == produkt.Id);
         }
 
+        //Wenn es KG/CHF ist wird ein dialog erstellt sonst wird nur die anzahle erhöht
         if (produkt.Preisart)
         {
-            var parameters = new DialogParameters { ["einkaufsPosition"] = einkaufsPosition };
+            var parameters = new DialogParameters { ["einkaufsPosition"] = einkaufsPosition };  //Parameter erstellen
 
-            DialogOptions closeOnEscapeKey = new DialogOptions() { CloseOnEscapeKey = true };
-
-            DialogService.Show<MengeDialog>("Gramm/Produkt", parameters, closeOnEscapeKey);
+            DialogService.Show<MengeDialog>("Gramm/Produkt", parameters);                       //Dialog wird aufgerufen 
         }
         else
         {
             einkaufsPosition.Anzahl++;
         }
-
-        Gesamtpreis = Math.Round(belegDAL.GetGesamtPreis(einkaufsPositionen), 2);
-        //double GesamtPreisRound = Gesamtpreis;
-        //Math.Round(GesamtPreisRound, 2);
+        Gesamtpreis = Math.Round(belegDAL.GetGesamtPreis(einkaufsPositionen), 2); //Gesamtpreis wird gerundet
     }
 
+    //Holt alle Kategorien die zum Mandant Gastro gehören
     public void getGastro()
     {
         kategorien = context.Kategorie.Where(x => x.MandantId == 1).ToList();
     }
 
+    //Holt alle Kategorien die zum Mandant Sennerei gehören
     public void getSennerei()
     {
         kategorien = context.Kategorie.Where(x => x.MandantId == 2).ToList();
@@ -202,7 +196,5 @@
         var result = await dialog.Result;
       
         return result.Data.ToString();
-        
-       
     }
 }

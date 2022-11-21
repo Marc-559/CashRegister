@@ -1,7 +1,6 @@
 ﻿using CashRegister.DAL;
 using CashRegister.Models;
 
-
 namespace CashRegister_DAL.DataAccessLayer
 {
     public class EinkaufsPositionDAL
@@ -24,7 +23,6 @@ namespace CashRegister_DAL.DataAccessLayer
             context.Add(einkaufsPosition);
         }
 
-
         //Einkaufsposition wird geändert oder aktualisiert
         public void Update(int anzahl, List<EinkaufsPosition> einkaufsPositionAktuell)
         {
@@ -37,6 +35,5 @@ namespace CashRegister_DAL.DataAccessLayer
             einkaufsposition.Anzahl = anzahl;
             context.SaveChanges();
         }
-
     }
 }

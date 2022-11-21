@@ -3,10 +3,8 @@ using CashRegister.Models;
 
 namespace CashRegister_DAL.DataAccessLayer
 {
-
     public class KategorieDAL
     {
-
         CashRegisterContextDB context;
         public KategorieDAL(CashRegisterContextDB context)
         {
