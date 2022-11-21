@@ -30,8 +30,8 @@ namespace CashRegister_DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Belegnummer"), 1L, 1);
 
-                    b.Property<double>("Gesamtpreis")
-                        .HasColumnType("float");
+                    b.Property<decimal>("Gesamtpreis")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("Kaufdatum")
                         .HasColumnType("datetime2");
@@ -174,8 +174,8 @@ namespace CashRegister_DAL.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Preis")
-                        .HasColumnType("float");
+                    b.Property<decimal>("Preis")
+                        .HasColumnType("numeric(6,3)");
 
                     b.Property<bool>("Preisart")
                         .HasColumnType("bit");
@@ -193,7 +193,7 @@ namespace CashRegister_DAL.Migrations
                             Deaktiviert = false,
                             KategorieId = 1,
                             Name = "Mutschli",
-                            Preis = 0.021999999999999999,
+                            Preis = 0.022m,
                             Preisart = true
                         },
                         new
@@ -202,7 +202,7 @@ namespace CashRegister_DAL.Migrations
                             Deaktiviert = false,
                             KategorieId = 1,
                             Name = "Alpkäs",
-                            Preis = 0.020500000000000001,
+                            Preis = 0.0205m,
                             Preisart = true
                         },
                         new
@@ -211,7 +211,7 @@ namespace CashRegister_DAL.Migrations
                             Deaktiviert = false,
                             KategorieId = 1,
                             Name = "Ziger/Ricotta",
-                            Preis = 0.021999999999999999,
+                            Preis = 0.022m,
                             Preisart = true
                         },
                         new
@@ -220,7 +220,7 @@ namespace CashRegister_DAL.Migrations
                             Deaktiviert = false,
                             KategorieId = 2,
                             Name = "Fruchtjoghurt",
-                            Preis = 2.6000000000000001,
+                            Preis = 2.60m,
                             Preisart = false
                         },
                         new
@@ -229,7 +229,7 @@ namespace CashRegister_DAL.Migrations
                             Deaktiviert = false,
                             KategorieId = 2,
                             Name = "Naturjoghurt",
-                            Preis = 2.0,
+                            Preis = 2.00m,
                             Preisart = false
                         },
                         new
@@ -238,7 +238,7 @@ namespace CashRegister_DAL.Migrations
                             Deaktiviert = false,
                             KategorieId = 3,
                             Name = "Modelbutter",
-                            Preis = 6.0,
+                            Preis = 6.00m,
                             Preisart = false
                         },
                         new
@@ -247,7 +247,7 @@ namespace CashRegister_DAL.Migrations
                             Deaktiviert = false,
                             KategorieId = 4,
                             Name = "Molke",
-                            Preis = 2.0,
+                            Preis = 2.00m,
                             Preisart = false
                         },
                         new
@@ -256,7 +256,7 @@ namespace CashRegister_DAL.Migrations
                             Deaktiviert = false,
                             KategorieId = 5,
                             Name = "Bier Gr.",
-                            Preis = 5.0,
+                            Preis = 5.00m,
                             Preisart = false
                         },
                         new
@@ -265,7 +265,7 @@ namespace CashRegister_DAL.Migrations
                             Deaktiviert = false,
                             KategorieId = 5,
                             Name = "Bier Kl.",
-                            Preis = 4.5,
+                            Preis = 4.50m,
                             Preisart = false
                         },
                         new
@@ -274,7 +274,7 @@ namespace CashRegister_DAL.Migrations
                             Deaktiviert = false,
                             KategorieId = 5,
                             Name = "Most 5cl",
-                            Preis = 5.0,
+                            Preis = 5.00m,
                             Preisart = false
                         },
                         new
@@ -283,7 +283,7 @@ namespace CashRegister_DAL.Migrations
                             Deaktiviert = false,
                             KategorieId = 5,
                             Name = "Most 3cl",
-                            Preis = 3.5,
+                            Preis = 3.50m,
                             Preisart = false
                         },
                         new
@@ -292,7 +292,7 @@ namespace CashRegister_DAL.Migrations
                             Deaktiviert = false,
                             KategorieId = 6,
                             Name = "Limo 33cl",
-                            Preis = 4.5,
+                            Preis = 4.50m,
                             Preisart = false
                         },
                         new
@@ -301,7 +301,7 @@ namespace CashRegister_DAL.Migrations
                             Deaktiviert = false,
                             KategorieId = 6,
                             Name = "Mineral 33cl",
-                            Preis = 4.5,
+                            Preis = 4.50m,
                             Preisart = false
                         },
                         new
@@ -310,7 +310,7 @@ namespace CashRegister_DAL.Migrations
                             Deaktiviert = false,
                             KategorieId = 6,
                             Name = "Kaffee",
-                            Preis = 4.0,
+                            Preis = 4.00m,
                             Preisart = false
                         },
                         new
@@ -319,7 +319,7 @@ namespace CashRegister_DAL.Migrations
                             Deaktiviert = false,
                             KategorieId = 6,
                             Name = "Kafi Lutz",
-                            Preis = 6.0,
+                            Preis = 6.00m,
                             Preisart = false
                         },
                         new
@@ -328,7 +328,7 @@ namespace CashRegister_DAL.Migrations
                             Deaktiviert = false,
                             KategorieId = 7,
                             Name = "Portion Käse",
-                            Preis = 8.0,
+                            Preis = 8.00m,
                             Preisart = false
                         },
                         new
@@ -337,7 +337,7 @@ namespace CashRegister_DAL.Migrations
                             Deaktiviert = false,
                             KategorieId = 7,
                             Name = "Wurst-Käsesalat",
-                            Preis = 12.0,
+                            Preis = 12.00m,
                             Preisart = false
                         },
                         new
@@ -346,7 +346,7 @@ namespace CashRegister_DAL.Migrations
                             Deaktiviert = false,
                             KategorieId = 7,
                             Name = "Salsiz",
-                            Preis = 8.0,
+                            Preis = 8.00m,
                             Preisart = false
                         },
                         new
@@ -355,7 +355,7 @@ namespace CashRegister_DAL.Migrations
                             Deaktiviert = false,
                             KategorieId = 7,
                             Name = "Salsiz mit Käse",
-                            Preis = 12.0,
+                            Preis = 12.00m,
                             Preisart = false
                         },
                         new
@@ -364,7 +364,7 @@ namespace CashRegister_DAL.Migrations
                             Deaktiviert = false,
                             KategorieId = 7,
                             Name = "Buurawurst",
-                            Preis = 7.0,
+                            Preis = 7.00m,
                             Preisart = false
                         },
                         new
@@ -373,7 +373,7 @@ namespace CashRegister_DAL.Migrations
                             Deaktiviert = false,
                             KategorieId = 7,
                             Name = "Käseschnitte",
-                            Preis = 7.0,
+                            Preis = 7.00m,
                             Preisart = false
                         });
                 });

@@ -13,12 +13,12 @@ namespace CashRegister_DAL.DataAccessLayer
 
 
         //Gibt den Gesamtpreis zurück (Alle zwischen ergebnisse zusammengerechnet)
-        public double GetGesamtPreis(List<EinkaufsPosition> einkaufsPosition)
+        public decimal GetGesamtPreis(List<EinkaufsPosition> einkaufsPosition)
         {
-            double gesamtPreis = 0;
+            decimal gesamtPreis = 0;
             foreach (EinkaufsPosition einkaufsPositionsProdukt in einkaufsPosition)
             {
-                gesamtPreis = gesamtPreis + (einkaufsPositionsProdukt.Anzahl * einkaufsPositionsProdukt.Produkt.Preis);
+                gesamtPreis = gesamtPreis + (Convert.ToDecimal(einkaufsPositionsProdukt.Anzahl) * einkaufsPositionsProdukt.Produkt.Preis);
             }
             return gesamtPreis;
         }
