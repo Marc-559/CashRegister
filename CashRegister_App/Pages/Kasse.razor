@@ -126,6 +126,7 @@
     void DeleteEinkaufsPosition(EinkaufsPosition einkaufsPosition)
     {
         einkaufsPositionen.Remove(einkaufsPosition);
+        Gesamtpreis = belegDAL.GetGesamtPreis(einkaufsPositionen);
     }
 
     async void createBeleg()
@@ -146,10 +147,7 @@
         }
     }
 
-    public void DeleteEinkaufsposition(EinkaufsPosition einkaufsPosition)
-    {
-       
-    }
+  
 
     //Was das für Methode?
     void UpdateBreaks(int index, int changeamount)
