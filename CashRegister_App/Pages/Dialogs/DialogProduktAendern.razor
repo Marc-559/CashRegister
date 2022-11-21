@@ -3,7 +3,7 @@
 @using CashRegister_DAL.DataAccessLayer
 @inject IDialogService DialogService
 
-<MudDialog Style="width: 300px; height: 210px;">
+<MudDialog Style="width: 400px; height: 250px;">
     <DialogContent>
         <MudTextField T="string" Label="@Produktname" @bind-Value="@Produktname" Variant="Variant.Text" />
         <MudCheckBox @bind-Checked="@status" Label="Produkt deaktivieren" />
