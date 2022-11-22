@@ -174,12 +174,14 @@
     //Holt alle Kategorien die zum Mandant Gastro gehören
     public void getGastro()
     {
+        produkte.Clear();
         kategorien = context.Kategorie.Where(x => x.MandantId == 1).ToList();
     }
 
     //Holt alle Kategorien die zum Mandant Sennerei gehören
     public void getSennerei()
     {
+        produkte.Clear();
         kategorien = context.Kategorie.Where(x => x.MandantId == 2).ToList();
     }
 
