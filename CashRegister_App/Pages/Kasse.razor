@@ -23,7 +23,7 @@
     </MudTabs>
 </div>
 
-<table>
+<table border="1">
 
     <tr valign="top">
 
@@ -82,11 +82,10 @@
                 </Columns>
             </MudDataGrid>
 
-            <p>
-                <MudTextField @bind-Value="@Gesamtpreis" ReadOnly="true" Label="Gesamtpreis" Margin="Margin.None"   Adornment="Adornment.End" AdornmentText="CHF" Variant="Variant.Outlined" style="margin-top: 10px;"></MudTextField>
-                
-                <MudButton OnClick="createBeleg" Class="py-4 px-6 mx-4 rounded-b-xl" Style="background-color: #c9caee; width: 300px; height: 60px; margin-top: 0px; margin-right: 10px" >Kassa Öffnen</MudButton>
-            </p>
+            
+            <MudTextField @bind-Value="@Gesamtpreis" ReadOnly="true" Label="Gesamtpreis" Margin="Margin.None"   Adornment="Adornment.End" AdornmentText="CHF" Variant="Variant.Outlined" style="margin-top: 10px;"></MudTextField>
+
+            <MudButton OnClick="createBeleg" Style="background-color: #c9caee; width: 100%; height: 60px; margin-top: 0px; margin-left: 0px">Kassa Öffnen</MudButton>
 
         </td>
 
@@ -149,7 +148,7 @@
         produkte = context.Produkt.Where(x => x.Kategorie == kategorie && x.Deaktiviert == false).ToList();
     }
 
-    public void produktClick(Produkt produkt)
+    public async void produktClick(Produkt produkt)
     {
         // EInkaufsposition suchen oder neu erstellen
         EinkaufsPosition einkaufsPosition = einkaufsPositionen.Find(x => x.Produkt.Id == produkt.Id);
@@ -164,7 +163,9 @@
         {
             var parameters = new DialogParameters { ["einkaufsPosition"] = einkaufsPosition };  //Parameter erstellen
 
-            DialogService.Show<MengeDialog>("Gramm/Produkt", parameters);                       //Dialog wird aufgerufen 
+            var dialog = DialogService.Show<MengeDialog>("Gramm/Produkt", parameters);         //Dialog wird aufgerufen
+            await dialog.Result;
+            StateHasChanged();
         }
         else
         {
