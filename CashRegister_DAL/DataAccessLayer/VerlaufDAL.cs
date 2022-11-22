@@ -1,6 +1,7 @@
 ﻿using CashRegister.DAL;
 using CashRegister_Models.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.ObjectModel;
 
 namespace CashRegister_DAL.DataAccessLayer
 {
@@ -13,7 +14,7 @@ namespace CashRegister_DAL.DataAccessLayer
         }
 
         //ModelVerlauf wird erstellt
-        public List<ModelVerlauf> Create(List<ProductCount> produktcount, List<ModelVerlauf> verlaufList)
+        public ObservableCollection<ModelVerlauf> Create(List<ProductCount> produktcount, ObservableCollection<ModelVerlauf> verlaufList)
         {
             foreach (ProductCount produkt in produktcount)
             {

@@ -12,6 +12,7 @@
 @inject IJSRuntime JS
 @inject IDialogService DialogService
 @using System.Drawing.Printing;
+@using System.Collections.ObjectModel
 
 <script suppress-error="BL9992" src="js/dowloadutil.js"></script>
 
@@ -52,17 +53,24 @@
 @code {
     static CashRegisterContextDB context = new CashRegisterContextDB();
     VerlaufDAL verlaufData = new VerlaufDAL(context);
-    List<ModelVerlauf> verlaufList = new List<ModelVerlauf>();
-    private DateRange _dateRange = new DateRange(DateTime.Now.Date, DateTime.Now.AddDays(5).Date);
+    ObservableCollection<ModelVerlauf> verlaufList = new ObservableCollection<ModelVerlauf>();
     PrintService printService = new PrintService(context);
+    private int containerContent = 2;
+    private DateRange dateRange = new DateRange();
 
-    private int containerContent = 1;
-
-    protected override void OnInitialized()
+    private DateRange _dateRange 
     {
-        ChooseTableItems(1);    
+        get
+        { 
+            return dateRange; 
+        }
+        set
+        { 
+            dateRange = value;
+            ChooseTableItems(containerContent);
+        }
     }
-
+   
     string ChooseTableItems(int containerContent)
     {
         this.containerContent = containerContent;
@@ -100,7 +108,7 @@
         return Ergebniss;
     }
 
-    public List<ModelVerlauf> CreateVerlaufList(int containerContent)
+    public ObservableCollection<ModelVerlauf> CreateVerlaufList(int containerContent)
     {
         if (containerContent == 1 || containerContent == 2)
         {
